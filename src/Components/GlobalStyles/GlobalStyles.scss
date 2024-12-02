@@ -1,0 +1,116 @@
+@import "normalize.css";
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+:root {
+  --font-body: "Poppins", sans-serif;
+  --padding: 10px;
+  --font-size: 1.6rem;
+  --sidebar_width: 110px;
+  --menu-item_width: 270px;
+  --menu_height: 140px;
+  --line-height: 1.5;
+
+  --bg_color: 255, 255, 255;
+  --bg_secondary_color: 239, 242, 245;
+  --bg_secondary_border_color: 230, 230, 230;
+  --ui_color: 45, 45, 45;
+  --ui_color_least: 221, 221, 221;
+
+  --theme_color: 253, 150, 27;
+  --theme_color2: 81, 69, 157;
+
+  --c_red: 242, 0, 60;
+  --c_orange: 248, 150, 30;
+  --c_yellow: 245, 189, 31;
+  --c_green: 0, 168, 119;
+  --c_purple: 81, 69, 157;
+  --c_blue: 0, 147, 175;
+
+  // animation ring
+  //   animation: ring 1.6s cubic-bezier(0.18, 0.89, 0.32, 1.28) infinite;
+}
+//aniomation backgrond
+// transition: 300ms ease-out background, 300ms ease-out color, border-right-color 300ms ease-out;
+
+html {
+  font-size: 62.5%;
+}
+// toàn bộ phần cuộn
+html *::-webkit-scrollbar {
+  border-radius: 0;
+  width: 8px;
+}
+// phần keep để cuộn
+html *::-webkit-scrollbar-thumb {
+  border-radius: 0;
+  background-color: rgba(22, 34, 35, 0.06);
+}
+// phần đường ray
+html *::-webkit-scrollbar-track {
+  border-radius: 0;
+  background-color: rgba(0, 0, 0, 0);
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  line-height: var(--line-height);
+  background: rgb(var(--bg_color));
+  color: var(--ui_color);
+  font-size: var(--font-size);
+  text-rendering: optimizeSpeed;
+  overflow-y: overlay;
+  //   transition: 300ms ease-out background, 300ms ease-out color
+}
+
+// custom_button
+button,
+input,
+[tabindex] {
+  outline: none;
+  border: none;
+}
+
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
+
+// custom_a
+a {
+  color: var(--ui_color);
+  text-decoration: none;
+}
+
+//Key frames
+
+@keyframes ring {
+  0% {
+    transform: rotate(20deg);
+  }
+  12.5% {
+    transform: rotate(-20deg);
+  }
+  25% {
+    transform: rotate(22deg);
+  }
+  37.5% {
+    transform: rotate(-18deg);
+  }
+  50% {
+    transform: rotate(13deg);
+  }
+  62.5% {
+    transform: rotate(-9deg);
+  }
+  75% {
+    transform: rotate(5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}

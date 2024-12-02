@@ -1,0 +1,20 @@
+.wrapper{
+
+}
+.container{
+    display: flex;
+    width: 1150px;
+}
+.content{
+    // -c_padding: calc(var(--padding)* 5);
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    position: relative;
+    margin-left: calc(var(--sidebar_width) + var(--menu-item_width));
+    height: 100vh;
+    overflow: auto;
+
+}
