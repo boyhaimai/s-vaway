@@ -1,0 +1,218 @@
+// Mobile-tablet
+@media screen and (max-width: 740px) {
+  .wrapper {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background-color: rgba(var(--bg_secondary_color));
+    height: var(--header_height);
+    border-bottom: 1px solid rgba(var(--bg_secondary_border_color));
+    box-shadow: var(--box-shadow);
+  }
+  .content {
+    width: 100%;
+    display: flex;
+    padding: 0 24px 0 16px;
+    position: relative;
+  }
+  .header_left {
+    position: absolute;
+    top: 10px;
+    left: 3px;
+    width: 118px;
+    height: 42px;
+
+    .icon_img {
+      width: 100%;
+      margin: auto;
+      cursor: pointer;
+    }
+  }
+  .header_right {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    justify-content: space-between;
+    width: 120px;
+  }
+  .calendar {
+    position: relative;
+  }
+  .calendar_icon {
+    font-size: 24px;
+  }
+  .message_count {
+    top: 5px;
+    left: 10px;
+  }
+  .message_count,
+  .noti_count {
+    position: absolute;
+    min-width: 20px;
+    height: 20px;
+    background: rgba(var(--C_red_light));
+    color: rgb(255, 255, 255);
+
+    border-radius: 10px;
+
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 18px;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+  }
+  .calendars {
+    position: absolute;
+    top: 6px;
+    left: -214px;
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: -15px;
+      right: 120px;
+      transform: rotate(45deg);
+      z-index: -1;
+      background: var(--c_white);
+    }
+  }
+  .content_cal {
+  }
+  .title_cal {
+    padding: 10px;
+
+    .activeCV{
+      background: rgba(var(--c_back_cv_active));
+      color: var(--c_white);
+    }
+  }
+  .item_tile_cal {
+    padding: 2px 8px;
+    background: rgba(var(--c_back_cv));
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 12px;
+    display: inline-block;
+    margin: 0 8px 12px 0;
+  }
+  .notifications {
+    position: absolute;
+    top: 5px;
+    left: -259px;
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: -16px;
+      right: 70px;
+      transform: rotate(45deg);
+      z-index: -1;
+      background: var(--c_white);
+    }
+  }
+  .wrapper_notifi {
+    max-width: 333px;
+    margin-top: -10px;
+    width: 333px;
+    height: 513px;
+    max-height: 513px;
+    overflow: scroll;
+  }
+  .title_notifi {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 30px;
+    padding: 15px;
+  }
+  .content_notifi {
+    overflow: hidden;
+  }
+  .item_notifi {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #e6e6e66b;
+    padding: 10px;
+  }
+  .img_notifi {
+    margin-top: 10px;
+  }
+  .img_avatar {
+    width: 48px;
+    height: 48px;
+  }
+  .info_notifi {
+    padding: 0 12px;
+    line-height: 1.8;
+  }
+  .name_notifi {
+    font-weight: 600;
+  }
+  .notifi {
+    font-size: 14px;
+    color: rgba(var(--c_text_phu));
+  }
+  .time_notifi {
+    color: rgba(var(--c_text_phu));
+    margin-right: 10px;
+    font-size: 12px;
+  }
+
+  span.icon_time_notifi {
+    svg {
+      margin-right: 5px;
+    }
+  }
+  .noti_count {
+    top: 3px;
+    right: 47px;
+  }
+  .ring-icon {
+    animation: ring 1.6s cubic-bezier(0.18, 0.89, 0.32, 1.28) infinite;
+    // color: var(--theme_main);
+  }
+  .avatar {
+    width: 3.2rem;
+    height: 3.2rem;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+
+  //Key frames
+
+  @keyframes ring {
+    0% {
+      transform: rotate(20deg);
+    }
+    12.5% {
+      transform: rotate(-20deg);
+    }
+    25% {
+      transform: rotate(22deg);
+    }
+    37.5% {
+      transform: rotate(-18deg);
+    }
+    50% {
+      transform: rotate(13deg);
+    }
+    62.5% {
+      transform: rotate(-9deg);
+    }
+    75% {
+      transform: rotate(5deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+}

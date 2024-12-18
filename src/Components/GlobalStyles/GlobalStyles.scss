@@ -5,11 +5,15 @@
   --font-body: "Poppins", sans-serif;
   --padding: 10px;
   --font-size: 1.6rem;
-  --sidebar_width: 110px;
-  --menu-item_width: 270px;
-  --menu_height: 140px;
+  --text_color: rgb(45, 45, 45);
+  --sidebar_width: 48px;
+  --menu-item_width: 230px;
+  --menu_height: 946px;
+  --header_height: 60px;
   --line-height: 1.5;
+  --box_shadow: 0px 1px 1px rgb(0 0 0 / 12%);
 
+  // background gray
   --bg_color: 255, 255, 255;
   --bg_secondary_color: 239, 242, 245;
   --bg_secondary_border_color: 230, 230, 230;
@@ -18,16 +22,30 @@
 
   --theme_color: 253, 150, 27;
   --theme_color2: 81, 69, 157;
+  --theme_main: #2c72b8;
+  --theme_background: linear-gradient(
+    to bottom,
+    #90bcff,
+    #7bceef,
+    #98d7d6,
+    #c0dacc,
+    #dcded7
+  );
 
   --c_red: 242, 0, 60;
+  --C_red_light: 254, 44, 85;
   --c_orange: 248, 150, 30;
   --c_yellow: 245, 189, 31;
   --c_green: 0, 168, 119;
   --c_purple: 81, 69, 157;
   --c_blue: 0, 147, 175;
+  --c_white: #fff;
+  --c_text_phu: 22, 24, 35, 0.5;
+  --c_back_cv_active: 22, 24, 35;
+  --c_back_cv: 22, 24, 35, 0.06;
 
   // animation ring
-  //   animation: ring 1.6s cubic-bezier(0.18, 0.89, 0.32, 1.28) infinite;
+  //
 }
 //aniomation backgrond
 // transition: 300ms ease-out background, 300ms ease-out color, border-right-color 300ms ease-out;
@@ -57,16 +75,21 @@ html *::-webkit-scrollbar-track {
 }
 
 body {
-  font-family: var(--font-body);
+  font-family: var(--font-body) !important;
   line-height: var(--line-height);
-  background: rgb(var(--bg_color));
-  color: var(--ui_color);
+  color: var(--ui_color) !important;
   font-size: var(--font-size);
   text-rendering: optimizeSpeed;
   overflow-y: overlay;
   //   transition: 300ms ease-out background, 300ms ease-out color
-}
 
+  .MuiTypography-root {
+    font-family: var(--font-body) !important;
+  }
+}
+body.hidden {
+  overflow: hidden;
+}
 // custom_button
 button,
 input,
@@ -85,32 +108,12 @@ a {
   color: var(--ui_color);
   text-decoration: none;
 }
-
-//Key frames
-
-@keyframes ring {
-  0% {
-    transform: rotate(20deg);
-  }
-  12.5% {
-    transform: rotate(-20deg);
-  }
-  25% {
-    transform: rotate(22deg);
-  }
-  37.5% {
-    transform: rotate(-18deg);
-  }
-  50% {
-    transform: rotate(13deg);
-  }
-  62.5% {
-    transform: rotate(-9deg);
-  }
-  75% {
-    transform: rotate(5deg);
-  }
-  100% {
-    transform: rotate(0deg);
-  }
+[data-theme="dark"] {
+  --bg_secondary_color: 30, 30, 30, 1;
+  --bg_color: 30, 30, 30, 1;
+  --ui_color: 255, 255, 255, 1;
+  --theme_background: linear-gradient(to bottom, #3f4c6b, #606c88);
+}
+.hiden {
+  display: none;
 }

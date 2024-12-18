@@ -1,0 +1,29 @@
+// Mobile-tablet
+@media screen and (max-width: 740px) {
+  .menu_items {
+    width: 200px;
+    position: relative;
+    z-index: 10;
+    overflow: auto;
+
+    .btn_menu {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      margin-left: 0 !important;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: -5px;
+      right: 7px;
+      transform: rotate(45deg);
+      z-index: -1;
+      background: var(--c_white);
+    }
+  }
+
+}

@@ -1,20 +1,16 @@
-.wrapper{
-
-}
-.container{
+@media screen and (max-width: 1024px) {
+  .wrapper {
+  }
+  .container {
     display: flex;
-    width: 1150px;
-}
-.content{
-    // -c_padding: calc(var(--padding)* 5);
-    position: fixed;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    position: relative;
-    margin-left: calc(var(--sidebar_width) + var(--menu-item_width));
-    height: 100vh;
+    width: 100%;
+  }
+  .content {
+    flex: 1;
+    min-height: 1000px;
     overflow: auto;
-
+    background-image: var(--theme_background);
+    margin-left: var(--sidebar_width);
+    margin-top: var(--header_height);
+  }
 }

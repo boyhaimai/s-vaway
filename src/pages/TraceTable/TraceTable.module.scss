@@ -1,0 +1,19 @@
+/* Tùy chỉnh kích thước thẻ select */
+.custom-select {
+  width: 153px; /* Set chiều rộng */
+  height: 30px; /* Set chiều cao */
+}
+
+/* Tùy chỉnh bên trong dropdown menu */
+.react-select__control {
+  height: 30px; /* Set chiều cao */
+  width: 153px; /* Set chiều rộng */
+}
+.title_header {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+  background: white;
+  padding: 10px;
+  border-radius: 10px;
+}
