@@ -46,7 +46,7 @@
     }
   }
   .tab-items {
-    font-size: 40%;
+    font-size: 40% !important;
     font-weight: 600;
     padding: 10px 10px;
     cursor: pointer;
@@ -54,6 +54,11 @@
     text-align: center;
     transition: color 0.3s ease;
     opacity: 0.4;
+
+    h4{
+      font-size: 6.9px;
+      margin-top: 5px;
+    }
   }
   .i_icon {
     opacity: 0.4;

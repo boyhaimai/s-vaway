@@ -10,7 +10,7 @@ import dashboardIcon from "~/assets/images/dashboard.png";
 import wallettIcon from "~/assets/images/wallet.png";
 import userIcon from "~/assets/images/user.png";
 import treeIcon from "~/assets/images/tuyến_dưới.png";
-import { themeContext } from "~/Components/ThemeProvider/ThemeProvider";
+import { themeContext } from "~/Components/ThemeProvider/Theme_Provider";
 import config from "~/config";
 import marketingIcon from "~/assets/images/marketing.png";
 import { Wrapper as PopperWrapper } from "~/Components/Popper";
@@ -192,7 +192,7 @@ function Sidebar() {
         </div>
         <div className={cx("cover")}>
           <div className={cx("container")}>
-            <input type="checkbox" id={styles.check} onChange={toggleTheme} />
+            <input type="checkbox" id={styles.check} checked={contextTheme.isDark} onChange={toggleTheme} />
             <label htmlFor={styles.check} className={cx("dark-mode")}></label>
           </div>
         </div>

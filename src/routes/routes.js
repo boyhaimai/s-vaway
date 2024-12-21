@@ -8,9 +8,11 @@ import DocumentPage from "~/pages/DocumentPage/DocumentPage";
 import VideoTrainPage from "~/pages/VideoTrainPage/VideoTrainPage";
 import TraceTable from "~/pages/TraceTable/TraceTable";
 import Downline from "~/pages/Downline/Downline";
+import Detail from "~/Components/Detail/Detail";
 
 const publicRoutes = [
   { path: config.routes.dashboard, component: DashBoard },
+  { path: config.routes.detail, component: Detail, Layout: null },
   { path: config.routes.campaign, component: Campaign },
   { path: config.routes.promotion, component: Promotion },
   { path: config.routes.create_image, component: CreateImagePage },

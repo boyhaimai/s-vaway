@@ -1,5 +1,6 @@
 const routes = {
     dashboard:'/',
+    detail:'/detail',
     campaign: '/campaign',
     promotion: '/promotion',
     create_image: '/create_image',

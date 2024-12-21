@@ -1,9 +1,9 @@
 import React from 'react';
 
-function Promotion(props) {
+function Promotion() {
     return (
         <div>
-            
+            khuyến mãi
         </div>
     );
 }
