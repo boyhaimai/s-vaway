@@ -17,7 +17,7 @@ import config from "~/config";
 import Shoppe1 from "~/assets/images/example_shoppe_1.png";
 import Shoppe2 from "~/assets/images/example_shoppe_2.png";
 import Shoppe3 from "~/assets/images/example_shoppe_3.png";
-import img_product from '~/assets/images/panel_product.jpg'
+import img_product from "~/assets/images/panel_product.jpg";
 import Image from "~/Components/Images/Images";
 
 const cx = classNames.bind(styles);
@@ -27,10 +27,18 @@ function DashBoard() {
     <Container>
       <div className={cx("wrapper")}>
         <div className={cx("header")}>
-          <h2 className={cx("title")}>DashBoard</h2>
-          <a href={config.routes.detail} alt=" " className={cx("detail")}>
+          <div className={cx("title_stats")}>
+            <Typography variant="h5" className={cx("title")}>
+              Xin chào ,<span> Anna</span>!
+            </Typography>
+            <p className={cx("description_title")}>
+              Sau đây là những gì đang diễn ra tại cửa hàng của bạn ngày hôm
+              nay.
+            </p>
+          </div>
+          <NavLink to={config.routes.detail} alt=" " className={cx("detail")}>
             Chi tiết <ChevronRight fontSize="large" />
-          </a>
+          </NavLink>
           <div className={cx("total")}>
             <span>
               <p>0</p>Click
@@ -73,8 +81,8 @@ function DashBoard() {
           </Typography>
           <Box className={cx("input_box")} sx={{ mt: 3 }}>
             <TextField fullWidth label="Nhập tên công việc" id="name" />
-            <Button color="primary" variant="contained">
-              <SendIcon sx={{ mr: 1 }} /> Sent
+            <Button color="primary" variant="contained" sx={{ ml: 1 }}>
+              <SendIcon />
             </Button>
           </Box>
         </Box>
@@ -106,19 +114,23 @@ function DashBoard() {
             </Carousel>
           </div>
           <div className={cx("content_product")}>
-          <h6 className={cx("intro_product")}>Sản phẩm</h6>
-            <div className={cx('list_product')}>
+            <h6 className={cx("intro_product")}>Sản phẩm</h6>
+            <div className={cx("list_product")}>
               <Paper elevation={2} className={cx("product")}>
                 <Image
                   className={cx("img_product")}
                   src={img_product}
                   alt="product"
                 />
-                <Typography variant="h6" className={cx('title_product')}>Kem chống nắng đa năng thế hệ mới Sunflex</Typography>
-                <div className={cx('price')}><span>đ</span>500.000</div>
-                <div className={cx('kho')}>Còn 500</div>              
-                <div className={cx('kind')}>Biến thể 2</div>              
-                <div className={cx('percent')}>Tỷ lệ hoa hồng 10%</div>              
+                <Typography variant="h6" className={cx("title_product")}>
+                  Kem chống nắng đa năng thế hệ mới Sunflex
+                </Typography>
+                <div className={cx("price")}>
+                  <span>đ</span>500.000
+                </div>
+                <div className={cx("kho")}>Còn 500</div>
+                <div className={cx("kind")}>Biến thể 2</div>
+                <div className={cx("percent")}>Tỷ lệ hoa hồng 10%</div>
               </Paper>
               <Paper elevation={2} className={cx("product")}>
                 <Image
@@ -126,11 +138,13 @@ function DashBoard() {
                   src={img_product}
                   alt="product"
                 />
-                <Typography variant="h6" className={cx('title_product')}>Kem chống nắng đa năng thế hệ mới Sunflex</Typography>
-                <div className={cx('price')}>đ500.000</div>
-                <div className={cx('kho')}>Còn 500</div>              
-                <div className={cx('kind')}>Biến thể 2</div>              
-                <div className={cx('percent')}>Tỷ lệ hoa hồng 10%</div>              
+                <Typography variant="h6" className={cx("title_product")}>
+                  Kem chống nắng đa năng thế hệ mới Sunflex
+                </Typography>
+                <div className={cx("price")}>đ500.000</div>
+                <div className={cx("kho")}>Còn 500</div>
+                <div className={cx("kind")}>Biến thể 2</div>
+                <div className={cx("percent")}>Tỷ lệ hoa hồng 10%</div>
               </Paper>
               <Paper elevation={2} className={cx("product")}>
                 <Image
@@ -138,11 +152,13 @@ function DashBoard() {
                   src={img_product}
                   alt="product"
                 />
-                <Typography variant="h6" className={cx('title_product')}>Kem chống nắng đa năng thế hệ mới Sunflex</Typography>
-                <div className={cx('price')}>đ500.000</div>
-                <div className={cx('kho')}>Còn 500</div>              
-                <div className={cx('kind')}>Biến thể 2</div>              
-                <div className={cx('percent')}>Tỷ lệ hoa hồng 10%</div>              
+                <Typography variant="h6" className={cx("title_product")}>
+                  Kem chống nắng đa năng thế hệ mới Sunflex
+                </Typography>
+                <div className={cx("price")}>đ500.000</div>
+                <div className={cx("kho")}>Còn 500</div>
+                <div className={cx("kind")}>Biến thể 2</div>
+                <div className={cx("percent")}>Tỷ lệ hoa hồng 10%</div>
               </Paper>
               <Paper elevation={2} className={cx("product")}>
                 <Image
@@ -150,11 +166,13 @@ function DashBoard() {
                   src={img_product}
                   alt="product"
                 />
-                <Typography variant="h6" className={cx('title_product')}>Kem chống nắng đa năng thế hệ mới Sunflex</Typography>
-                <div className={cx('price')}>đ500.000</div>
-                <div className={cx('kho')}>Còn 500</div>              
-                <div className={cx('kind')}>Biến thể 2</div>              
-                <div className={cx('percent')}>Tỷ lệ hoa hồng 10%</div>              
+                <Typography variant="h6" className={cx("title_product")}>
+                  Kem chống nắng đa năng thế hệ mới Sunflex
+                </Typography>
+                <div className={cx("price")}>đ500.000</div>
+                <div className={cx("kho")}>Còn 500</div>
+                <div className={cx("kind")}>Biến thể 2</div>
+                <div className={cx("percent")}>Tỷ lệ hoa hồng 10%</div>
               </Paper>
             </div>
           </div>

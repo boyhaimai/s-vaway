@@ -1,14 +1,14 @@
 // Mobile-tablet
-@media screen and (max-width: 740px) {
+@media screen and (max-width: 1024px) {
   .wrapper {
     width: 100%;
     position: fixed;
     top: 0;
     left: 0;
     z-index: 1000;
-    background-color: rgba(var(--bg_secondary_color));
+    background-color: var(--bg_secondary_color);
     height: var(--header_height);
-    border-bottom: 1px solid rgba(var(--bg_secondary_border_color));
+    border-bottom: 1px solid var(--bg_secondary_border_color);
     box-shadow: var(--box-shadow);
   }
   .content {
@@ -55,8 +55,8 @@
     position: absolute;
     min-width: 20px;
     height: 20px;
-    background: rgba(var(--C_red_light));
-    color: rgb(255, 255, 255);
+    background: var(--C_red_light);
+    color: var(--bg_color);
 
     border-radius: 10px;
 
@@ -90,13 +90,13 @@
     padding: 10px;
 
     .activeCV{
-      background: rgba(var(--c_back_cv_active));
+      background: var(--c_back_cv_active);
       color: var(--c_white);
     }
   }
   .item_tile_cal {
     padding: 2px 8px;
-    background: rgba(var(--c_back_cv));
+    background: var(--c_back_cv);
     font-size: 14px;
     font-weight: 500;
     border-radius: 12px;
@@ -159,10 +159,10 @@
   }
   .notifi {
     font-size: 14px;
-    color: rgba(var(--c_text_phu));
+    color: var(--c_text_phu);
   }
   .time_notifi {
-    color: rgba(var(--c_text_phu));
+    color: var(--c_text_phu);
     margin-right: 10px;
     font-size: 12px;
   }

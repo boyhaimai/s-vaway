@@ -9,16 +9,18 @@ import VideoTrainPage from "~/pages/VideoTrainPage/VideoTrainPage";
 import TraceTable from "~/pages/TraceTable/TraceTable";
 import Downline from "~/pages/Downline/Downline";
 import Detail from "~/Components/Detail/Detail";
+import Business from "~/pages/Business/Business";
 
 const publicRoutes = [
   { path: config.routes.dashboard, component: DashBoard },
-  { path: config.routes.detail, component: Detail, Layout: null },
+  { path: config.routes.detail, component: Detail },
   { path: config.routes.campaign, component: Campaign },
   { path: config.routes.promotion, component: Promotion },
   { path: config.routes.create_image, component: CreateImagePage },
   { path: config.routes.sent, component: SentPage },
   { path: config.routes.document, component: DocumentPage },
   { path: config.routes.video_train, component: VideoTrainPage },
+  { path: config.routes.business, component: Business },
   { path: config.routes.tracetable, component: TraceTable },
   { path: config.routes.downline, component: Downline },
 ];

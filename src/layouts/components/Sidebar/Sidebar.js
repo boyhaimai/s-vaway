@@ -162,11 +162,14 @@ function Sidebar() {
             className={cx("tab-items", { tabActive: activeTab === 2 })}
             onClick={() => setActiveTab(2)}
           >
-            <span className={cx("i_icon")}>
-              <img src={wallettIcon} alt="wallet-link"></img>
-            </span>
-            <h4>Kinh Doanh</h4>
+            <NavLink to={config.routes.business} alt="Kinh Doanh">
+              <span className={cx("i_icon")}>
+                <img src={wallettIcon} alt="wallet-link"></img>
+              </span>
+              <h4>Kinh Doanh</h4>
+            </NavLink>
           </div>
+
           <div
             className={cx("tab-items", { tabActive: activeTab === 3 })}
             onClick={() => setActiveTab(3)}
@@ -192,7 +195,12 @@ function Sidebar() {
         </div>
         <div className={cx("cover")}>
           <div className={cx("container")}>
-            <input type="checkbox" id={styles.check} checked={contextTheme.isDark} onChange={toggleTheme} />
+            <input
+              type="checkbox"
+              id={styles.check}
+              checked={contextTheme.isDark}
+              onChange={toggleTheme}
+            />
             <label htmlFor={styles.check} className={cx("dark-mode")}></label>
           </div>
         </div>
@@ -311,6 +319,68 @@ function Sidebar() {
               <div className={cx("p")}>
                 <span>
                   <span classNames={cx("title")}>Video đào tạo</span>
+                  <span className={cx("icon-arrow")}>
+                    <FontAwesomeIcon icon={faChevronRight} />
+                  </span>
+                </span>
+              </div>
+            </NavLink>
+          </div>
+          {/* tab 2 */}
+          <div className={cx("tab-pane", { tabActive: activeTab === 2 })}>
+            <div className={cx("title-tab")}>
+              <span>Business</span>
+            </div>
+            <NavLink
+              className={(nav) => cx("item-link", { active: nav.isActive })}
+              href="index"
+              to={config.routes.business}
+            >
+              <div className={cx("p")}>
+                <span>
+                  <span classNames={cx("title")}>Kinh doanh</span>
+                  <span className={cx("icon-arrow")}>
+                    <FontAwesomeIcon icon={faChevronRight} />
+                  </span>
+                </span>
+              </div>
+            </NavLink>
+          </div>
+
+          {/* tab 3 */}
+          <div className={cx("tab-pane", { tabActive: activeTab === 3 })}>
+            <div className={cx("title-tab")}>
+              <span>TraceTable</span>
+            </div>
+            <NavLink
+              className={(nav) => cx("item-link", { active: nav.isActive })}
+              href="index"
+              to={config.routes.business}
+            >
+              <div className={cx("p")}>
+                <span>
+                  <span classNames={cx("title")}>Bảng lưu vết</span>
+                  <span className={cx("icon-arrow")}>
+                    <FontAwesomeIcon icon={faChevronRight} />
+                  </span>
+                </span>
+              </div>
+            </NavLink>
+          </div>
+
+          {/* tab 4 */}
+          <div className={cx("tab-pane", { tabActive: activeTab === 4 })}>
+            <div className={cx("title-tab")}>
+              <span>Downline</span>
+            </div>
+            <NavLink
+              className={(nav) => cx("item-link", { active: nav.isActive })}
+              href="index"
+              to={config.routes.business}
+            >
+              <div className={cx("p")}>
+                <span>
+                  <span classNames={cx("title")}>Tuyến dưới </span>
                   <span className={cx("icon-arrow")}>
                     <FontAwesomeIcon icon={faChevronRight} />
                   </span>

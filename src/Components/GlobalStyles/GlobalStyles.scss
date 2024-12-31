@@ -15,37 +15,43 @@
   --border_radius: 8px;
 
   // background gray
-  --bg_color: 255, 255, 255;
-  --bg_secondary_color: 239, 242, 245;
-  --bg_secondary_border_color: 230, 230, 230;
-  --ui_color: 45, 45, 45;
-  --ui_color_least: 221, 221, 221;
+  --bg_color: rgb(255, 255, 255);
+  --bg_secondary_color: rgb(239, 242, 245);
+  --bg_secondary_border_color: rgb(230, 230, 230);
+  --ui_color: rgb(45, 45, 45);
+  --ui_color_least: rgb(221, 221, 221);
 
-  --theme_color: 253, 150, 27;
-  --theme_color2: 81, 69, 157;
+  --theme_color: rgb(253, 150, 27);
+  --theme_color01: rgba(253, 150, 27, 0.1);
+  --theme_color08: rgba(253, 150, 27, 0.8);
+  --theme_color2: rgb(81, 69, 157);
   --theme_main: #2c72b8;
   --theme_background: #f4f7fa;
-  
+
   --c_title_upline: #e8f1f3;
-  --c_red: 242, 0, 60, 0.7;
-  --C_red_light: 254, 44, 85;
-  --c_orange: 248, 150, 30;
-  --c_yellow: 245, 189, 31;
-  --c_green: 0, 168, 119;
-  --c_purple: 81, 69, 157;
-  --c_blue: 0, 147, 175;
+  --c_red: rgba(242, 0, 60, 0.7);
+  --C_red_light: rgb(254, 44, 85);
+  --c_orange: rgb(248, 150, 30);
+  --c_yellow: rgb(245, 189, 31);
+  --c_green: rgb(0, 168, 119);
+  --c_purple: rgb(81, 69, 157);
+  --c_blue: rgb(0, 147, 175);
   --c_white: #fff;
-  --c_text_phu: 22, 24, 35, 0.5;
-  --c_text_phu_2: 22, 24, 35, 0.2;
-  --c_back_cv_active: 22, 24, 35;
-  --c_back_cv: 22, 24, 35, 0.06;
-  --c_medal: #FFB02E;
+  --c_text_phu: rgba(22, 24, 35, 0.5);
+  --c_text_phu_2: rgba(22, 24, 35, 0.2);
+  --c_back_cv_active: rgb(22, 24, 35); //theme background color black
+  --c_back_cv: rgba(22, 24, 35, 0.06);
+  --c_active_upline: #16182314;
+  --c_medal: #ffb02e;
+
+  --b_liner: linear-gradient(135deg,#43cea2,#185a9d);
 
   // animation ring
   //
 }
 //aniomation backgrond
 // transition: 300ms ease-out background, 300ms ease-out color, border-right-color 300ms ease-out;
+// gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr", md: "1fr 1fr 1fr" },
 
 html {
   font-size: 62.5%;
@@ -81,7 +87,6 @@ body {
   //   transition: 300ms ease-out background, 300ms ease-out color
 
   .carousel-indicators [data-bs-target] {
-   
     width: 7px;
     height: 7px;
     border-radius: 50%;
@@ -90,10 +95,9 @@ body {
     margin-bottom: -13px !important;
   }
 
-  .carousel-indicators .active{
-   background-color: var(--theme_main);
+  .carousel-indicators .active {
+    background-color: var(--theme_main);
   }
-
 }
 body.hidden {
   overflow: hidden;
@@ -118,9 +122,9 @@ a {
 }
 //custom_dark mode
 [data-theme="dark"] {
-  --bg_secondary_color: 30, 30, 30, 1;
-  --bg_color: 30, 30, 30, 1;
-  --ui_color: 255, 255, 255, 1;
+  --bg_secondary_color: rgba(30, 30, 30, 1);
+  --bg_color: rgba(30, 30, 30, 1);
+  --ui_color: rgba(255, 255, 255, 1);
   --theme_background: var(--text_color);
 }
 .hiden {

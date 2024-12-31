@@ -1,5 +1,7 @@
-.wrapper {
-  width: 100%;
-  overflow: hidden;
-  object-fit: contain;
+@media screen and (max-width: 1024px) {
+  .wrapper {
+    width: 100%;
+    overflow: hidden;
+    object-fit: contain;
+  }
 }

@@ -2,20 +2,29 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import GlobalStyles from "./Components/GlobalStyles/GlobalStyles";
+import GlobalStylesDefault from "./Components/GlobalStyles/GlobalStyles";
 import ThemesProvider from "./Components/ThemeProvider/Theme_Provider";
-import { ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from "@mui/material/styles";
 import theme from "./Components/ThemeProviderMUI/Theme";
+import { CssBaseline, GlobalStyles } from "@mui/material";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <GlobalStyles>
+      <GlobalStylesDefault>
         <ThemesProvider>
+          <CssBaseline />
+          <GlobalStyles
+            styles={{
+              "*": {
+                fontFamily: "'Poppins', sans-serif", // Áp dụng cho mọi thẻ HTML
+              },
+            }}
+          />
           <App />
         </ThemesProvider>
-      </GlobalStyles>
+      </GlobalStylesDefault>
     </ThemeProvider>
   </React.StrictMode>
 );

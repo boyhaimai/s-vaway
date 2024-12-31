@@ -7,7 +7,7 @@ const routes = {
     sent: '/sent',
     document: '/document',
     video_train: '/video_train',
-
+    business: '/business',
     tracetable: '/tracetable',
     downline: '/downline',
 }
