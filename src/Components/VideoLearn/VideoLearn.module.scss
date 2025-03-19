@@ -1,0 +1,23 @@
+@media screen and (max-width: 1024px) {
+  .content{
+    max-height: 414px;
+    background-color: var(--c_white);
+    border-radius: 8px;
+    height: auto;
+    margin: 20px 10px 10px 10px;
+    border-top: 5px solid var(--c_blue);
+    padding-bottom: 10px;
+  }
+  .check_complete{
+    position: absolute;
+    right: -6px;
+  }
+  .wrapper_lessons{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid aqua;
+    margin-bottom: 5px;
+  }
+}

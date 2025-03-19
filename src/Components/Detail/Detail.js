@@ -1,13 +1,9 @@
 import { Container, Paper, Typography } from "@mui/material";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import classNames from "classnames/bind";
 import {
-  CurrencyExchange,
-  Event,
   GroupAdd,
-  Groups,
   ListAlt,
-  LocalShipping,
   MonetizationOn,
   North,
   Person,
@@ -21,21 +17,75 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Image from "../Images/Images";
 import { styled } from "@mui/system";
-import { Card } from "@mui/material";
 
 import styles from "./Detail.module.scss";
 import top1Sales from "~/assets/images/top1_sales.png";
 import top2Sales from "~/assets/images/top2_sales.png";
+import { useEffect } from "react";
+import * as getOrders from "~/service/getOrderMoney";
+import * as getLeads from "~/service/getLeadData";
+import * as getProfileMoney from "~/service/getProfileDetailService";
+import * as getRank from "~/service/getRank";
 
 const cx = classNames.bind(styles);
 function Detail() {
-  const [age, setAge] = useState("");
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  const currentMonth = today.getMonth() + 1;
+  const currentDate = today.toLocaleDateString("en-DG");
+  const defaultDate = `${currentMonth
+    .toString()
+    .padStart(2, "0")}/${currentYear}`;
+
+  const months = [];
+  for (let year = 2024; year <= currentYear; year++) {
+    for (let month = 1; month <= 12; month++) {
+      if (year === currentYear && month > currentMonth) break;
+      months.push(`${month.toString().padStart(2, "0")}/${year}`);
+    }
+  }
+
+  const [selectRank, setSelectRank] = useState(defaultDate);
+  const [ranking, setRanking] = useState([]);
   const [open, setOpen] = useState(false);
   const [activeStats, setActiveStats] = useState("");
   const [activeUpline, setActiveUpline] = useState("");
+  const [resultOrders, setResultsOrders] = useState([]);
+  const [resultLeads, setResultsLeads] = useState([]);
+  const [profileMoney, setProfileMoney] = useState([]);
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
+  useEffect(() => {
+    const fetchAPI = async () => {
+      const startDate = currentDate;
+      const endDate = startDate;
+      const resultLead = await getLeads.getLeadData(startDate, endDate);
+      const resultOrder = await getOrders.getOrderMoney(startDate, endDate);
+      setResultsLeads(resultLead || {});
+      setResultsOrders(resultOrder || {});
+    };
+    fetchAPI();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const fetchAPI = async () => {
+      const resultProfileMoney = await getProfileMoney.getProfileMoney();
+      setProfileMoney(resultProfileMoney.data.ref || {});
+    };
+    fetchAPI();
+  }, []);
+
+  useEffect(() => {
+    const fetchAPI = async () => {
+      const resultRank = await getRank.getRank(selectRank);
+      setRanking(resultRank.data?.money || {});
+    };
+    fetchAPI();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectRank]);
+
+  const handleChangeSelect = (event) => {
+    setSelectRank(event.target.value);
   };
 
   const handleClose = () => {
@@ -45,22 +95,10 @@ function Detail() {
     setOpen(true);
   };
   const MyPaper = styled(Paper)({
-    background:"linear-gradient(135deg,#43cea2,#185a9d)",
+    background: "linear-gradient(135deg,#43cea2,#185a9d)",
     color: " var(--c_white)",
     borderBottom: " 2px solid red",
     borderRadius: " 13px",
-  });
-
-  const MyCard = styled(Card)({
-    border: "2px solid rgba(255, 255, 255, 0.2)",
-    borderRadius: "12px",
-    background: "linear-gradient(135deg,#43cea2,#185a9d)",
-    boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
-    transition: "transform 0.3s ease, box-shadow 0.3s ease",
-    "&:hover": {
-      transform: "scale(1.05)",
-      boxShadow: "0 8px 20px rgba(0, 0, 0, 0.3)",
-    },
   });
 
   return (
@@ -68,10 +106,10 @@ function Detail() {
       <div className={cx("inner")}>
         {/* Thống kê */}
         <div className={cx("stats")}>
-          {" "}          
           <Typography variant="h5" className={cx("title", "title_im_ex")}>
-            Thống kê nhanh hôm nay
+            Thống kê nhanh ngày {resultOrders.label}
           </Typography>
+
           <div className={cx("list_datas")}>
             <MyPaper
               elevation={5}
@@ -87,7 +125,9 @@ function Detail() {
               </div>
               <div className={cx("right_data")}>
                 <PlayArrow className={cx("icon_count", "icon_arow")} />
-                <div className={cx("count_data")}>$200.000.000</div>
+                <div className={cx("count_data")}>
+                  {resultOrders?.data?.money} đ
+                </div>
               </div>
             </MyPaper>
 
@@ -105,7 +145,9 @@ function Detail() {
               </div>
               <div className={cx("right_data")}>
                 <PlayArrow className={cx("icon_count", "icon_arow")} />
-                <div className={cx("count_data")}>0</div>
+                <div className={cx("count_data")}>
+                  {resultOrders?.data?.orders}{" "}
+                </div>
               </div>
             </MyPaper>
 
@@ -120,7 +162,7 @@ function Detail() {
               </div>
               <div className={cx("right_data")}>
                 <PlayArrow className={cx("icon_count")} />
-                <div className={cx("count_data")}>0</div>
+                <div className={cx("count_data")}>{resultLeads?.newLeads} </div>
               </div>
             </MyPaper>
 
@@ -135,71 +177,9 @@ function Detail() {
               </div>
               <div className={cx("right_data")}>
                 <PlayArrow className={cx("icon_count")} />
-                <div className={cx("count_data")}>0</div>
-              </div>
-            </MyPaper>
-
-            <Typography variant="h5" className={cx("title", "title_im_ex")}>
-              Thống kê xuất nhập hàng
-            </Typography>
-
-            <MyPaper
-              elevation={5}
-              className={cx("data", { active: activeStats === 5 })}
-              onClick={() => setActiveStats(5)}
-            >
-              <div className={cx("left_data")}>
-                <CurrencyExchange className={cx("icon_data")} />
-                <p className={cx("name_data")}>Tổng doanh số nhập </p>
-              </div>
-              <div className={cx("right_data")}>
-                <PlayArrow className={cx("icon_count")} />
-                <div className={cx("count_data")}>0</div>
-              </div>
-            </MyPaper>
-
-            <MyPaper
-              elevation={5}
-              className={cx("data", { active: activeStats === 6 })}
-              onClick={() => setActiveStats(6)}
-            >
-              <div className={cx("left_data")}>
-                <LocalShipping className={cx("icon_data")} />
-                <p className={cx("name_data")}>Tổng số lượng nhập </p>
-              </div>
-              <div className={cx("right_data")}>
-                <PlayArrow className={cx("icon_count")} />
-                <div className={cx("count_data")}>0</div>
-              </div>
-            </MyPaper>
-
-            <MyPaper
-              elevation={5}
-              className={cx("data", { active: activeStats === 7 })}
-              onClick={() => setActiveStats(7)}
-            >
-              <div className={cx("left_data")}>
-                <Groups className={cx("icon_data")} />
-                <p className={cx("name_data")}>Tổng tuyến dưới</p>
-              </div>
-              <div className={cx("right_data")}>
-                <PlayArrow className={cx("icon_count")} />
-                <div className={cx("count_data")}>0</div>
-              </div>
-            </MyPaper>
-
-            <MyPaper
-              elevation={5}
-              className={cx("data", { active: activeStats === 8 })}
-              onClick={() => setActiveStats(8)}
-            >
-              <div className={cx("left_data")}>
-                <Event className={cx("icon_data")} />
-                <p className={cx("name_data")}>Doanh số hôm nay</p>
-              </div>
-              <div className={cx("right_data")}>
-                <PlayArrow className={cx("icon_count")} />
-                <div className={cx("count_data")}>0</div>
+                <div className={cx("count_data")}>
+                  {resultLeads?.totalLeads}
+                </div>
               </div>
             </MyPaper>
           </div>
@@ -222,7 +202,7 @@ function Detail() {
                 })}
                 onClick={() => setActiveUpline(1)}
               >
-                <span>Tên</span>: Lê Thị Hiệp
+                <span>Tên</span>: {profileMoney.name}
               </p>
               <p
                 className={cx("info_upline", {
@@ -230,7 +210,7 @@ function Detail() {
                 })}
                 onClick={() => setActiveUpline(2)}
               >
-                <span> Số điện thoại</span>: 0971534292
+                <span> Số điện thoại</span>: {profileMoney.phone}
               </p>
               <p
                 className={cx("info_upline", {
@@ -238,7 +218,7 @@ function Detail() {
                 })}
                 onClick={() => setActiveUpline(3)}
               >
-                <span>Zalo</span>: 0971534292
+                <span>Zalo</span>: {profileMoney.phone}
               </p>
               <p
                 className={cx("info_upline", {
@@ -246,7 +226,7 @@ function Detail() {
                 })}
                 onClick={() => setActiveUpline(4)}
               >
-                <span>Email</span>: lehiepth4@gmail.com
+                <span>Email</span>: {profileMoney.email}
               </p>
             </div>
           </div>
@@ -266,52 +246,57 @@ function Detail() {
               open={open}
               onClose={handleClose}
               onOpen={handleOpen}
-              value={age}
-              label="Age"
-              onChange={handleChange}
+              value={selectRank}
+              label="selectMonth"
+              onChange={handleChangeSelect}
+              MenuProps={{
+                PaperProps: {
+                  style: {
+                    maxHeight: 200,
+                    overflowY: "auto",
+                  },
+                },
+              }}
             >
               <MenuItem value="">
                 <em>Không chọn</em>
               </MenuItem>
-              <MenuItem value={10 / 2024}>10/2024</MenuItem>
-              <MenuItem value={9 / 2024}>9/2024</MenuItem>
-              <MenuItem value={8 / 2024}>8/2024</MenuItem>
+              {months.map((month, index) => (
+                <MenuItem key={index} value={month}>
+                  {month}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
           <Paper elevation={2} className={cx("content_sales")}>
-            <div
-              className={cx("item_sales", {
-                active_upline: activeUpline === 5,
-              })}
-              onClick={() => setActiveUpline(5)}
-            >
-              <div className={cx("left_content_sales")}>
-                <Image
-                  src={top1Sales}
-                  alt="sales1"
-                  className={cx("img_sales")}
-                />
-                Lê Thị Hiệp
+            {ranking.map((rank, index) => (
+              <div
+                className={cx("item_sales")}
+                onClick={() => setActiveUpline(5)}
+                key={rank.user.id}
+              >
+                <div className={cx("left_content_sales")}>
+                  {index === 0 && (
+                    <Image
+                      src={top1Sales}
+                      alt="Top 1"
+                      className={cx("img_sales")}
+                    />
+                  )}
+                  {index === 1 && (
+                    <Image
+                      src={top2Sales}
+                      alt="Top 2"
+                      className={cx("img_sales")}
+                    />
+                  )}
+                  {rank.user.name}
+                </div>
+                <div className={cx("right_content_sales")}>
+                  {rank.value.toLocaleString("vi-VN")} {rank.symbol}
+                </div>
               </div>
-              <div className={cx("right_content_sales")}>9,230,000 đ</div>
-            </div>
-
-            <div
-              className={cx("item_sales", {
-                active_upline: activeUpline === 6,
-              })}
-              onClick={() => setActiveUpline(6)}
-            >
-              <div className={cx("left_content_sales")}>
-                <Image
-                  src={top2Sales}
-                  alt="sales2"
-                  className={cx("img_sales")}
-                />
-                Việt Đức
-              </div>
-              <div className={cx("right_content_sales")}>1,540,000 đ</div>
-            </div>
+            ))}
           </Paper>
         </Paper>
       </div>

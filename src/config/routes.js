@@ -1,15 +1,23 @@
 const routes = {
-    dashboard:'/',
-    detail:'/detail',
-    campaign: '/campaign',
-    promotion: '/promotion',
-    create_image: '/create_image',
-    sent: '/sent',
-    document: '/document',
-    video_train: '/video_train',
-    business: '/business',
-    tracetable: '/tracetable',
-    downline: '/downline',
-}
+  //  tổng quan
+  dashboard: "/",
+  detail: "/detail",
+  // Chiến dịch
+  campaign: "/leads/campaign",
+  create_image: "/tools/image",
+  document: "/daotao.tailieu",
+  video_train: "/daotao",
+  // promotion: "/promotion",
+  // sent: "/sent",
+  // Kinh doanh
+  products: "/products/index",
+  orders: "/orders/index",
+  // Bảng lưu vết
+  leads: "/leads/customer/",
+  // downline: '/downline',
+  profile: "/profile",
+  setting: "/setting",
+  learn: "/learn/:courseId/:lessonId",
+};
 
 export default routes;

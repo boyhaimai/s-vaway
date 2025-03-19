@@ -23,11 +23,13 @@
     left: 3px;
     width: 118px;
     height: 42px;
+    display: flex;
 
     .icon_img {
       width: 100%;
       margin: auto;
       cursor: pointer;
+      margin-left: 20px;
     }
   }
   .header_right {
@@ -70,7 +72,7 @@
   .calendars {
     position: absolute;
     top: 6px;
-    left: -214px;
+    left: -232px;
 
     &::after {
       content: "";
@@ -84,12 +86,10 @@
       background: var(--c_white);
     }
   }
-  .content_cal {
-  }
   .title_cal {
     padding: 10px;
 
-    .activeCV{
+    .activeCV {
       background: var(--c_back_cv_active);
       color: var(--c_white);
     }
@@ -105,8 +105,8 @@
   }
   .notifications {
     position: absolute;
-    top: 5px;
-    left: -259px;
+    top: 9px;
+    left: -283px;
 
     &::after {
       content: "";
@@ -121,12 +121,13 @@
     }
   }
   .wrapper_notifi {
-    max-width: 333px;
+    max-width: 350px;
     margin-top: -10px;
-    width: 333px;
+    width: 350px;
     height: 513px;
     max-height: 513px;
     overflow: scroll;
+    padding: 10px;
   }
   .title_notifi {
     font-weight: 700;
@@ -139,7 +140,6 @@
   }
   .item_notifi {
     display: flex;
-    justify-content: space-between;
     border-bottom: 1px solid #e6e6e66b;
     padding: 10px;
   }
@@ -153,13 +153,24 @@
   .info_notifi {
     padding: 0 12px;
     line-height: 1.8;
+    position: relative;
+
+    .tb_item {
+      width: 10px;
+      height: 10px;
+      background: var(--c_red);
+      border-radius: 50%;
+      position: absolute;
+      top: 12px;
+      left: -15px;
+    }
   }
-  .name_notifi {
-    font-weight: 600;
-  }
+
   .notifi {
     font-size: 14px;
-    color: var(--c_text_phu);
+    font-weight: 600;
+    display: flex;
+    flex-wrap: wrap;
   }
   .time_notifi {
     color: var(--c_text_phu);
@@ -185,6 +196,42 @@
     height: 3.2rem;
     border-radius: 50%;
     margin-bottom: 10px;
+  }
+  .name {
+    position: relative;
+
+    .dot_red {
+      width: 10px;
+      height: 10px;
+      background: var(--c_red);
+      border-radius: 50%;
+      position: absolute;
+      top: 25px;
+      left: 326px;
+    }
+  }
+  .icon_person {
+    margin-bottom: 5px;
+  }
+  .time_schuedule {
+    color: var(--c_text_phu);
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 3px;
+    margin-right: -15px;
+  }
+  .message {
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  .noti_none{
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--c_text_phu);
+    padding: 10px;
+    text-align: center;
+    
   }
 
   //Key frames

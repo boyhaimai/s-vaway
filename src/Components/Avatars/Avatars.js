@@ -2,7 +2,7 @@ import { forwardRef, useState } from "react";
 import classNames from "classnames/bind";
 
 import styles from "./Avatars.module.scss";
-import noImage from "~/assets/images/userImage.png";
+import noImage from "~/assets/images/noImage.png";
 
 const Avatars = forwardRef(
   (

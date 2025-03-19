@@ -1,16 +1,16 @@
 @media screen and (max-width: 1024px) {
   .wrapper {
+    width: 100%;
   }
   .container {
-    display: flex;
     width: 100%;
   }
   .content {
-    flex: 1;
+    position: relative;    
     min-height: 850px;
     overflow: auto;
-    background-color: var(--theme_background);
-    margin-left: var(--sidebar_width);
-    margin-top: var(--header_height);
+    background-image: var(--b_liner);
+    top: var(--header_height);
+    padding-bottom: 40px;
   }
 }

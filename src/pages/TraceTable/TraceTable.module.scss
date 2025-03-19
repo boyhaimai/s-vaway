@@ -1,19 +1,16 @@
-/* Tùy chỉnh kích thước thẻ select */
-.custom-select {
-  width: 153px; /* Set chiều rộng */
-  height: 30px; /* Set chiều cao */
-}
-
-/* Tùy chỉnh bên trong dropdown menu */
-.react-select__control {
-  height: 30px; /* Set chiều cao */
-  width: 153px; /* Set chiều rộng */
-}
-.title_header {
-  display: flex;
-  justify-content: space-between;
-  margin: 10px;
-  background: white;
-  padding: 10px;
-  border-radius: 10px;
+@media screen and (max-width: 1024px) {
+  .zalo_icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 5px;
+  }
+  .title {
+    font-weight: bold;
+  }
+  .tab_title {
+    width: 25% !important;
+    font-weight: bold !important;
+    font-size: 10px !important;
+    color: var(--c_white) !important;
+  }
 }

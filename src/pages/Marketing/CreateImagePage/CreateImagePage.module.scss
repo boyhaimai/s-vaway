@@ -1,0 +1,41 @@
+@media screen and (max-width: 1024px) {
+  .img_banner {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+  .btn_create_image{   
+    background:linear-gradient(45deg, #66bb6a, #43a047);
+    color: white;
+
+    :hover{
+      background:linear-gradient(45deg, #43a047, #2e7d32);
+    }
+  }
+  .wrapper_modal{    
+    display: flex;
+    justify-content: space-between;
+    background: var(--theme_main);
+    color: var(--c_white);
+    padding: 1px;
+    border-radius: 16px 16px 0 0;
+  }
+  .modal {
+    position: fixed;
+    width: 100%;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 99999;
+    animation: modal_create ease 0.5s;
+    transition: all 0.2s linear;
+    overflow-y: auto;
+  }
+  @keyframes modal_create {
+    from {
+      top: 50px;
+    }
+    to {
+      top: 0;
+    }
+  }
+}

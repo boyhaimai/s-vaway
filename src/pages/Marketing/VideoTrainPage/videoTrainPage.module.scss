@@ -1,0 +1,71 @@
+@media screen and (max-width: 1024px) {
+  .img_video {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+    object-fit: fill;
+  }
+  .course_item {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    margin: 20px 0;
+    background: linear-gradient(to bottom, #ffffff, #f1f8e9);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .time_course {
+    font-size: 14px !important;
+    margin-top: 4px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 5px;
+    color: white!important;
+  }
+  .title_course {
+    font-size: 20px !important;
+    color: #2e7d32;
+    margin: 0 10px 10px 10px !important;
+  }
+  .btn_buy {
+    text-transform: none;
+    font-weight: bold !important;
+    font-size: 14px !important;
+    padding: 10px 0 !important;
+    border-radius: 8px !important;
+  }
+  .notify{
+    position: fixed;
+    width: 300px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    text-align: center;
+    border-radius: 8px;
+  }
+  .btn_notify{
+    font-size: 30px;
+  }
+  .box_copy {    
+    position: fixed;
+    display: inline-block;
+    padding-top: 20px;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.4);
+    color: #fff;
+    padding: 0px 20px;
+    border-radius: 8px;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 9999;
+    width: 200px;
+    height: 90px;
+  }
+}
