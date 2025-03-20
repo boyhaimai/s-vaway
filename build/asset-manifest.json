@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/static/css/main.3ae15211.css",
+    "main.js": "/static/js/main.098f2f19.js",
+    "static/js/453.acbc97cd.chunk.js": "/static/js/453.acbc97cd.chunk.js",
+    "static/media/vazo-sales.png": "/static/media/vazo-sales.7a5d5da8fda844ad50dc.png",
+    "static/media/noImage.png": "/static/media/noImage.b41f35847d2213c054d7.png",
+    "static/media/marketing.png": "/static/media/marketing.79fb1c62e0fe3ecd46a0.png",
+    "static/media/trophy.png": "/static/media/trophy.2d956224f44e903f176c.png",
+    "static/media/zalo.svg": "/static/media/zalo.74ef2115c7e6f499511fdb6d61f27d63.svg",
+    "index.html": "/index.html",
+    "main.3ae15211.css.map": "/static/css/main.3ae15211.css.map",
+    "main.098f2f19.js.map": "/static/js/main.098f2f19.js.map",
+    "453.acbc97cd.chunk.js.map": "/static/js/453.acbc97cd.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3ae15211.css",
+    "static/js/main.098f2f19.js"
+  ]
+}
