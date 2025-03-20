@@ -14,17 +14,12 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import DiscountIcon from "@mui/icons-material/LocalOffer";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import GroupIcon from "@mui/icons-material/Group";
-import DoneIcon from "@mui/icons-material/Done";
-import CloseIcon from "@mui/icons-material/Close";
-import PaymentIcon from "@mui/icons-material/Payment";
 import {
   CheckCircle,
   Clear,
-  ConfirmationNumber,
   CopyAll,
   Inventory,
   Key,

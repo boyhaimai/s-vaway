@@ -16,7 +16,7 @@ import {
   Snackbar,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { Clear, CopyAll, Share } from "@mui/icons-material";
+import { Clear, Share } from "@mui/icons-material";
 import classNames from "classnames/bind";
 import { useEffect } from "react";
 import { useRef } from "react";

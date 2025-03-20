@@ -25,7 +25,6 @@ import * as getBuyCourse from "~/service/getBuyCourse";
 import {
   CancelRounded,
   CheckCircle,
-  Close,
   ErrorRounded,
 } from "@mui/icons-material";
 
@@ -113,7 +112,7 @@ const VideoTrainPage = () => {
 
   useEffect(() => {
     if (buyCourses.success !== undefined) {
-      const timer = setTimeout(() => {
+      setTimeout(() => {
         setBuyCourses([]);
       }, 2000);
     }
