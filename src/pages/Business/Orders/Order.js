@@ -207,7 +207,13 @@ function Order() {
                           justifyContent: "space-between",
                         }}
                       >
-                        <Typography variant="body1" fontSize={"12px"}>
+                        <Typography
+                          variant="body1"
+                          fontSize={"12px"}
+                          onClick={() =>
+                            handleCopyOrderCode(order.products[0]._id)
+                          }
+                        >
                           Mã đơn:{" "}
                           <Typography
                             component={"span"}
@@ -219,9 +225,6 @@ function Order() {
                             fontSize="small"
                             sx={{ ml: "5px" }}
                             color="primary"
-                            onClick={() =>
-                              handleCopyOrderCode(order.products[0]._id)
-                            }
                           />
                         </Typography>
                         <Box mt={2}>
@@ -280,8 +283,18 @@ function Order() {
                           src={order.products[0].image}
                           className={cx("img_order")}
                         />
-                        <Typography variant="h6" fontWeight={"bold"} mt={1}>
-                          {order.name}
+                        <Typography
+                          variant="h6"
+                          fontWeight={"bold"}
+                          mt={1}
+                          onClick={() => handleCopyOrderCode(order.name)}
+                        >
+                          {order.name}{" "}
+                          <CopyAll
+                            fontSize="small"
+                            sx={{ ml: "5px" }}
+                            color="primary"
+                          />
                         </Typography>
                       </Stack>
 
@@ -293,8 +306,17 @@ function Order() {
                         mb={1}
                       >
                         <Phone sx={{ color: "var(--theme_main)" }} />
-                        <Typography variant="body1" fontWeight={"bold"}>
-                          SĐT: {order.phone}
+                        <Typography
+                          variant="body1"
+                          fontWeight={"bold"}
+                          onClick={() => handleCopyOrderCode(order.phone)}
+                        >
+                          SĐT: {order.phone}{" "}
+                          <CopyAll
+                            fontSize="small"
+                            sx={{ ml: "5px" }}
+                            color="primary"
+                          />
                         </Typography>
                       </Stack>
 
@@ -438,7 +460,7 @@ function Order() {
                   >
                     <InputBase
                       sx={{ ml: 1, flex: 1 }}
-                      placeholder="Search Order"
+                      placeholder="Nhập tên,sđt,ghi chú"
                       inputProps={{ "aria-label": "search" }}
                       value={textSearchAllOrder}
                       onChange={handleChangeSearch}

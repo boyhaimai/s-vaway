@@ -75,7 +75,6 @@ function VideoLearn() {
   const handleChangeTab = (e, value) => {
     setValueTab(value);
   };
-  // console.log(videoCourses?.course?.lesson, "note");
 
   return (
     <Box>

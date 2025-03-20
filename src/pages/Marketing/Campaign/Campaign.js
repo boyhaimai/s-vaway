@@ -13,12 +13,8 @@ import {
   Tab,
   Pagination,
   styled,
-  Snackbar,
-  Alert,
 } from "@mui/material";
 import {
-  ArrowDropDown,
-  ArrowDropUp,
   CheckCircle,
   CheckRounded,
   Clear,
@@ -61,7 +57,6 @@ const Campaign = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [searchText, setSearchText] = useState("");
-  const inputRef = useRef();
   const refInputSearch = useRef();
   const debounceValue = useDebounce(searchText, 800);
 
@@ -399,41 +394,108 @@ const Campaign = () => {
                     </Box>
                   )}
                   {tabValue === 1 && (
-                    <Typography variant="body1" sx={{ marginTop: 2 }}>
-                      <Box>
-                        <Typography
-                          variant="body2"
-                          color="textSecondary"
-                          sx={{ fontWeight: 600, fontSize: 12, mb: 1 }}
-                        >
-                          Cick: 10
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          color="textSecondary"
-                          sx={{ fontWeight: 600, fontSize: 12, mb: 1 }}
-                        >
-                          Lượt truy cập trong ngày/ Khách hàng:{" "}
-                          {campaign.access.today}/{campaign.customer.today}
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          color="textSecondary"
-                          sx={{ fontWeight: 600, fontSize: 12, mb: 1 }}
-                        >
-                          Lượt truy cập trong tháng/ Khách hàng:{" "}
-                          {campaign.access.today}/{campaign.customer.month}
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          color="textSecondary"
-                          sx={{ fontWeight: 600, fontSize: 12 }}
-                        >
-                          Tổng lượt truy cập / Tổng khách hàng:{" "}
-                          {campaign.access.total}/{campaign.customer.total}
-                        </Typography>
-                      </Box>
-                    </Typography>
+                    <Box sx={{ flexGrow: 1, padding: 3 }}>
+                      <Grid container spacing={3}>
+                        <Grid item xs={12} sm={6} md={3}>
+                          <Card
+                            sx={{
+                              minWidth: 200,
+                              backgroundImage: "var(--b_liner_2)",
+                              color: "black",
+                              mb: 1,
+                            }}
+                          >
+                            <CardContent sx={{ textAlign: "center" }}>
+                              <Typography
+                                className={cx("thongso")}
+                                variant="h6"
+                                gutterBottom
+                              >
+                                Truy cập hôm nay
+                              </Typography>
+                              <Typography
+                                className={cx("thongso")}
+                                variant="h4"
+                              >
+                                {" "}
+                                {campaign.access.today}/
+                                {campaign.customer.today}
+                              </Typography>
+                              <Typography
+                                className={cx("thongso")}
+                                variant="body2"
+                              >
+                                Lượt truy cập / Khách hàng
+                              </Typography>
+                            </CardContent>
+                          </Card>
+                          <Card
+                            sx={{
+                              minWidth: 200,
+                              backgroundImage: "var(--b_liner_2)",
+                              color: "black",
+                              mb: 1,
+                            }}
+                          >
+                            <CardContent sx={{ textAlign: "center" }}>
+                              <Typography
+                                className={cx("thongso")}
+                                variant="h6"
+                                gutterBottom
+                              >
+                                Truy cập tháng này
+                              </Typography>
+                              <Typography
+                                className={cx("thongso")}
+                                variant="h4"
+                              >
+                                {" "}
+                                {campaign.access.today}/
+                                {campaign.customer.month}
+                              </Typography>
+                              <Typography
+                                className={cx("thongso")}
+                                variant="body2"
+                              >
+                                Lượt truy cập / Khách hàng
+                              </Typography>
+                            </CardContent>
+                          </Card>
+                          <Card
+                            sx={{
+                              minWidth: 200,
+                              backgroundImage: "var(--b_liner_2)",
+                              color: "black",
+                              mb: 1,
+                            }}
+                          >
+                            <CardContent sx={{ textAlign: "center" }}>
+                              <Typography
+                                className={cx("thongso")}
+                                variant="h6"
+                                gutterBottom
+                              >
+                                Tổng truy cập
+                              </Typography>
+                              <Typography
+                                className={cx("thongso")}
+                                variant="h4"
+                              >
+                                {" "}
+                                {campaign.access.total}/
+                                {campaign.customer.total}
+                              </Typography>
+                              <Typography
+                                className={cx("thongso")}
+                                variant="body2"
+                              >
+                                Lượt truy cập / Khách hàng
+                              </Typography>
+                            </CardContent>
+                          </Card>
+                        </Grid>
+                      </Grid>
+                    </Box>
                   )}
                   {/* Hết tab Nội dung  */}
                 </CardContent>

@@ -150,10 +150,6 @@ function DashBoard() {
     fetchAPI();
   }, [idDiscountEvents]);
 
-  console.log(detaiDiscountProducts.items?.image, "detaiDiscountProducts");
-  console.log(detaiDiscountProducts.items, "detaiDiscountProducts");
-  console.log(detaiDiscountProducts?.items, "detaiDiscountProducts");
-
   // tổng hoa hoa hồng
   const handleSumDiscount = discounts.reduce((sum, item) => {
     if (

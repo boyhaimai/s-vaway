@@ -230,10 +230,6 @@ const CreateImagePage = () => {
   backgroundImage.crossOrigin = "anonymous"; // Cho phép vẽ lên canvas mà không bị lỗi CORS
   backgroundImage.src = selectedImage.configs?.background;
 
-  // console.log(selectedImage, "selected");
-  // console.log(selectedImage.configs, "config");
-  // console.log(selectedImage?.configs?.texts, "texts");
-  console.log(formData, "test");
   return (
     <Box
       sx={{

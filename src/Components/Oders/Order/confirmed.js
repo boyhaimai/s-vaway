@@ -222,8 +222,18 @@ function Confirmed() {
                   src={order.products[0].image}
                   className={cx("img_order")}
                 />
-                <Typography variant="h6" fontWeight={"bold"} mt={1}>
-                  {order.name}
+                <Typography
+                  variant="h6"
+                  fontWeight={"bold"}
+                  mt={1}
+                  onClick={() => handleCopyOrderCode(order.name)}
+                >
+                  {order.name}{" "}
+                  <CopyAll
+                    fontSize="small"
+                    sx={{ ml: "5px" }}
+                    color="primary"
+                  />
                 </Typography>
               </Stack>
 
@@ -235,8 +245,17 @@ function Confirmed() {
                 mb={1}
               >
                 <Phone sx={{ color: "var(--theme_main)" }} />
-                <Typography variant="body1" fontWeight={"bold"}>
-                  SĐT: {order.phone}
+                <Typography
+                  variant="body1"
+                  fontWeight={"bold"}
+                  onClick={() => handleCopyOrderCode(order.phone)}
+                >
+                  SĐT: {order.phone}{" "}
+                  <CopyAll
+                    fontSize="small"
+                    sx={{ ml: "5px" }}
+                    color="primary"
+                  />
                 </Typography>
               </Stack>
 
@@ -339,7 +358,7 @@ function Confirmed() {
           >
             <InputBase
               sx={{ ml: 1, flex: 1 }}
-              placeholder="Search Order"
+              placeholder="Nhập tên,sđt,ghi chú"
               inputProps={{ "aria-label": "search" }}
               value={textSearchOrderConfirmed}
               onChange={handleChangeSearch}

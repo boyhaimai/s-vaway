@@ -62,6 +62,7 @@ function ItemDocumentCampaign(idCampaign) {
       setContentDocs(resultContentDoc.data);
     };
     fetchAPI();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [_IdIndexDocs]);
 
   useEffect(() => {
@@ -94,8 +95,6 @@ function ItemDocumentCampaign(idCampaign) {
     minWidth: "auto",
     width: "auto",
   });
-
-  console.log(detailContent, "content");
 
   return (
     <>

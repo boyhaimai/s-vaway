@@ -11,14 +11,6 @@ import userIcon from "~/assets/images/user.png";
 import config from "~/config";
 import marketingIcon from "~/assets/images/marketing.png";
 import { Wrapper as PopperWrapper } from "~/Components/Popper";
-import {
-  Description,
-  Edit,
-  Handshake,
-  Inventory,
-  School,
-  ShoppingBag,
-} from "@mui/icons-material";
 
 const cx = classNames.bind(styles);
 

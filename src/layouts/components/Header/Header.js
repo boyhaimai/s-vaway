@@ -124,397 +124,413 @@ function Header() {
           </div>
 
           <div className={cx("header_right")}>
-            <Tippy
-              render={(attrs) => (
-                <div className={cx("calendars")} tabIndex="-1" {...attrs}>
-                  <PopperWrapper>
-                    <div className={cx("wrapper_notifi")}>
-                      <div className={cx("title_notifi")}>Lịch trình</div>
-                      <div className={cx("content_cal")}>
-                        <Box sx={{ width: "100%", typography: "body1" }}>
-                          <TabContext value={valueMenu}>
-                            <Box>
-                              <TabList
-                                onChange={handleChange}
-                                aria-label="lab API tabs example"
-                                sx={{
-                                  display: "flex",
-                                  gap: "8px",
-                                  flexWrap: "wrap",
-                                  borderBottom: "none",
-                                  "& .MuiTabs-indicator": {
-                                    // Ẩn thanh gạch dưới Tab mặc định
-                                    display: "none",
-                                  },
-                                  "& .MuiTabs-flexContainer": {
-                                    // wrap index nhấn
+            <div>
+              <Tippy
+                render={(attrs) => (
+                  <div className={cx("calendars")} tabIndex="-1" {...attrs}>
+                    <PopperWrapper>
+                      <div className={cx("wrapper_notifi")}>
+                        <div className={cx("title_notifi")}>Lịch trình</div>
+                        <div className={cx("content_cal")}>
+                          <Box sx={{ width: "100%", typography: "body1" }}>
+                            <TabContext value={valueMenu}>
+                              <Box>
+                                <TabList
+                                  onChange={handleChange}
+                                  aria-label="lab API tabs example"
+                                  sx={{
+                                    display: "flex",
+                                    gap: "8px",
                                     flexWrap: "wrap",
-                                    padding: "10px",
-                                  },
-                                  "& .MuiTab-root": {
-                                    //tab nhấn
-                                    borderRadius: "16px",
-                                    border: "1px solid #e0e0e0",
-                                    textTransform: "none",
-                                    fontWeight: 500,
-                                    padding: "0px 16px",
-                                    backgroundColor: "white",
-                                    minWidth: "unset",
-                                    fontSize: "14px",
-                                    marginRight: "10px",
-                                    mb: 1,
-                                  },
-                                  "& .Mui-selected": {
-                                    // handle khi tab được chọn
-                                    backgroundColor: "black",
-                                    color: "white !important",
-                                  },
-                                }}
-                              >
-                                <Tab label="Tất cả" value="1" />
-                                <Tab label="Sinh nhật" value="2" />
-                                <Tab label="Công việc" value="3" />
-                                <Tab label="Dịch vụ" value="4" />
-                              </TabList>
-                            </Box>
+                                    borderBottom: "none",
+                                    "& .MuiTabs-indicator": {
+                                      // Ẩn thanh gạch dưới Tab mặc định
+                                      display: "none",
+                                    },
+                                    "& .MuiTabs-flexContainer": {
+                                      // wrap index nhấn
+                                      flexWrap: "wrap",
+                                      padding: "10px",
+                                    },
+                                    "& .MuiTab-root": {
+                                      //tab nhấn
+                                      borderRadius: "16px",
+                                      border: "1px solid #e0e0e0",
+                                      textTransform: "none",
+                                      fontWeight: 500,
+                                      padding: "0px 16px",
+                                      backgroundColor: "white",
+                                      minWidth: "unset",
+                                      fontSize: "14px",
+                                      marginRight: "10px",
+                                      mb: 1,
+                                    },
+                                    "& .Mui-selected": {
+                                      // handle khi tab được chọn
+                                      backgroundColor: "black",
+                                      color: "white !important",
+                                    },
+                                  }}
+                                >
+                                  <Tab label="Tất cả" value="1" />
+                                  <Tab label="Sinh nhật" value="2" />
+                                  <Tab label="Công việc" value="3" />
+                                  <Tab label="Dịch vụ" value="4" />
+                                </TabList>
+                              </Box>
 
-                            {/* Nội dung hiển thị khi chọn tab */}
-                            <TabPanel value="1">
-                              {schedules === 0 ? (
-                                schedules.map((schedule, index) => (
-                                  <Box>
-                                    <Box
-                                      sx={{
-                                        display: "flex",
-                                        justifyContent: "space-between",
-                                      }}
-                                    >
-                                      {" "}
+                              {/* Nội dung hiển thị khi chọn tab */}
+                              <TabPanel value="1">
+                                {schedules === 0 ? (
+                                  schedules.map((schedule, index) => (
+                                    <Box>
                                       <Box
                                         sx={{
-                                          fontSize: "13px",
-                                          fontWeight: 600,
-                                          mb: 1,
+                                          display: "flex",
+                                          justifyContent: "space-between",
                                         }}
                                       >
-                                        <span className={cx("name")}>
-                                          <Person
-                                            fontSize="large"
-                                            sx={{
-                                              color: birthdays.status
-                                                ? birthdays.status.color
-                                                : "black",
-                                            }}
-                                            className={cx("icon_person")}
-                                          />{" "}
-                                          {schedule.lead.name}
-                                          <div className={cx("dot_red")}></div>
-                                        </span>{" "}
-                                        -{" "}
-                                        <span className={cx("phone")}>
-                                          {schedule.lead.phone}
+                                        {" "}
+                                        <Box
+                                          sx={{
+                                            fontSize: "13px",
+                                            fontWeight: 600,
+                                            mb: 1,
+                                          }}
+                                        >
+                                          <span className={cx("name")}>
+                                            <Person
+                                              fontSize="large"
+                                              sx={{
+                                                color: birthdays.status
+                                                  ? birthdays.status.color
+                                                  : "black",
+                                              }}
+                                              className={cx("icon_person")}
+                                            />{" "}
+                                            {schedule.lead.name}
+                                            <div
+                                              className={cx("dot_red")}
+                                            ></div>
+                                          </span>{" "}
+                                          -{" "}
+                                          <span className={cx("phone")}>
+                                            {schedule.lead.phone}
+                                          </span>
+                                        </Box>
+                                        <span className={cx("time_schuedule")}>
+                                          {new Date(
+                                            schedule.time_notify * 1000
+                                          ).toLocaleTimeString()}
                                         </span>
                                       </Box>
-                                      <span className={cx("time_schuedule")}>
-                                        {new Date(
-                                          schedule.time_notify * 1000
-                                        ).toLocaleTimeString()}
-                                      </span>
-                                    </Box>
-                                    <p>
-                                      <Comment
-                                        sx={{ marginRight: "5px" }}
-                                        fontSize="small"
-                                        color="success"
-                                      />
-                                      <span
-                                        className={cx("message")}
-                                        dangerouslySetInnerHTML={{
-                                          __html: schedule.desc,
-                                        }}
-                                      />
-                                    </p>
-                                  </Box>
-                                ))
-                              ) : (
-                                <div className={cx("noti_none")}>
-                                  Không có thông báo nào
-                                </div>
-                              )}
-                            </TabPanel>
-                            {/* tab 2 */}
-                            <TabPanel value="2">
-                              {birthdays === "" ? (
-                                birthdays.map((schedule, index) => (
-                                  <Box key={index}>
-                                    <Box
-                                      sx={{
-                                        display: "flex",
-                                        justifyContent: "space-between",
-                                      }}
-                                    >
-                                      {" "}
-                                      <Box
-                                        sx={{
-                                          fontSize: "13px",
-                                          fontWeight: 600,
-                                          mb: 1,
-                                        }}
-                                      >
-                                        <span className={cx("name")}>
-                                          <Person
-                                            fontSize="large"
-                                            sx={{
-                                              color: birthdays.status
-                                                ? birthdays.status.color
-                                                : "black",
-                                            }}
-                                          />{" "}
-                                          {schedule.lead.name}
-                                          <div className={cx("dot_red")}></div>
-                                        </span>{" "}
-                                        -{" "}
-                                        <span className={cx("phone")}>
-                                          {schedule.lead.phone}
-                                        </span>
-                                      </Box>
-                                      <span className={cx("time_schuedule")}>
-                                        {new Date(
-                                          schedule.time_notify * 1000
-                                        ).toLocaleTimeString()}
-                                      </span>
-                                    </Box>
-                                    <p>
-                                      <Comment
-                                        sx={{ marginRight: "5px" }}
-                                        fontSize="small"
-                                        color="success"
-                                      />
-                                      <span
-                                        className={cx("message")}
-                                        dangerouslySetInnerHTML={{
-                                          __html: schedule.desc,
-                                        }}
-                                      />
-                                    </p>
-                                  </Box>
-                                ))
-                              ) : (
-                                <div className={cx("noti_none")}>
-                                  Không có thông báo nào
-                                </div>
-                              )}
-                            </TabPanel>
-                            {/* tab 3 */}
-                            <TabPanel value="3">
-                              {works === "" ? (
-                                works.map((schedule, index) => (
-                                  <Box>
-                                    <Box
-                                      sx={{
-                                        display: "flex",
-                                        justifyContent: "space-between",
-                                      }}
-                                    >
-                                      {" "}
-                                      <Box
-                                        sx={{
-                                          fontSize: "13px",
-                                          fontWeight: 600,
-                                          mb: 1,
-                                        }}
-                                      >
-                                        <span className={cx("name")}>
-                                          <Person
-                                            fontSize="large"
-                                            sx={{
-                                              color: birthdays.status
-                                                ? birthdays.status.color
-                                                : "black",
-                                            }}
-                                            className={cx("icon_person")}
-                                          />{" "}
-                                          {schedule.lead.name}
-                                          <div className={cx("dot_red")}></div>
-                                        </span>{" "}
-                                        -{" "}
-                                        <span className={cx("phone")}>
-                                          {schedule.lead.phone}
-                                        </span>
-                                      </Box>
-                                      <span className={cx("time_schuedule")}>
-                                        {new Date(
-                                          schedule.time_notify * 1000
-                                        ).toLocaleTimeString()}
-                                      </span>
-                                    </Box>
-                                    <p>
-                                      <Comment
-                                        sx={{ marginRight: "5px" }}
-                                        fontSize="small"
-                                        color="success"
-                                      />
-                                      <span
-                                        className={cx("message")}
-                                        dangerouslySetInnerHTML={{
-                                          __html: schedule.desc,
-                                        }}
-                                      />
-                                    </p>
-                                  </Box>
-                                ))
-                              ) : (
-                                <div className={cx("noti_none")}>
-                                  Không có thông báo nào
-                                </div>
-                              )}
-                            </TabPanel>
-                            {/* tab 4 */}
-                            <TabPanel value="4">
-                              {services === "" ? (
-                                services.map((schedule, index) => (
-                                  <Box>
-                                    <Box
-                                      sx={{
-                                        display: "flex",
-                                        justifyContent: "space-between",
-                                      }}
-                                    >
-                                      {" "}
-                                      <Box
-                                        sx={{
-                                          fontSize: "13px",
-                                          fontWeight: 600,
-                                          mb: 1,
-                                        }}
-                                      >
-                                        <span className={cx("name")}>
-                                          <Person
-                                            fontSize="large"
-                                            sx={{
-                                              color: birthdays.status
-                                                ? birthdays.status.color
-                                                : "black",
-                                            }}
-                                            className={cx("icon_person")}
-                                          />{" "}
-                                          {schedule.lead.name}
-                                          <div className={cx("dot_red")}></div>
-                                        </span>{" "}
-                                        -{" "}
-                                        <span className={cx("phone")}>
-                                          {schedule.lead.phone}
-                                        </span>
-                                      </Box>
-                                      <span className={cx("time_schuedule")}>
-                                        {new Date(
-                                          schedule.time_notify * 1000
-                                        ).toLocaleTimeString()}
-                                      </span>
-                                    </Box>
-                                    <p>
-                                      <Comment
-                                        sx={{ marginRight: "5px" }}
-                                        fontSize="small"
-                                        color="success"
-                                      />
-                                      <span
-                                        className={cx("message")}
-                                        dangerouslySetInnerHTML={{
-                                          __html: schedule.desc,
-                                        }}
-                                      />
-                                    </p>
-                                  </Box>
-                                ))
-                              ) : (
-                                <div className={cx("noti_none")}>
-                                  Không có thông báo nào
-                                </div>
-                              )}
-                            </TabPanel>
-                          </TabContext>
-                        </Box>
-                      </div>
-                    </div>
-                  </PopperWrapper>
-                </div>
-              )}
-              placement="bottom-end"
-              trigger="click"
-              interactive={true}
-            >
-              <span classNames={cx("calendar")}>
-                <FontAwesomeIcon
-                  icon={faCalendarCheck}
-                  className={cx("calendar_icon")}
-                />
-                <span className={cx("message_count")}>{unscheduleCount}</span>
-              </span>
-            </Tippy>
-
-            <Tippy
-              render={(attrs) => (
-                <div className={cx("notifications")} tabIndex="-1" {...attrs}>
-                  <PopperWrapper>
-                    <div className={cx("wrapper_notifi")}>
-                      <div className={cx("title_notifi")}>Thông báo</div>
-                      <div className={cx("content_notifi")}>
-                        {notifications ? (
-                          notifications.map((notificationn, index) => (
-                            <a key={index} href={notificationn.href}>
-                              <div className={cx("item_notifi")}>
-                                <div className={cx("img_notifi")}>
-                                  <Avatars
-                                    src="https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-1/462899351_1602777614005302_5579485164047811493_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=102&ccb=1-7&_nc_sid=0ecb9b&_nc_ohc=D1Prf_kM7V4Q7kNvgFwTWSO&_nc_zt=24&_nc_ht=scontent.fhan14-4.fna&_nc_gid=AsLD8Wws0gk8Ncdf4VqwX0f&oh=00_AYAVrYVwv77sAgWuJ_ICTQlxFL7b-LnE4JcGGlPL0Aq1Mg&oe=675C91B1"
-                                    alt="logo"
-                                    className={cx("img_avatar")}
-                                  />
-                                </div>
-                                <div className={cx("info_notifi")}>
-                                  {notificationn.read === 0 ? (
-                                    <div className={cx("tb_item")}></div>
-                                  ) : null}
-
-                                  <div className={cx("notifi")}>
-                                    {notificationn.message.trim()}
-                                  </div>
-                                  <div className={cx("time_notifi")}>
-                                    <span className={cx("time_notifi")}>
-                                      {" "}
-                                      <span className={cx("icon_time_notifi")}>
-                                        <FontAwesomeIcon
-                                          icon={faWatchmanMonitoring}
+                                      <p>
+                                        <Comment
+                                          sx={{ marginRight: "5px" }}
+                                          fontSize="small"
+                                          color="success"
                                         />
+                                        <span
+                                          className={cx("message")}
+                                          dangerouslySetInnerHTML={{
+                                            __html: schedule.desc,
+                                          }}
+                                        />
+                                      </p>
+                                    </Box>
+                                  ))
+                                ) : (
+                                  <div className={cx("noti_none")}>
+                                    Không có thông báo nào
+                                  </div>
+                                )}
+                              </TabPanel>
+                              {/* tab 2 */}
+                              <TabPanel value="2">
+                                {birthdays === "" ? (
+                                  birthdays.map((schedule, index) => (
+                                    <Box key={index}>
+                                      <Box
+                                        sx={{
+                                          display: "flex",
+                                          justifyContent: "space-between",
+                                        }}
+                                      >
+                                        {" "}
+                                        <Box
+                                          sx={{
+                                            fontSize: "13px",
+                                            fontWeight: 600,
+                                            mb: 1,
+                                          }}
+                                        >
+                                          <span className={cx("name")}>
+                                            <Person
+                                              fontSize="large"
+                                              sx={{
+                                                color: birthdays.status
+                                                  ? birthdays.status.color
+                                                  : "black",
+                                              }}
+                                            />{" "}
+                                            {schedule.lead.name}
+                                            <div
+                                              className={cx("dot_red")}
+                                            ></div>
+                                          </span>{" "}
+                                          -{" "}
+                                          <span className={cx("phone")}>
+                                            {schedule.lead.phone}
+                                          </span>
+                                        </Box>
+                                        <span className={cx("time_schuedule")}>
+                                          {new Date(
+                                            schedule.time_notify * 1000
+                                          ).toLocaleTimeString()}
+                                        </span>
+                                      </Box>
+                                      <p>
+                                        <Comment
+                                          sx={{ marginRight: "5px" }}
+                                          fontSize="small"
+                                          color="success"
+                                        />
+                                        <span
+                                          className={cx("message")}
+                                          dangerouslySetInnerHTML={{
+                                            __html: schedule.desc,
+                                          }}
+                                        />
+                                      </p>
+                                    </Box>
+                                  ))
+                                ) : (
+                                  <div className={cx("noti_none")}>
+                                    Không có thông báo nào
+                                  </div>
+                                )}
+                              </TabPanel>
+                              {/* tab 3 */}
+                              <TabPanel value="3">
+                                {works === "" ? (
+                                  works.map((schedule, index) => (
+                                    <Box>
+                                      <Box
+                                        sx={{
+                                          display: "flex",
+                                          justifyContent: "space-between",
+                                        }}
+                                      >
+                                        {" "}
+                                        <Box
+                                          sx={{
+                                            fontSize: "13px",
+                                            fontWeight: 600,
+                                            mb: 1,
+                                          }}
+                                        >
+                                          <span className={cx("name")}>
+                                            <Person
+                                              fontSize="large"
+                                              sx={{
+                                                color: birthdays.status
+                                                  ? birthdays.status.color
+                                                  : "black",
+                                              }}
+                                              className={cx("icon_person")}
+                                            />{" "}
+                                            {schedule.lead.name}
+                                            <div
+                                              className={cx("dot_red")}
+                                            ></div>
+                                          </span>{" "}
+                                          -{" "}
+                                          <span className={cx("phone")}>
+                                            {schedule.lead.phone}
+                                          </span>
+                                        </Box>
+                                        <span className={cx("time_schuedule")}>
+                                          {new Date(
+                                            schedule.time_notify * 1000
+                                          ).toLocaleTimeString()}
+                                        </span>
+                                      </Box>
+                                      <p>
+                                        <Comment
+                                          sx={{ marginRight: "5px" }}
+                                          fontSize="small"
+                                          color="success"
+                                        />
+                                        <span
+                                          className={cx("message")}
+                                          dangerouslySetInnerHTML={{
+                                            __html: schedule.desc,
+                                          }}
+                                        />
+                                      </p>
+                                    </Box>
+                                  ))
+                                ) : (
+                                  <div className={cx("noti_none")}>
+                                    Không có thông báo nào
+                                  </div>
+                                )}
+                              </TabPanel>
+                              {/* tab 4 */}
+                              <TabPanel value="4">
+                                {services === "" ? (
+                                  services.map((schedule, index) => (
+                                    <Box>
+                                      <Box
+                                        sx={{
+                                          display: "flex",
+                                          justifyContent: "space-between",
+                                        }}
+                                      >
+                                        {" "}
+                                        <Box
+                                          sx={{
+                                            fontSize: "13px",
+                                            fontWeight: 600,
+                                            mb: 1,
+                                          }}
+                                        >
+                                          <span className={cx("name")}>
+                                            <Person
+                                              fontSize="large"
+                                              sx={{
+                                                color: birthdays.status
+                                                  ? birthdays.status.color
+                                                  : "black",
+                                              }}
+                                              className={cx("icon_person")}
+                                            />{" "}
+                                            {schedule.lead.name}
+                                            <div
+                                              className={cx("dot_red")}
+                                            ></div>
+                                          </span>{" "}
+                                          -{" "}
+                                          <span className={cx("phone")}>
+                                            {schedule.lead.phone}
+                                          </span>
+                                        </Box>
+                                        <span className={cx("time_schuedule")}>
+                                          {new Date(
+                                            schedule.time_notify * 1000
+                                          ).toLocaleTimeString()}
+                                        </span>
+                                      </Box>
+                                      <p>
+                                        <Comment
+                                          sx={{ marginRight: "5px" }}
+                                          fontSize="small"
+                                          color="success"
+                                        />
+                                        <span
+                                          className={cx("message")}
+                                          dangerouslySetInnerHTML={{
+                                            __html: schedule.desc,
+                                          }}
+                                        />
+                                      </p>
+                                    </Box>
+                                  ))
+                                ) : (
+                                  <div className={cx("noti_none")}>
+                                    Không có thông báo nào
+                                  </div>
+                                )}
+                              </TabPanel>
+                            </TabContext>
+                          </Box>
+                        </div>
+                      </div>
+                    </PopperWrapper>
+                  </div>
+                )}
+                placement="bottom-end"
+                trigger="click"
+                interactive={true}
+              >
+                <span classNames={cx("calendar")}>
+                  <FontAwesomeIcon
+                    icon={faCalendarCheck}
+                    className={cx("calendar_icon")}
+                  />
+                  <span className={cx("message_count")}>{unscheduleCount}</span>
+                </span>
+              </Tippy>
+            </div>
+
+            <div>
+              <Tippy
+                render={(attrs) => (
+                  <div className={cx("notifications")} tabIndex="-1" {...attrs}>
+                    <PopperWrapper>
+                      <div className={cx("wrapper_notifi")}>
+                        <div className={cx("title_notifi")}>Thông báo</div>
+                        <div className={cx("content_notifi")}>
+                          {notifications ? (
+                            notifications.map((notificationn, index) => (
+                              <a key={index} href={notificationn.href}>
+                                <div className={cx("item_notifi")}>
+                                  <div className={cx("img_notifi")}>
+                                    <Avatars
+                                      src="https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-1/462899351_1602777614005302_5579485164047811493_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=102&ccb=1-7&_nc_sid=0ecb9b&_nc_ohc=D1Prf_kM7V4Q7kNvgFwTWSO&_nc_zt=24&_nc_ht=scontent.fhan14-4.fna&_nc_gid=AsLD8Wws0gk8Ncdf4VqwX0f&oh=00_AYAVrYVwv77sAgWuJ_ICTQlxFL7b-LnE4JcGGlPL0Aq1Mg&oe=675C91B1"
+                                      alt="logo"
+                                      className={cx("img_avatar")}
+                                    />
+                                  </div>
+                                  <div className={cx("info_notifi")}>
+                                    {notificationn.read === 0 ? (
+                                      <div className={cx("tb_item")}></div>
+                                    ) : null}
+
+                                    <div className={cx("notifi")}>
+                                      {notificationn.message.trim()}
+                                    </div>
+                                    <div className={cx("time_notifi")}>
+                                      <span className={cx("time_notifi")}>
+                                        {" "}
+                                        <span
+                                          className={cx("icon_time_notifi")}
+                                        >
+                                          <FontAwesomeIcon
+                                            icon={faWatchmanMonitoring}
+                                          />
+                                        </span>
+                                        {new Date(
+                                          notificationn.added_time * 1000
+                                        )
+                                          .toLocaleString("vi-VN")
+                                          .trim()}
                                       </span>
-                                      {new Date(notificationn.added_time * 1000)
-                                        .toLocaleString("vi-VN")
-                                        .trim()}
-                                    </span>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            </a>
-                          ))
-                        ) : (
-                          <div className={cx("notifi_empty")}>
-                            <span>Không có thông báo nào</span>
-                          </div>
-                        )}
+                              </a>
+                            ))
+                          ) : (
+                            <div className={cx("notifi_empty")}>
+                              <span>Không có thông báo nào</span>
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  </PopperWrapper>
-                </div>
-              )}
-              placement="bottom-end"
-              trigger="click"
-              interactive={true}
-            >
-              <span classNames={cx("ring")}>
-                <RingIcon className={cx("ring-icon")} />
-                <span className={cx("noti_count")}>{unreadCount}</span>
-              </span>
-            </Tippy>
+                    </PopperWrapper>
+                  </div>
+                )}
+                placement="bottom-end"
+                trigger="click"
+                interactive={true}
+              >
+                <span classNames={cx("ring")}>
+                  <RingIcon className={cx("ring-icon")} />
+                  <span className={cx("noti_count")}>{unreadCount}</span>
+                </span>
+              </Tippy>
+            </div>
 
             <Menu items={[MENU_ITEM]}>
               <Image

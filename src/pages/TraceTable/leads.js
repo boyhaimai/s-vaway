@@ -24,8 +24,10 @@ import {
   CalendarToday,
   Category,
   ChatBubbleOutline,
+  CheckCircle,
   Clear,
   Cloud,
+  CopyAll,
   Email,
   EventAvailable,
   Facebook,
@@ -73,8 +75,7 @@ const Leads = () => {
   const debounceValue = useDebounce(texrSearchAllTraceTable, 800);
   const [searchParam] = useSearchParams();
   const leadId = searchParam.get("lead_id");
-
-  console.log(leadId, "prev id");
+  const [notifyCopySuccess, setNotifyCopySuccess] = useState(false);
 
   useEffect(() => {
     const fetchAPI = async () => {
@@ -84,13 +85,11 @@ const Leads = () => {
           const res =
             await getTraceTableHaveIdService.getTraceTableHaveIdService(leadId);
           result = res.data;
-          console.log("1");
         } else {
           const resultTraceTable =
             await getTraceTableService.getTraceTableService();
           result = resultTraceTable.data;
         }
-        console.log("2");
         setTraceTables(result);
       } catch (err) {
         console.log("Error:", err);
@@ -99,8 +98,6 @@ const Leads = () => {
     fetchAPI();
   }, [leadId]);
 
-  console.log(traceTables, "traceTables");
-  console.log(leadId, "next id");
   useEffect(() => {
     if (leadId || !debounceValue) return;
     const fetchAPI = async () => {
@@ -111,6 +108,7 @@ const Leads = () => {
       setTraceTables(resultSearchTraceTable.data);
     };
     fetchAPI();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debounceValue]);
 
   const handleChangeSearch = (e) => {
@@ -137,6 +135,14 @@ const Leads = () => {
     setCurrentPage(page);
   };
 
+  const handleCopyOrderCode = (orderCode) => {
+    if (orderCode) {
+      navigator.clipboard.writeText(orderCode);
+      setNotifyCopySuccess(true);
+      setTimeout(() => setNotifyCopySuccess(false), 2000);
+    }
+  };
+
   const MyTypography = styled(Typography)({
     fontSize: "12px",
     marginTop: "10px",
@@ -144,6 +150,16 @@ const Leads = () => {
 
   return (
     <Box>
+      {/* Thông báo Copy Thành Công */}
+      {notifyCopySuccess && (
+        <Box className={cx("box_copy")}>
+          <CheckCircle sx={{ color: "var(--c_green)", fontSize: "30px" }} />
+          <Typography component={"p"} fontSize="14px">
+            Copy thành công
+          </Typography>{" "}
+          <br />
+        </Box>
+      )}
       <Box sx={{ m: 1 }}>
         <Card
           variant="outlined"
@@ -230,21 +246,45 @@ const Leads = () => {
                           ))}
 
                           {traceTable.name}
+                          <CopyAll
+                            fontSize="small"
+                            sx={{ ml: "5px" }}
+                            color="primary"
+                            onClick={() => handleCopyOrderCode(traceTable.name)}
+                          />
                         </Typography>
                       </Box>
                     </Box>
                   </AccordionSummary>
                   <AccordionDetails>
                     <Box sx={{ height: "200px", overflow: "scroll" }}>
-                      <MyTypography color="text.secondary">
+                      <MyTypography
+                        color="text.secondary"
+                        onClick={() => handleCopyOrderCode(traceTable.phone)}
+                      >
                         <Phone sx={{ fontSize: "18px", color: "#1877F2" }} />{" "}
                         <span className={cx("title")}>SĐT:</span>{" "}
                         {traceTable.phone}
+                        <CopyAll
+                          fontSize="small"
+                          sx={{ ml: "5px" }}
+                          color="primary"
+                        />
                       </MyTypography>
-                      <MyTypography color="text.secondary">
+                      <MyTypography
+                        color="text.secondary"
+                        onClick={() => handleCopyOrderCode(traceTable.email)}
+                      >
                         <Email sx={{ fontSize: "18px", color: "#1877F2" }} />{" "}
                         <span className={cx("title")}>Email:</span>{" "}
                         {traceTable.email}
+                        {traceTable.email && (
+                          <CopyAll
+                            fontSize="small"
+                            sx={{ ml: "5px" }}
+                            color="primary"
+                          />
+                        )}
                       </MyTypography>
                       <MyTypography color="text.secondary">
                         <Cloud

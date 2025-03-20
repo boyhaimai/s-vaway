@@ -59,7 +59,6 @@ function ItemProduct() {
   };
 
   const handleChangeStorage = (value) => {
-    console.log(value, "value");
 
     if (value === "Quản lý kho") {
       setSelectStorages(true);

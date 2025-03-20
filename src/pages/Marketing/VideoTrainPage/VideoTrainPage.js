@@ -119,8 +119,6 @@ const VideoTrainPage = () => {
     }
   }, [buyCourses]);
 
-  console.log(buyCourses, "buyCourses");
-
   const MyButton = styled(Button)({
     padding: "6px",
     minWidth: "auto",

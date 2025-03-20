@@ -23,8 +23,10 @@ import {
   CalendarToday,
   Category,
   ChatBubbleOutline,
+  CheckCircle,
   Clear,
   Cloud,
+  CopyAll,
   Email,
   EventAvailable,
   Facebook,
@@ -61,6 +63,7 @@ function MyCustomer() {
   const [currentPage, setCurrentPage] = useState(1);
   const [textSearchMyCustomer, setTextSearchMyCustomer] = useState("");
   const debounceValue = useDebounce(textSearchMyCustomer, 800);
+  const [notifyCopySuccess, setNotifyCopySuccess] = useState(false);
   const inputSearchRef = useRef();
 
   useEffect(() => {
@@ -102,6 +105,14 @@ function MyCustomer() {
     setCurrentPage(page);
   };
 
+  const handleCopyOrderCode = (orderCode) => {
+    if (orderCode) {
+      navigator.clipboard.writeText(orderCode);
+      setNotifyCopySuccess(true);
+      setTimeout(() => setNotifyCopySuccess(false), 2000);
+    }
+  };
+
   const MyTypography = styled(Typography)({
     fontSize: "12px",
     marginTop: "10px",
@@ -109,6 +120,16 @@ function MyCustomer() {
 
   return (
     <Box sx={{ minHeight: "auto" }}>
+        {/* Thông báo Copy Thành Công */}
+            {notifyCopySuccess && (
+              <Box className={cx("box_copy")}>
+                <CheckCircle sx={{ color: "var(--c_green)", fontSize: "30px" }} />
+                <Typography component={"p"} fontSize="14px">
+                  Copy thành công
+                </Typography>{" "}
+                <br />
+              </Box>
+            )}
       {/* Header */}
       <Box
         display="flex"
@@ -152,19 +173,39 @@ function MyCustomer() {
                   ))}
 
                   {traceTable.name}
+                  <CopyAll
+                    fontSize="small"
+                    sx={{ ml: "5px" }}
+                    color="primary"
+                    onClick={() => handleCopyOrderCode(traceTable.name)}
+                  />
                 </Typography>
               </Box>
             </Box>
           </AccordionSummary>
           <AccordionDetails>
             <Box sx={{ height: "200px", overflow: "scroll" }}>
-              <MyTypography color="text.secondary">
+              <MyTypography
+                color="text.secondary"
+                onClick={() => handleCopyOrderCode(traceTable.phone)}
+              >
                 <Phone sx={{ fontSize: "18px", color: "#1877F2" }} />{" "}
                 <span className={cx("title")}>SĐT:</span> {traceTable.phone}
+                <CopyAll fontSize="small" sx={{ ml: "5px" }} color="primary" />
               </MyTypography>
-              <MyTypography color="text.secondary">
+              <MyTypography
+                color="text.secondary"
+                onClick={() => handleCopyOrderCode(traceTable.email)}
+              >
                 <Email sx={{ fontSize: "18px", color: "#1877F2" }} />{" "}
                 <span className={cx("title")}>Email:</span> {traceTable.email}
+                {traceTable.email && (
+                  <CopyAll
+                    fontSize="small"
+                    sx={{ ml: "5px" }}
+                    color="primary"
+                  />
+                )}
               </MyTypography>
               <MyTypography color="text.secondary">
                 <Cloud sx={{ fontSize: "18px", color: "#1877F2", mr: 1 }} />

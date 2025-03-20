@@ -13,4 +13,22 @@
     font-size: 10px !important;
     color: var(--c_white) !important;
   }
+  .box_copy {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.4);
+    color: #fff;
+    padding: 0px 20px;
+    border-radius: 8px;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 9999;
+    width: 200px;
+    height: 90px;
+  }
 }
