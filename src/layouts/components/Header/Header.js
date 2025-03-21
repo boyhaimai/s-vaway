@@ -117,7 +117,8 @@ function Header() {
       <div className={cx("inner")}>
         <div className={cx("content")}>
           <div className={cx("header_left")}>
-            <a href="/">
+            <a href="/ctv">
+            {/* <a href="/"> */}
               {" "}
               <Image src={logoVazoSale} alt="logo" className={cx("icon_img")} />
             </a>

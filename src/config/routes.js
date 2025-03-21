@@ -16,10 +16,10 @@ const routes = {
   //  profile: "/ctv/profile",
   //  learn: "/ctv/elearning/:courseId/:lessonId",
 
-  //  tổng quan
-  dashboard: "/ctv/",
+  // //  tổng quan
+  dashboard: "/ctv",
   detail: "/ctv/#detail",
-  
+
   // Chiến dịch
   campaign: "/ctv/#leads/#campaign",
   create_image: "/ctv/#tools/#image",
