@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/ctv/static/css/main.48d3e6bc.css",
-    "main.js": "/ctv/static/js/main.89f80a28.js",
+    "main.js": "/ctv/static/js/main.4ecf4a9c.js",
     "static/js/453.acbc97cd.chunk.js": "/ctv/static/js/453.acbc97cd.chunk.js",
     "static/media/vazo-sales.png": "/ctv/static/media/vazo-sales.7a5d5da8fda844ad50dc.png",
     "static/media/noImage.png": "/ctv/static/media/noImage.b41f35847d2213c054d7.png",
@@ -10,11 +10,11 @@
     "static/media/zalo.svg": "/ctv/static/media/zalo.74ef2115c7e6f499511fdb6d61f27d63.svg",
     "index.html": "/ctv/index.html",
     "main.48d3e6bc.css.map": "/ctv/static/css/main.48d3e6bc.css.map",
-    "main.89f80a28.js.map": "/ctv/static/js/main.89f80a28.js.map",
+    "main.4ecf4a9c.js.map": "/ctv/static/js/main.4ecf4a9c.js.map",
     "453.acbc97cd.chunk.js.map": "/ctv/static/js/453.acbc97cd.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.48d3e6bc.css",
-    "static/js/main.89f80a28.js"
+    "static/js/main.4ecf4a9c.js"
   ]
 }

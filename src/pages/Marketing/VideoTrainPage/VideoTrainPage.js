@@ -83,12 +83,12 @@ const VideoTrainPage = () => {
   // };
 
   const handleClickGetIdCourse = (idCourse, idLesson) => {
-    navigate(`/ctv/#elearning/${idCourse}/${idLesson}`);
+    navigate(`/ctv/elearning/${idCourse}/${idLesson}`);
   };
 
   const handleClickPushIdCourse = (idCourse) => {
     setIdMyCourses(idCourse);
-    navigate(`/ctv/#elearning/${idCourse}/${myLessons.course?._id}`);
+    navigate(`/ctv/elearning/${idCourse}/${myLessons.course?._id}`);
   };
 
   const itemPerPage = 10;
