@@ -73,13 +73,22 @@ const VideoTrainPage = () => {
     setTabIndex(index);
   };
 
+  // const handleClickGetIdCourse = (idCourse, idLesson) => {
+  //   navigate(`/ctv/elearning/${idCourse}/${idLesson}`);
+  // };
+
+  // const handleClickPushIdCourse = (idCourse) => {
+  //   setIdMyCourses(idCourse);
+  //   navigate(`/ctv/elearning/${idCourse}/${myLessons.course?._id}`);
+  // };
+
   const handleClickGetIdCourse = (idCourse, idLesson) => {
-    navigate(`/learn/${idCourse}/${idLesson}`);
+    navigate(`/ctv/#elearning/${idCourse}/${idLesson}`);
   };
 
   const handleClickPushIdCourse = (idCourse) => {
     setIdMyCourses(idCourse);
-    navigate(`/learn/${idCourse}/${myLessons.course?._id}`);
+    navigate(`/ctv/#elearning/${idCourse}/${myLessons.course?._id}`);
   };
 
   const itemPerPage = 10;

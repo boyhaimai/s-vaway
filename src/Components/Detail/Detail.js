@@ -118,10 +118,7 @@ function Detail() {
             >
               <div className={cx("left_data")}>
                 <MonetizationOn className={cx("icon_data")} />
-                <p className={cx("name_data")}>
-                  Doanh thu <North fontSize="large" />
-                  <span className={cx("commission")}>0%</span>
-                </p>
+                <p className={cx("name_data")}>Doanh thu</p>
               </div>
               <div className={cx("right_data")}>
                 <PlayArrow className={cx("icon_count", "icon_arow")} />
@@ -138,10 +135,7 @@ function Detail() {
             >
               <div className={cx("left_data")}>
                 <ListAlt className={cx("icon_data")} />
-                <p className={cx("name_data")}>
-                  Đơn hàng <North fontSize="large" />
-                  <span className={cx("commission")}>0%</span>
-                </p>
+                <p className={cx("name_data")}>Đơn hàng</p>
               </div>
               <div className={cx("right_data")}>
                 <PlayArrow className={cx("icon_count", "icon_arow")} />

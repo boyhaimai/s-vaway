@@ -4,12 +4,12 @@ import Campaign from "~/pages/Marketing/Campaign/Campaign";
 import CreateImagePage from "~/pages/Marketing/CreateImagePage/CreateImagePage";
 import DocumentPage from "~/pages/Marketing/DocumentPage/DocumentPage";
 import VideoTrainPage from "~/pages/Marketing/VideoTrainPage/VideoTrainPage";
+import VideoLearn from "~/Components/VideoLearn/VideoLearn";
 import Leads from "~/pages/TraceTable/leads";
 import Detail from "~/Components/Detail/Detail";
 import Product from "~/pages/Business/Products/Product";
 import Order from "~/pages/Business/Orders/Order";
 import Profile from "~/Components/Acounts/Profiles/Profile";
-import VideoLearn from "~/Components/VideoLearn/VideoLearn";
 
 const publicRoutes = [
   //  tổng quan
@@ -21,6 +21,7 @@ const publicRoutes = [
   { path: config.routes.create_image, component: CreateImagePage },
   { path: config.routes.document, component: DocumentPage },
   { path: config.routes.video_train, component: VideoTrainPage },
+  { path: config.routes.learn, component: VideoLearn },
 
   // Kinh doanh
   { path: config.routes.products, component: Product },
@@ -28,9 +29,8 @@ const publicRoutes = [
 
   // Bảng lưu vết
   { path: config.routes.leads, component: Leads },
+  // Tài khoản
   { path: config.routes.profile, component: Profile },
-  { path: config.routes.learn, component: VideoLearn },
-
 ];
 const privateRoutes = [];
 

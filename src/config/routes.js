@@ -1,20 +1,41 @@
 const routes = {
+  //  //  tổng quan
+  //  dashboard: "/",
+  //  detail: "/ctv/detail",
+  //  // Chiến dịch
+  //  campaign: "/ctv/leads/campaign",
+  //  create_image: "/ctv/tools/image",
+  //  document: "/ctv/daotao/tailieu",
+  //  video_train: "/ctv/daotao",
+
+  //  products: "/ctv/products/index",
+  //  orders: "/ctv/orders/index",
+  //  // Bảng lưu vết
+  //  leads: "/ctv/leads/customer/",
+
+  //  profile: "/ctv/profile",
+  //  learn: "/ctv/elearning/:courseId/:lessonId",
+
   //  tổng quan
-  dashboard: "/",
-  detail: "/detail",
+  dashboard: "/ctv/",
+  detail: "/ctv/#detail",
+  
   // Chiến dịch
-  campaign: "/leads/campaign",
-  create_image: "/tools/image",
-  document: "/daotao.tailieu",
-  video_train: "/daotao",
+  campaign: "/ctv/#leads/#campaign",
+  create_image: "/ctv/#tools/#image",
+  document: "/ctv/#daotao/#tailieu",
+  video_train: "/ctv/#daotao",
+  learn: "/ctv/#elearning/:courseId/:lessonId",
 
-  products: "/products/index",
-  orders: "/orders/index",
+  //product
+  products: "/ctv/#products/#index",
+  orders: "/ctv/#orders/#index",
+
   // Bảng lưu vết
-  leads: "/leads/customer/",
+  leads: "/ctv/#leads/#customer/",
 
-  profile: "/profile",
-  learn: "/learn/:courseId/:lessonId",
+  //profile
+  profile: "/ctv/#profile",
 };
 
 export default routes;

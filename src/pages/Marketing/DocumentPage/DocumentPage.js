@@ -11,12 +11,17 @@ import {
   styled,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Close, Share } from "@mui/icons-material";
+import { CheckCircle, CheckRounded, Close, CopyAll } from "@mui/icons-material";
+import classNames from "classnames/bind";
+import styles from "./DocumentPage.module.scss";
 
 import * as getTitleDoc from "~/service/getTitleDocument";
 import * as getIndexDoc from "~/service/getIndexDocument";
 import * as getContentDoc from "~/service/getContentDocument";
 import * as getDetailContent from "~/service/getDetailContentDocument";
+import { useRef } from "react";
+
+const cx = classNames.bind(styles);
 
 function DocumentPage() {
   const [titleDocs, setTitleDocs] = useState([]);
@@ -27,6 +32,8 @@ function DocumentPage() {
   const [_IdContentDocs, set_IdContentDocs] = useState("");
   const [detailContent, setDetailContent] = useState([]);
   const [indexDetailContent, setIndexDetailContent] = useState([]);
+  const [copySuccess, setCopySuccess] = useState(false);
+  const contentRef = useRef();
 
   useEffect(() => {
     const fetchAPI = async () => {
@@ -65,6 +72,16 @@ function DocumentPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [_IdContentDocs]);
 
+  const handleCopyDocumentClick = () => {
+    if (contentRef) {
+      navigator.clipboard.writeText(contentRef.current.innerText);
+      setCopySuccess(true);
+      setTimeout(() => {
+        setCopySuccess(false);
+      }, 2000);
+    }
+  };
+
   const MyButton = styled(Button)({
     padding: "6px",
     minWidth: "auto",
@@ -72,6 +89,16 @@ function DocumentPage() {
   });
   return (
     <Box>
+      {/* Thông báo Copy Thành Công */}
+      {copySuccess && (
+        <Box className={cx("box_copy")}>
+          <CheckCircle sx={{ color: "var(--c_green)", fontSize: "30px" }} />
+          <Typography component={"p"} fontSize="14px">
+            Copy thành công
+          </Typography>{" "}
+          <br />
+        </Box>
+      )}
       <Card
         variant="outlined"
         sx={{
@@ -92,7 +119,7 @@ function DocumentPage() {
 
       {/* content details */}
       {detailContent ? (
-        <Card sx={{ mt: 2,mb: 2 }}>
+        <Card sx={{ mt: 2, mb: 2 }}>
           <CardContent>
             <Box
               sx={{
@@ -108,9 +135,24 @@ function DocumentPage() {
                 {indexDetailContent.name}
               </Typography>
               <Box>
-                <MyButton variant="contained" color="primary">
-                  <Share variant="contained" size="large" />
-                </MyButton>
+                {copySuccess === true ? (
+                  <MyButton
+                    variant="contained"
+                    color="success"
+                    className={cx("btn_copy_doc")}
+                  >
+                    <CheckRounded size="large" />
+                  </MyButton>
+                ) : (
+                  <MyButton
+                    variant="contained"
+                    color="primary"
+                    className={cx("btn_copy_doc")}
+                    onClick={handleCopyDocumentClick}
+                  >
+                    <CopyAll size="large" />
+                  </MyButton>
+                )}
                 <MyButton
                   variant="contained"
                   color="error"
@@ -125,8 +167,9 @@ function DocumentPage() {
               <Typography
                 component={"div"}
                 variant="body1"
-                sx={{ fontFamily: 'roboto, sans-serif' }} 
+                sx={{ fontFamily: "roboto, sans-serif" }}
                 dangerouslySetInnerHTML={{ __html: detailContent }}
+                ref={contentRef}
               />
             </Box>
           </CardContent>
