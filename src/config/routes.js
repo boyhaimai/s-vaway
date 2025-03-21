@@ -18,24 +18,24 @@ const routes = {
 
   // //  tổng quan
   dashboard: "/ctv",
-  detail: "/ctv/#detail",
+  detail: "/ctv/detail",
 
   // Chiến dịch
-  campaign: "/ctv/#leads/#campaign",
-  create_image: "/ctv/#tools/#image",
-  document: "/ctv/#daotao/#tailieu",
-  video_train: "/ctv/#daotao",
-  learn: "/ctv/#elearning/:courseId/:lessonId",
+  campaign: "/ctv/leads/campaign",
+  create_image: "/ctv/tools/image",
+  document: "/ctv/daotao/tailieu",
+  video_train: "/ctv/daotao",
+  learn: "/ctv/elearning/:courseId/:lessonId",
 
   //product
-  products: "/ctv/#products/#index",
-  orders: "/ctv/#orders/#index",
+  products: "/ctv/products/index",
+  orders: "/ctv/orders/index",
 
   // Bảng lưu vết
-  leads: "/ctv/#leads/#customer/",
+  leads: "/ctv/leads/customer/",
 
   //profile
-  profile: "/ctv/#profile",
+  profile: "/ctv/profile",
 };
 
 export default routes;
