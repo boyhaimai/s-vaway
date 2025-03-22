@@ -5,6 +5,7 @@ import {
   Box,
   Button,
   Chip,
+  CircularProgress,
   Divider,
   Drawer,
   IconButton,
@@ -124,214 +125,236 @@ function Pending() {
           <Search />
         </IconButton>
       </Box>
-      {currentItems.map((order, index) => (
-        <Accordion
-          key={index}
-          sx={{ mb: 2, borderRadius: "8px", overflow: "hidden" }}
-        >
-          <AccordionSummary
-            aria-controls={`panel-content-${order._id}`}
-            id={`panel-header-${order._id}`}
-            sx={{ background: "var(--b_liner_2)", pl: 1, pr: 1 }}
+      {orderPending.length > 0 ? (
+        currentItems.map((order, index) => (
+          <Accordion
+            key={index}
+            sx={{ mb: 2, borderRadius: "8px", overflow: "hidden" }}
           >
-            <Box display="flex" flexDirection="column" sx={{ width: "100%" }}>
-              <Typography variant="h6" fontWeight="bold" fontSize={"14px"}>
-                {order.products[0].name}
-              </Typography>
-
-              <Stack
-                direction="row"
-                spacing={1}
-                alignItems="center"
-                mt={1}
-                sx={{
-                  display: "flex",
-                  width: "100%",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Typography variant="body1" fontSize={"12px"}>
-                  Mã đơn:{" "}
-                  <Typography
-                    component={"span"}
-                    color={order.added_time ? "success" : "error"}
-                  >
-                    {order.products[0]._id}
-                  </Typography>
-                  <CopyAll
-                    fontSize="small"
-                    sx={{ ml: "5px" }}
-                    color="primary"
-                    onClick={() => handleCopyOrderCode(order.products[0]._id)}
-                  />
+            <AccordionSummary
+              aria-controls={`panel-content-${order._id}`}
+              id={`panel-header-${order._id}`}
+              sx={{ background: "var(--b_liner_2)", pl: 1, pr: 1 }}
+            >
+              <Box display="flex" flexDirection="column" sx={{ width: "100%" }}>
+                <Typography variant="h6" fontWeight="bold" fontSize={"14px"}>
+                  {order.products[0].name}
                 </Typography>
-                <Box mt={2}>
-                  <Chip
-                    label={order.status.name}
-                    size="small"
+
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  alignItems="center"
+                  mt={1}
+                  sx={{
+                    display: "flex",
+                    width: "100%",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Typography variant="body1" fontSize={"12px"}>
+                    Mã đơn:{" "}
+                    <Typography
+                      component={"span"}
+                      color={order.added_time ? "success" : "error"}
+                    >
+                      {order.products[0]._id}
+                    </Typography>
+                    <CopyAll
+                      fontSize="small"
+                      sx={{ ml: "5px" }}
+                      color="primary"
+                      onClick={() => handleCopyOrderCode(order.products[0]._id)}
+                    />
+                  </Typography>
+                  <Box mt={2}>
+                    <Chip
+                      label={order.status.name}
+                      size="small"
+                      sx={{
+                        mr: 1,
+                        backgroundColor: `${order.status.color}`,
+                        color: "white",
+                      }}
+                    />
+                  </Box>
+                </Stack>
+
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  mt={1}
+                  fullWidth
+                >
+                  <Typography
+                    variant="body1"
+                    color="text.primary"
+                    fontWeight="bold"
+                  >
+                    Số tiền:{" "}
+                    <span style={{ color: "#2e7d32" }}>
+                      {order.products[0].price.toLocaleString()}đ
+                    </span>
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    color="text.primary"
+                    fontWeight="bold"
+                  >
+                    Hoa hồng:{" "}
+                    <span style={{ color: "#d32f2f" }}>
+                      {(order.products[0].discount
+                        ? order.products[0].price / order.products[0].discount
+                        : "không có hóa hồng"
+                      ).toLocaleString()}
+                    </span>
+                  </Typography>
+                </Box>
+              </Box>
+            </AccordionSummary>
+            <AccordionDetails sx={{ height: "200px", overflow: "scroll" }}>
+              <Box>
+                <Stack mb={1}>
+                  <Image
+                    src={order.products[0].image}
+                    className={cx("img_order")}
+                  />
+                  <Typography
+                    variant="h6"
+                    fontWeight={"bold"}
+                    mt={1}
+                    onClick={() => handleCopyOrderCode(order.name)}
+                  >
+                    {order.name}{" "}
+                    <CopyAll
+                      fontSize="small"
+                      sx={{ ml: "5px" }}
+                      color="primary"
+                    />
+                  </Typography>
+                </Stack>
+
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  alignItems="center"
+                  mt={1}
+                  mb={1}
+                >
+                  <Phone sx={{ color: "var(--theme_main)" }} />
+                  <Typography
+                    variant="body1"
+                    fontWeight={"bold"}
+                    onClick={() => handleCopyOrderCode(order.phone)}
+                  >
+                    SĐT: {order.phone}{" "}
+                    <CopyAll
+                      fontSize="small"
+                      sx={{ ml: "5px" }}
+                      color="primary"
+                    />
+                  </Typography>
+                </Stack>
+
+                <Stack direction="row" spacing={1} alignItems="center" mb={1}>
+                  <Inventory sx={{ color: "var(--theme_main)" }} />
+                  <Typography variant="body1">
+                    Số lượng:{" "}
+                    <Typography
+                      component={"span"}
+                      color={order.products[0].qty !== 0 ? "success" : "error"}
+                    >
+                      {order.products[0].qty}
+                    </Typography>
+                  </Typography>
+                </Stack>
+
+                <Stack direction="row" spacing={1} alignItems="center" mb={1}>
+                  <DiscountIcon color="action" sx={{ color: "var(--c_red)" }} />
+                  <Typography variant="body1">
+                    Giảm giá:{" "}
+                    <Typography
+                      component={"span"}
+                      color={order.products[0].discount ? "success" : "error"}
+                    >
+                      {order.products[0].discount === 0
+                        ? "Không giảm giá"
+                        : order.products[0].discount}
+                      %
+                    </Typography>
+                  </Typography>
+                </Stack>
+                <Stack direction="row" spacing={1} alignItems="center" mb={1}>
+                  <PersonAddIcon sx={{ color: "var(--theme_main)" }} />
+                  <Typography variant="body1">
+                    Được thêm vào lúc:{" "}
+                    <Typography
+                      component={"span"}
+                      color={order.added_time ? "success" : "error"}
+                    >
+                      {new Date(order.added_time * 1000).toLocaleString(
+                        "vi-VN"
+                      )}
+                    </Typography>
+                  </Typography>
+                </Stack>
+                <Stack direction="row" spacing={1} alignItems="center" mb={1}>
+                  <GroupIcon
+                    color="action"
+                    sx={{ color: "var(--theme_main)" }}
+                  />
+                  <Typography variant="body1">
+                    Người giới thiệu:{" "}
+                    <Typography
+                      component={"span"}
+                      color={order.afft ? "success" : "error"}
+                    >
+                      {order.aff ? "Không có người giới thiệu" : order.aff.name}
+                    </Typography>
+                  </Typography>
+                </Stack>
+                <Stack direction="row" spacing={1} alignItems="center" mb={1}>
+                  <Key
                     sx={{
-                      mr: 1,
-                      backgroundColor: `${order.status.color}`,
-                      color: "white",
+                      transform: "rotate(130deg)",
+                      color: "var(--c_yellow)",
                     }}
                   />
-                </Box>
-              </Stack>
-
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                mt={1}
-                fullWidth
-              >
-                <Typography
-                  variant="body1"
-                  color="text.primary"
-                  fontWeight="bold"
-                >
-                  Số tiền:{" "}
-                  <span style={{ color: "#2e7d32" }}>
-                    {order.products[0].price.toLocaleString()}đ
-                  </span>
-                </Typography>
-                <Typography
-                  variant="body1"
-                  color="text.primary"
-                  fontWeight="bold"
-                >
-                  Hoa hồng:{" "}
-                  <span style={{ color: "#d32f2f" }}>
-                    {(order.products[0].discount
-                      ? order.products[0].price / order.products[0].discount
-                      : "không có hóa hồng"
-                    ).toLocaleString()}
-                  </span>
-                </Typography>
+                  <Typography variant="body1">
+                    Mã kích hoạt:{" "}
+                    <Typography
+                      component={"span"}
+                      color={
+                        order.fields.fields_ma_kich_hoat ? "success" : "error"
+                      }
+                    >
+                      {order.fields.fields_ma_kich_hoat
+                        ? order.fields.fields_ma_kich_hoat
+                        : "Không có mã kích hoạt"}
+                    </Typography>
+                  </Typography>
+                </Stack>
               </Box>
-            </Box>
-          </AccordionSummary>
-          <AccordionDetails sx={{ height: "200px", overflow: "scroll" }}>
-            <Box>
-              <Stack mb={1}>
-                <Image
-                  src={order.products[0].image}
-                  className={cx("img_order")}
-                />
-                <Typography
-                  variant="h6"
-                  fontWeight={"bold"}
-                  mt={1}
-                  onClick={() => handleCopyOrderCode(order.name)}
-                >
-                  {order.name}{" "}
-                  <CopyAll
-                    fontSize="small"
-                    sx={{ ml: "5px" }}
-                    color="primary"
-                  />
-                </Typography>
-              </Stack>
-
-              <Stack
-                direction="row"
-                spacing={1}
-                alignItems="center"
-                mt={1}
-                mb={1}
-              >
-                <Phone sx={{ color: "var(--theme_main)" }} />
-                <Typography
-                  variant="body1"
-                  fontWeight={"bold"}
-                  onClick={() => handleCopyOrderCode(order.phone)}
-                >
-                  SĐT: {order.phone}{" "}
-                  <CopyAll
-                    fontSize="small"
-                    sx={{ ml: "5px" }}
-                    color="primary"
-                  />
-                </Typography>
-              </Stack>
-
-              <Stack direction="row" spacing={1} alignItems="center" mb={1}>
-                <Inventory sx={{ color: "var(--theme_main)" }} />
-                <Typography variant="body1">
-                  Số lượng:{" "}
-                  <Typography
-                    component={"span"}
-                    color={order.products[0].qty !== 0 ? "success" : "error"}
-                  >
-                    {order.products[0].qty}
-                  </Typography>
-                </Typography>
-              </Stack>
-
-              <Stack direction="row" spacing={1} alignItems="center" mb={1}>
-                <DiscountIcon color="action" sx={{ color: "var(--c_red)" }} />
-                <Typography variant="body1">
-                  Giảm giá:{" "}
-                  <Typography
-                    component={"span"}
-                    color={order.products[0].discount ? "success" : "error"}
-                  >
-                    {order.products[0].discount === 0
-                      ? "Không giảm giá"
-                      : order.products[0].discount}
-                    %
-                  </Typography>
-                </Typography>
-              </Stack>
-              <Stack direction="row" spacing={1} alignItems="center" mb={1}>
-                <PersonAddIcon sx={{ color: "var(--theme_main)" }} />
-                <Typography variant="body1">
-                  Được thêm vào lúc:{" "}
-                  <Typography
-                    component={"span"}
-                    color={order.added_time ? "success" : "error"}
-                  >
-                    {new Date(order.added_time * 1000).toLocaleString("vi-VN")}
-                  </Typography>
-                </Typography>
-              </Stack>
-              <Stack direction="row" spacing={1} alignItems="center" mb={1}>
-                <GroupIcon color="action" sx={{ color: "var(--theme_main)" }} />
-                <Typography variant="body1">
-                  Người giới thiệu:{" "}
-                  <Typography
-                    component={"span"}
-                    color={order.afft ? "success" : "error"}
-                  >
-                    {order.aff ? "Không có người giới thiệu" : order.aff.name}
-                  </Typography>
-                </Typography>
-              </Stack>
-              <Stack direction="row" spacing={1} alignItems="center" mb={1}>
-                <Key
-                  sx={{
-                    transform: "rotate(130deg)",
-                    color: "var(--c_yellow)",
-                  }}
-                />
-                <Typography variant="body1">
-                  Mã kích hoạt:{" "}
-                  <Typography
-                    component={"span"}
-                    color={
-                      order.fields.fields_ma_kich_hoat ? "success" : "error"
-                    }
-                  >
-                    {order.fields.fields_ma_kich_hoat
-                      ? order.fields.fields_ma_kich_hoat
-                      : "Không có mã kích hoạt"}
-                  </Typography>
-                </Typography>
-              </Stack>
-            </Box>
-          </AccordionDetails>
-        </Accordion>
-      ))}
+            </AccordionDetails>
+          </Accordion>
+        ))
+      ) : (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            width: "100%",
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 1000,
+          }}
+        >
+          <CircularProgress sx={{ color: "black" }} />
+        </Box>
+      )}
       {/* Drawer for Filters */}
       <Drawer
         anchor="bottom"

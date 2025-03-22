@@ -14,6 +14,7 @@ import {
   Divider,
   Pagination,
   TextField,
+  CircularProgress,
 } from "@mui/material";
 import { Clear, Close, Download, Loop, Save, Share } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
@@ -313,7 +314,7 @@ const CreateImagePage = () => {
                 variant="contained"
                 color="error"
                 onClick={handleCloseModal}
-                sx={{ mr: 1, p:'10px',borderRadius:'50%' }}
+                sx={{ mr: 1, p: "10px", borderRadius: "50%" }}
               >
                 <Close />
               </MyButton>
@@ -484,58 +485,81 @@ const CreateImagePage = () => {
         </Box>
       ) : null}
 
-      {currentItems.map((item) => (
-        <MyCard
-        // sx={{padding: 0}}
-          key={item.id}
-          onClick={() => handleClickCreateImage(item.id)}
-        >
-          <CardContent sx={{ padding: 0 }}>
-            <Image
-              src={item.image}
-              alt={item.name}
-              className={cx("img_banner")}
-            />
-            <Box sx={{ display: "flex", justifyContent: "space-between",padding:'10px 10px 0 10px' }}>
-              <Box>
-                <Typography
-                  variant="h6"
-                  component="div"
-                  sx={{
-                    fontFamily: "'Poppins', sans-serif",
-                    fontWeight: 600,
-                    color: "#6a1b9a",
-                  }}
-                >
-                  #{item.id} - {item.name}
-                </Typography>
+      {images.length > 0 ? (
+        currentItems.map((item) => (
+          <MyCard
+            // sx={{padding: 0}}
+            key={item.id}
+            onClick={() => handleClickCreateImage(item.id)}
+          >
+            <CardContent sx={{ padding: 0 }}>
+              <Image
+                src={item.image}
+                alt={item.name}
+                className={cx("img_banner")}
+              />
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  padding: "10px 10px 0 10px",
+                }}
+              >
+                <Box>
+                  <Typography
+                    variant="h6"
+                    component="div"
+                    sx={{
+                      fontFamily: "'Poppins', sans-serif",
+                      fontWeight: 600,
+                      color: "#6a1b9a",
+                    }}
+                  >
+                    #{item.id} - {item.name}
+                  </Typography>
 
-                <Typography
-                  variant="body2"
-                  color="var(--c_white)"
-                  sx={{
-                    fontSize: "10px",
-                    mt: 1,
-                  }}
-                >
-                  {item.desc || "Không có mô tả"}
-                </Typography>
+                  <Typography
+                    variant="body2"
+                    color="var(--c_white)"
+                    sx={{
+                      fontSize: "10px",
+                      mt: 1,
+                    }}
+                  >
+                    {item.desc || "Không có mô tả"}
+                  </Typography>
+                </Box>
+                <CardActions>
+                  <Button
+                    variant="contained"
+                    size="small"
+                    className={cx("btn_create_image")}
+                    onClick={() => handleClickCreateImage(item.id)}
+                    sx={{ ml: 1 }}
+                  >
+                    Tạo ảnh
+                  </Button>
+                </CardActions>
               </Box>
-              <CardActions>
-                <Button
-                  variant="contained"
-                  size="small"
-                  className={cx("btn_create_image")}
-                  onClick={() => handleClickCreateImage(item.id)}
-                  sx={{ ml: 1 }}
-                >
-                  Tạo ảnh
-                </Button>
-              </CardActions>
-            </Box>
-          </CardContent>
-        </MyCard>
-      ))}
+            </CardContent>
+          </MyCard>
+        ))
+      ) : (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            width: "100%",
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 1000,
+          }}
+        >
+          <CircularProgress sx={{ color: "black" }} />
+        </Box>
+      )}
 
       {/* phân trang */}
       <Box

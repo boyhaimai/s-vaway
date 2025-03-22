@@ -31,7 +31,7 @@ const MENU_ITEM = [
   {
     icon: <FontAwesomeIcon icon={faUser} />,
     title: "Xem hồ sơ",
-    to: "/profile",
+    to: "/ctv/account/index",
   },
   {
     icon: <FontAwesomeIcon icon={faRightFromBracket} />,

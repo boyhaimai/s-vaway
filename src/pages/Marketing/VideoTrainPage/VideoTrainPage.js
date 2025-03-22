@@ -8,6 +8,7 @@ import {
   styled,
   Card,
   Pagination,
+  CircularProgress,
 } from "@mui/material";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
@@ -22,11 +23,7 @@ import * as getCoursesService from "~/service/getCoursesService";
 import * as getCourseStudied from "~/service/getCourseStudied";
 import * as getMyLesson from "~/service/getMyLesson";
 import * as getBuyCourse from "~/service/getBuyCourse";
-import {
-  CancelRounded,
-  CheckCircle,
-  ErrorRounded,
-} from "@mui/icons-material";
+import { CancelRounded, CheckCircle, ErrorRounded } from "@mui/icons-material";
 
 const cx = classNames.bind(style);
 
@@ -72,15 +69,6 @@ const VideoTrainPage = () => {
   const handleChange = (event, index) => {
     setTabIndex(index);
   };
-
-  // const handleClickGetIdCourse = (idCourse, idLesson) => {
-  //   navigate(`/ctv/elearning/${idCourse}/${idLesson}`);
-  // };
-
-  // const handleClickPushIdCourse = (idCourse) => {
-  //   setIdMyCourses(idCourse);
-  //   navigate(`/ctv/elearning/${idCourse}/${myLessons.course?._id}`);
-  // };
 
   const handleClickGetIdCourse = (idCourse, idLesson) => {
     navigate(`/ctv/elearning/${idCourse}/${idLesson}`);
@@ -184,112 +172,134 @@ const VideoTrainPage = () => {
         </Box>
         <TabPanel value="1">
           <Box>
-            {currentItems.map((course) => (
-              <Box key={course._id} className={cx("course_item")}>
-                {/* Hình ảnh */}
-                <Image
-                  src={course.thumbnail}
-                  alt={course.name}
-                  className={cx("img_video")}
-                />
+            {courses.length > 0 ? (
+              currentItems.map((course) => (
+                <Box key={course._id} className={cx("course_item")}>
+                  {/* Hình ảnh */}
+                  <Image
+                    src={course.thumbnail}
+                    alt={course.name}
+                    className={cx("img_video")}
+                  />
 
-                {/* Nội dung */}
-                <Box sx={{ m: 1 }}>
-                  <Typography
-                    variant="h6"
-                    fontWeight="bold"
-                    sx={{ fontSize: "20px", color: "#2e7d32" }} // Màu chữ xanh lá nổi bật
-                  >
-                    {course.name}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{ fontSize: "14px", marginTop: "8px" }}
-                  >
-                    Coach: {course.coaching}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{ fontSize: "14px", marginTop: "4px" }}
-                  >
-                    {course.lesson} bài học - {formatDuration(course.duration)}{" "}
-                    giờ
-                  </Typography>
-                </Box>
-
-                {/* Nút hành động */}
-                <Grid
-                  container
-                  spacing={1}
-                  sx={{ margin: "10px", mb: 2, width: "auto" }}
-                >
-                  <Grid item xs={6}>
-                    <Button
-                      variant="contained"
-                      color={course.point > 0 ? "error" : "success"}
-                      fullWidth
-                      className={cx("btn_buy")}
-                    >
-                      {course.point > 0 ? `${course.point} điểm` : "Miễn phí"}
-                    </Button>
-                  </Grid>
-
-                  <Grid item xs={6}>
-                    <Button
-                      variant="contained"
-                      color={course.point === 0 ? "success" : "primary"}
-                      fullWidth
-                      className={cx("btn_buy")}
-                      onClick={() => {
-                        if (course.point === 0) {
-                          handleClickGetIdCourse(course._id, course.lesson_id);
-                        } else {
-                          setNotifiBuyCourse(course._id);
-                        }
-                      }}
-                    >
-                      {course.point === 0 ? "Học ngay" : "Mua ngay"}
-                    </Button>
-                  </Grid>
-                </Grid>
-                {notifiBuyCourse === course._id && (
-                  <Box className={cx("notify")}>
-                    <ErrorRounded
-                      fontSize="large"
-                      color="warning"
-                      sx={{ fontSize: "50px", mt: 2 }}
-                    />
-                    <Typography variant="h4">Đổi điểm mua khóa học</Typography>
+                  {/* Nội dung */}
+                  <Box sx={{ m: 1 }}>
                     <Typography
                       variant="h6"
-                      sx={{ color: "var(--c_text_phu)" }}
+                      fontWeight="bold"
+                      sx={{ fontSize: "20px", color: "#2e7d32" }} // Màu chữ xanh lá nổi bật
                     >
-                      Bạn có muốn dùng {course.point} điểm để mua khoá học Demo
-                      sản phẩm thanh toán luôn?
+                      {course.name}
                     </Typography>
-
-                    <Box pb={2}>
-                      <MyButton onClick={() => setNotifiBuyCourse(false)}>
-                        <CancelRounded
-                          color="error"
-                          className={cx("btn_notify")}
-                        />
-                      </MyButton>
-                      <MyButton
-                        onClick={() => handleClickBuyCourse(course._id)}
-                      >
-                        <CheckCircle
-                          color="success"
-                          className={cx("btn_notify")}
-                        />
-                      </MyButton>
-                    </Box>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ fontSize: "14px", marginTop: "8px" }}
+                    >
+                      Coach: {course.coaching}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ fontSize: "14px", marginTop: "4px" }}
+                    >
+                      {course.lesson} bài học -{" "}
+                      {formatDuration(course.duration)} giờ
+                    </Typography>
                   </Box>
-                )}
+
+                  {/* Nút hành động */}
+                  <Grid
+                    container
+                    spacing={1}
+                    sx={{ margin: "10px", mb: 2, width: "auto" }}
+                  >
+                    <Grid item xs={6}>
+                      <Button
+                        variant="contained"
+                        color={course.point > 0 ? "error" : "success"}
+                        fullWidth
+                        className={cx("btn_buy")}
+                      >
+                        {course.point > 0 ? `${course.point} điểm` : "Miễn phí"}
+                      </Button>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                      <Button
+                        variant="contained"
+                        color={course.point === 0 ? "success" : "primary"}
+                        fullWidth
+                        className={cx("btn_buy")}
+                        onClick={() => {
+                          if (course.point === 0) {
+                            handleClickGetIdCourse(
+                              course._id,
+                              course.lesson_id
+                            );
+                          } else {
+                            setNotifiBuyCourse(course._id);
+                          }
+                        }}
+                      >
+                        {course.point === 0 ? "Học ngay" : "Mua ngay"}
+                      </Button>
+                    </Grid>
+                  </Grid>
+                  {notifiBuyCourse === course._id && (
+                    <Box className={cx("notify")}>
+                      <ErrorRounded
+                        fontSize="large"
+                        color="warning"
+                        sx={{ fontSize: "50px", mt: 2 }}
+                      />
+                      <Typography variant="h4">
+                        Đổi điểm mua khóa học
+                      </Typography>
+                      <Typography
+                        variant="h6"
+                        sx={{ color: "var(--c_text_phu)" }}
+                      >
+                        Bạn có muốn dùng {course.point} điểm để mua khoá học
+                        Demo sản phẩm thanh toán luôn?
+                      </Typography>
+
+                      <Box pb={2}>
+                        <MyButton onClick={() => setNotifiBuyCourse(false)}>
+                          <CancelRounded
+                            color="error"
+                            className={cx("btn_notify")}
+                          />
+                        </MyButton>
+                        <MyButton
+                          onClick={() => handleClickBuyCourse(course._id)}
+                        >
+                          <CheckCircle
+                            color="success"
+                            className={cx("btn_notify")}
+                          />
+                        </MyButton>
+                      </Box>
+                    </Box>
+                  )}
+                </Box>
+              ))
+            ) : (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  width: "100%",
+                  position: "fixed",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  zIndex: 1000,
+                }}
+              >
+                <CircularProgress sx={{ color: "black" }} />
               </Box>
-            ))}
+            )}
           </Box>
 
           <Box

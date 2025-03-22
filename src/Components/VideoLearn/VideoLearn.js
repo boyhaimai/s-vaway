@@ -5,12 +5,16 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
+  Button,
   Card,
+  Paper,
+  styled,
   Tab,
   Typography,
 } from "@mui/material";
 import {
   AccessTime,
+  ArrowCircleLeft,
   CancelRounded,
   CheckCircleRounded,
   ExpandMore,
@@ -76,6 +80,12 @@ function VideoLearn() {
     setValueTab(value);
   };
 
+  const MyButton = styled(Button)({
+    padding: "6px",
+    minWidth: "auto",
+    width: "auto",
+  });
+
   return (
     <Box>
       {/* title courses */}
@@ -89,11 +99,31 @@ function VideoLearn() {
           pl: 1,
         }}
       >
-        <Box sx={{ mb: 2, p: 1 }}>
-          <Typography variant="h5" fontWeight="bold">
+        <Paper
+          sx={{
+            mb: 2,
+            p: 2,
+            display: "flex",
+            justifyContent: "space-between",
+            position: "relative",
+          }}
+        >
+          <Typography variant="h5" fontWeight="bold" align="center">
             Video
           </Typography>
-        </Box>
+          <MyButton
+            sx={{
+              position: "absolute",
+              right: "10px",
+              top: "50%",
+              transform: "translateY(-50%)",
+            }}
+          >
+            <a href="/ctv/daotao">
+              <ArrowCircleLeft sx={{ color: "primary !important", fontSize: "32px" }} />
+            </a>
+          </MyButton>
+        </Paper>
       </Card>
 
       {/* video */}

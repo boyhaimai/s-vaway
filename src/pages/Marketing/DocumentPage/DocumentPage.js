@@ -9,6 +9,8 @@ import {
   Card,
   CardContent,
   styled,
+  Drawer,
+  CircularProgress,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { CheckCircle, CheckRounded, Close, CopyAll } from "@mui/icons-material";
@@ -29,9 +31,10 @@ function DocumentPage() {
   const [indexDocs, setIndexDocs] = useState([]);
   const [_IdIndexDocs, set_IdIndexDocs] = useState("");
   const [contentDocs, setContentDocs] = useState([]);
-  const [_IdContentDocs, set_IdContentDocs] = useState("");
+  const [_idContentDocs, set_IdContentDocs] = useState("");
   const [detailContent, setDetailContent] = useState([]);
   const [indexDetailContent, setIndexDetailContent] = useState([]);
+  const [open, setOpen] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
   const contentRef = useRef();
 
@@ -62,15 +65,15 @@ function DocumentPage() {
   useEffect(() => {
     const fetchAPI = async () => {
       const resultDetaiContentDoc = await getDetailContent.getDetailcontent(
-        _IdContentDocs,
+        _idContentDocs,
         _IdIndexDocs
       );
       setDetailContent(resultDetaiContentDoc.data.content);
-      setIndexDetailContent(resultDetaiContentDoc.data);
+      // setIndexDetailContent(resultDetaiContentDoc.data);
     };
     fetchAPI();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [_IdContentDocs]);
+  }, [_idContentDocs]);
 
   const handleCopyDocumentClick = () => {
     if (contentRef) {
@@ -87,36 +90,20 @@ function DocumentPage() {
     minWidth: "auto",
     width: "auto",
   });
-  return (
-    <Box>
-      {/* Thông báo Copy Thành Công */}
-      {copySuccess && (
-        <Box className={cx("box_copy")}>
-          <CheckCircle sx={{ color: "var(--c_green)", fontSize: "30px" }} />
-          <Typography component={"p"} fontSize="14px">
-            Copy thành công
-          </Typography>{" "}
-          <br />
-        </Box>
-      )}
-      <Card
-        variant="outlined"
-        sx={{
-          borderRadius: 2,
-          padding: 1,
-          width: "100%",
-          mb: 2,
-          paddingBottom: 0,
-          mt: 1,
-        }}
-      >
-        <Box sx={{ mb: 2 }}>
-          <Typography variant="h5" fontWeight="bold">
-            Tài liệu
-          </Typography>
-        </Box>
-      </Card>
 
+  const toggleDrawer = (newOpen) => () => {
+    setOpen(newOpen);
+  };
+
+  const DrawerList = (
+    <Box
+      sx={{
+        width: "100%",
+      }}
+      role="presentation"
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
+    >
       {/* content details */}
       {detailContent ? (
         <Card sx={{ mt: 2, mb: 2 }}>
@@ -157,7 +144,9 @@ function DocumentPage() {
                   variant="contained"
                   color="error"
                   sx={{ ml: 1, borderRadius: "50%" }}
-                  onClick={() => setDetailContent("")}
+                  onClick={() => {
+                    setOpen(false);
+                  }}
                 >
                   <Close variant="contained" size="large" />
                 </MyButton>
@@ -177,66 +166,126 @@ function DocumentPage() {
       ) : (
         ""
       )}
+    </Box>
+  );
+
+  console.log(titleDocs._id, "titleDoc");
+  console.log(indexDocs._id, "indexDocs");
+  console.log(contentDocs._id, "contentDocs");
+
+  console.log(titleDocs, "titleDoc");
+  console.log(indexDocs, "indexDocs");
+  console.log(contentDocs, "contentDocs");
+  return (
+    <Box>
+      {/* Thông báo Copy Thành Công */}
+      {copySuccess && (
+        <Box className={cx("box_copy")}>
+          <CheckCircle sx={{ color: "var(--c_green)", fontSize: "30px" }} />
+          <Typography component={"p"} fontSize="14px">
+            Copy thành công
+          </Typography>{" "}
+          <br />
+        </Box>
+      )}
+      <Card
+        variant="outlined"
+        sx={{
+          borderRadius: 2,
+          padding: 1,
+          width: "100%",
+          mb: 2,
+          paddingBottom: 0,
+          mt: 1,
+        }}
+      >
+        <Box sx={{ mb: 2 }}>
+          <Typography variant="h5" fontWeight="bold">
+            Tài liệu
+          </Typography>
+        </Box>
+      </Card>
 
       <Card>
         <CardContent>
           {/* btn title */}
-          {titleDocs.map((titleDoc) => (
-            <Button
-              variant="contained"
-              onClick={() => set_IdTitleDocs(titleDoc._id)}
+          {titleDocs.length > 0 ? (
+            titleDocs.map((titleDoc, index) => (
+              <div key={index}>
+                <Button
+                  variant="contained"
+                  onClick={() => set_IdTitleDocs(titleDoc._id)}
+                  className={cx("title_docx")}
+                >
+                  {titleDoc.name}
+                </Button>
+
+                {indexDocs
+                  .filter((indexDoc) => indexDoc.parent_id === titleDoc._id)
+                  .map((indexDoc) => (
+                    <Accordion key={indexDoc._id}>
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1-content"
+                        id="panel1-header"
+                        sx={{ background: "#f9f9f9" }}
+                        onClick={() => set_IdIndexDocs(indexDoc._id)}
+                      >
+                        {indexDoc.name}
+                      </AccordionSummary>
+
+                      {contentDocs
+                        .filter(
+                          (contentDoc) => contentDoc.parent_id === indexDoc._id
+                        )
+                        .map((contentDoc, index) => (
+                          <AccordionDetails
+                            sx={{
+                              flexDirection: "column",
+                              lineHeight: "2",
+                            }}
+                            key={index}
+                          >
+                            <Typography
+                              variant="body1"
+                              onClick={() => {
+                                set_IdContentDocs(contentDoc._id);
+                                toggleDrawer(true)();
+                              }}
+                            >
+                              {contentDoc.name}
+                            </Typography>
+                            <br />
+                          </AccordionDetails>
+                        ))}
+                    </Accordion>
+                  ))}
+              </div>
+            ))
+          ) : (
+            <Box
               sx={{
+                display: "flex",
+                justifyContent: "center",
                 width: "100%",
-                padding: "12px",
-                fontSize: "16px",
-                fontWeight: "bold",
-                backgroundColor: "#185a9d",
-                color: "#fff",
-                marginBottom: "20px",
-                "&:hover": {
-                  backgroundColor: "#43cea2",
-                  transform: "scale(1.05)",
-                  transition: "all 0.3s ease",
-                },
+                position: "fixed",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                zIndex: 1000,
               }}
             >
-              {titleDoc.name}
-            </Button>
-          ))}
+              <CircularProgress sx={{ color: "black" }} />
+            </Box>
+          )}
 
           {/* content 1 */}
-
-          {indexDocs.map((indexDoc) => (
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1-content"
-                id="panel1-header"
-                sx={{ background: "#f9f9f9" }}
-                onClick={() => set_IdIndexDocs(indexDoc._id)}
-              >
-                {indexDoc.name}
-              </AccordionSummary>
-              {contentDocs.map((contentDoc) => (
-                <AccordionDetails
-                  sx={{
-                    flexDirection: "column",
-                    lineHeight: "2",
-                  }}
-                >
-                  <Typography
-                    variant="body1"
-                    onClick={() => set_IdContentDocs(contentDoc._id)}
-                  >
-                    {contentDoc.name}
-                  </Typography>{" "}
-                  <br />
-                </AccordionDetails>
-              ))}
-            </Accordion>
-          ))}
         </CardContent>
       </Card>
+      {/* drawer detail content*/}
+      <Drawer open={open} anchor="bottom" onClose={toggleDrawer(false)}>
+        {DrawerList}
+      </Drawer>
     </Box>
   );
 }

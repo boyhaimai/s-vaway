@@ -16,6 +16,7 @@ import {
   Divider,
   InputBase,
   Paper,
+  CircularProgress,
 } from "@mui/material";
 import {
   AttachMoney,
@@ -219,243 +220,280 @@ const Leads = () => {
               </Box>
 
               {/* Customer List */}
-              {currentItems.map((traceTable) => (
-                <Accordion key={traceTables._id} sx={{ mb: 2 }}>
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls={`panel${traceTable._id}-content`}
-                    id={`panel${traceTable._id}-header`}
-                    sx={{ backgroundImage: "var(--b_liner_2)" }}
-                  >
-                    <Box display="flex" alignItems="center" width="100%">
-                      <Box flex="1">
-                        <Typography
-                          variant="subtitle1"
-                          fontWeight="bold"
-                          fontSize={"14px"}
+              {traceTables.length > 0 ? (
+                currentItems.map((traceTable) => (
+                  <Accordion key={traceTables._id} sx={{ mb: 2 }}>
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls={`panel${traceTable._id}-content`}
+                      id={`panel${traceTable._id}-header`}
+                      sx={{ backgroundImage: "var(--b_liner_2)" }}
+                    >
+                      <Box display="flex" alignItems="center" width="100%">
+                        <Box flex="1">
+                          <Typography
+                            variant="subtitle1"
+                            fontWeight="bold"
+                            fontSize={"14px"}
+                          >
+                            {traceTable.status.map((colorStatus, i) => (
+                              <Person
+                                key={i}
+                                sx={{
+                                  fontSize: "18px",
+                                  mr: 1,
+                                  color: colorStatus.color || "black",
+                                }}
+                              />
+                            ))}
+
+                            {traceTable.name}
+                            <CopyAll
+                              fontSize="small"
+                              sx={{ ml: "5px" }}
+                              color="primary"
+                              onClick={() =>
+                                handleCopyOrderCode(traceTable.name)
+                              }
+                            />
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Box sx={{ height: "200px", overflow: "scroll" }}>
+                        <MyTypography
+                          color="text.secondary"
+                          onClick={() => handleCopyOrderCode(traceTable.phone)}
                         >
-                          {traceTable.status.map((colorStatus, i) => (
-                            <Person
-                              key={i}
+                          <Phone sx={{ fontSize: "18px", color: "#1877F2" }} />{" "}
+                          <span className={cx("title")}>SĐT:</span>{" "}
+                          {traceTable.phone}
+                          <CopyAll
+                            fontSize="small"
+                            sx={{ ml: "5px" }}
+                            color="primary"
+                          />
+                        </MyTypography>
+                        <MyTypography
+                          color="text.secondary"
+                          onClick={() => handleCopyOrderCode(traceTable.email)}
+                        >
+                          <Email sx={{ fontSize: "18px", color: "#1877F2" }} />{" "}
+                          <span className={cx("title")}>Email:</span>{" "}
+                          {traceTable.email}
+                          {traceTable.email && (
+                            <CopyAll
+                              fontSize="small"
+                              sx={{ ml: "5px" }}
+                              color="primary"
+                            />
+                          )}
+                        </MyTypography>
+                        <MyTypography color="text.secondary">
+                          <Cloud
+                            sx={{ fontSize: "18px", color: "#1877F2", mr: 1 }}
+                          />
+                          <span className={cx("title")}>Nguồn Data: </span>
+                          {traceTable.source ? " " : traceTable.source}
+                        </MyTypography>
+                        <MyTypography color="text.secondary">
+                          <CalendarToday
+                            sx={{ fontSize: "18px", color: "#1877F2" }}
+                          />{" "}
+                          <span className={cx("title")}>Lịch chăm sóc: </span>
+                          {traceTable.reminders.map((reminder, i) => (
+                            <span key={i}>{reminder.desc}</span>
+                          ))}
+                        </MyTypography>
+                        <MyTypography color="text.secondary">
+                          <ChatBubbleOutline
+                            sx={{ fontSize: "18px", color: "#1877F2" }}
+                          />{" "}
+                          <span className={cx("title")}>
+                            {" "}
+                            Nội dung tư vấn:{" "}
+                          </span>
+                          <Phone
+                            sx={{ fontSize: "18px", color: "#1877F2" }}
+                          />{" "}
+                          {traceTable.note.map((notee, i) => (
+                            <span key={i}>
+                              (
+                              {new Date(notee.added_time * 1000).toLocaleString(
+                                "vi-VN"
+                              )}
+                              ) {notee.content} <br />
+                            </span>
+                          ))}
+                        </MyTypography>
+
+                        <MyTypography color="text.secondary">
+                          <Label
+                            sx={{ fontSize: "18px", color: "var(--c_orange)" }}
+                          />{" "}
+                          <span className={cx("title")}>Tags:</span>{" "}
+                          {Object.values(traceTable.tags).map((tag, index) => (
+                            <Chip
+                              key={index}
+                              label={tag.name}
+                              size="small"
                               sx={{
-                                fontSize: "18px",
-                                mr: 1,
-                                color: colorStatus.color || "black",
+                                color: "white",
+                                backgroundColor: tag.color,
+                                mb: 1,
                               }}
                             />
                           ))}
-
-                          {traceTable.name}
-                          <CopyAll
-                            fontSize="small"
-                            sx={{ ml: "5px" }}
-                            color="primary"
-                            onClick={() => handleCopyOrderCode(traceTable.name)}
+                        </MyTypography>
+                        <MyTypography color="text.secondary">
+                          <EventAvailable
+                            sx={{ fontSize: "18px", color: "#1877F2" }}
+                          />{" "}
+                          <span className={cx("title")}> Được thêm lúc:</span>{" "}
+                          {traceTable.added_time}
+                        </MyTypography>
+                        <MyTypography color="text.secondary">
+                          <History
+                            sx={{ fontSize: "18px", color: "#1877F2" }}
                           />
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <Box sx={{ height: "200px", overflow: "scroll" }}>
-                      <MyTypography
-                        color="text.secondary"
-                        onClick={() => handleCopyOrderCode(traceTable.phone)}
-                      >
-                        <Phone sx={{ fontSize: "18px", color: "#1877F2" }} />{" "}
-                        <span className={cx("title")}>SĐT:</span>{" "}
-                        {traceTable.phone}
-                        <CopyAll
-                          fontSize="small"
-                          sx={{ ml: "5px" }}
-                          color="primary"
-                        />
-                      </MyTypography>
-                      <MyTypography
-                        color="text.secondary"
-                        onClick={() => handleCopyOrderCode(traceTable.email)}
-                      >
-                        <Email sx={{ fontSize: "18px", color: "#1877F2" }} />{" "}
-                        <span className={cx("title")}>Email:</span>{" "}
-                        {traceTable.email}
-                        {traceTable.email && (
-                          <CopyAll
-                            fontSize="small"
-                            sx={{ ml: "5px" }}
-                            color="primary"
-                          />
-                        )}
-                      </MyTypography>
-                      <MyTypography color="text.secondary">
-                        <Cloud
-                          sx={{ fontSize: "18px", color: "#1877F2", mr: 1 }}
-                        />
-                        <span className={cx("title")}>Nguồn Data: </span>
-                        {traceTable.source ? " " : traceTable.source}
-                      </MyTypography>
-                      <MyTypography color="text.secondary">
-                        <CalendarToday
-                          sx={{ fontSize: "18px", color: "#1877F2" }}
-                        />{" "}
-                        <span className={cx("title")}>Lịch chăm sóc: </span>
-                        {traceTable.reminders.map((reminder, i) => (
-                          <span key={i}>{reminder.desc}</span>
-                        ))}
-                      </MyTypography>
-                      <MyTypography color="text.secondary">
-                        <ChatBubbleOutline
-                          sx={{ fontSize: "18px", color: "#1877F2" }}
-                        />{" "}
-                        <span className={cx("title")}> Nội dung tư vấn: </span>
-                        <Phone
-                          sx={{ fontSize: "18px", color: "#1877F2" }}
-                        />{" "}
-                        {traceTable.note.map((notee, i) => (
-                          <span key={i}>
-                            (
-                            {new Date(notee.added_time * 1000).toLocaleString(
-                              "vi-VN"
-                            )}
-                            ) {notee.content} <br />
+                          <span className={cx("title")}>
+                            Hoạt động lần cuối:{" "}
                           </span>
-                        ))}
-                      </MyTypography>
-
-                      <MyTypography color="text.secondary">
-                        <Label
-                          sx={{ fontSize: "18px", color: "var(--c_orange)" }}
-                        />{" "}
-                        <span className={cx("title")}>Tags:</span>{" "}
-                        {Object.values(traceTable.tags).map((tag, index) => (
-                          <Chip
-                            key={index}
-                            label={tag.name}
-                            size="small"
-                            sx={{
-                              color: "white",
-                              backgroundColor: tag.color,
-                              mb: 1,
-                            }}
+                          {new Date(traceTable.last_time).toLocaleString(
+                            "vi-VN"
+                          )}
+                        </MyTypography>
+                        <MyTypography color="text.secondary">
+                          <PersonAdd
+                            sx={{ fontSize: "18px", color: "#1877F2" }}
                           />
-                        ))}
-                      </MyTypography>
-                      <MyTypography color="text.secondary">
-                        <EventAvailable
-                          sx={{ fontSize: "18px", color: "#1877F2" }}
-                        />{" "}
-                        <span className={cx("title")}> Được thêm lúc:</span>{" "}
-                        {traceTable.added_time}
-                      </MyTypography>
-                      <MyTypography color="text.secondary">
-                        <History sx={{ fontSize: "18px", color: "#1877F2" }} />
-                        <span className={cx("title")}>
-                          Hoạt động lần cuối:{" "}
-                        </span>
-                        {new Date(traceTable.last_time).toLocaleString("vi-VN")}
-                      </MyTypography>
-                      <MyTypography color="text.secondary">
-                        <PersonAdd
-                          sx={{ fontSize: "18px", color: "#1877F2" }}
-                        />
-                        <span className={cx("title")}> Người giới thiệu:</span>{" "}
-                        {traceTable.users.name} {traceTable.users.phone}
-                      </MyTypography>
-                      <MyTypography color="text.secondary">
-                        <AttachMoney
-                          sx={{ fontSize: "18px", color: "var(--c_green)" }}
-                        />{" "}
-                        <span className={cx("title")}>Số tiền chi: </span>{" "}
-                        {traceTable.money.toLocaleString("vi-VN")}
-                      </MyTypography>
-                      <MyTypography color="text.secondary">
-                        <LocationOn sx={{ fontSize: "18px", color: "red" }} />
-                        <span className={cx("title")}> Địa chỉ : </span>
-                        {traceTable.address.detail}
-                      </MyTypography>
-                      <MyTypography color="text.secondary">
-                        <Cake sx={{ fontSize: "18px", color: "#1877F2" }} />
-                        <span className={cx("title")}> Sinh nhật:</span>{" "}
-                        {traceTable.birthdate}
-                      </MyTypography>
-                      <MyTypography color="text.secondary">
-                        <Business sx={{ fontSize: "18px", color: "#1877F2" }} />
-                        <span className={cx("title")}> Công ty:</span>{" "}
-                        {traceTable.company}
-                      </MyTypography>
-
-                      <MyTypography color="text.secondary">
-                        <Facebook sx={{ fontSize: "18px", color: "#1877F2" }} />{" "}
-                        <span className={cx("title")}>Facebook:</span>{" "}
-                        {traceTable.facebook}
-                      </MyTypography>
-
-                      <MyTypography color="text.secondary">
-                        <Image className={cx("zalo_icon")} src={zaloIcon} />
-                        <span className={cx("title")}>Zalo:</span>{" "}
-                        {traceTable.zalo}
-                      </MyTypography>
-
-                      <MyTypography color="text.secondary">
-                        <Public sx={{ fontSize: "18px", color: "#1877F2" }} />
-                        <span className={cx("title")}> Website:</span>{" "}
-                        {traceTable.website}
-                      </MyTypography>
-
-                      <Box sx={{ ml: 1 }}>
-                        <MyTypography color="text.secondary">
-                          <TrackChanges
-                            sx={{ fontSize: "18px", color: "#1877F2" }}
-                          />{" "}
-                          <span className={cx("title")}>(Utm) Nguồn:</span>{" "}
-                          {traceTable.utm.source}
+                          <span className={cx("title")}>
+                            {" "}
+                            Người giới thiệu:
+                          </span>{" "}
+                          {traceTable.users.name} {traceTable.users.phone}
                         </MyTypography>
                         <MyTypography color="text.secondary">
-                          <TrackChanges
-                            sx={{ fontSize: "18px", color: "#1877F2" }}
+                          <AttachMoney
+                            sx={{ fontSize: "18px", color: "var(--c_green)" }}
                           />{" "}
-                          <span className={cx("title")}>(Utm) Chiến dịch:</span>{" "}
-                          {traceTable.utm.campaign}
+                          <span className={cx("title")}>Số tiền chi: </span>{" "}
+                          {traceTable.money.toLocaleString("vi-VN")}
                         </MyTypography>
                         <MyTypography color="text.secondary">
-                          <TrackChanges
-                            sx={{ fontSize: "18px", color: "#1877F2" }}
-                          />{" "}
-                          <span className={cx("title")}>(Utm) Kênh:</span>{" "}
-                          {traceTable.utm.medium}
+                          <LocationOn sx={{ fontSize: "18px", color: "red" }} />
+                          <span className={cx("title")}> Địa chỉ : </span>
+                          {traceTable.address.detail}
                         </MyTypography>
                         <MyTypography color="text.secondary">
-                          <TrackChanges
-                            sx={{ fontSize: "18px", color: "#1877F2" }}
-                          />{" "}
-                          <span className={cx("title")}>(Utm) Từ khóa:</span>{" "}
-                          {traceTable.utm.term}
+                          <Cake sx={{ fontSize: "18px", color: "#1877F2" }} />
+                          <span className={cx("title")}> Sinh nhật:</span>{" "}
+                          {traceTable.birthdate}
                         </MyTypography>
                         <MyTypography color="text.secondary">
-                          <TrackChanges
+                          <Business
+                            sx={{ fontSize: "18px", color: "#1877F2" }}
+                          />
+                          <span className={cx("title")}> Công ty:</span>{" "}
+                          {traceTable.company}
+                        </MyTypography>
+
+                        <MyTypography color="text.secondary">
+                          <Facebook
                             sx={{ fontSize: "18px", color: "#1877F2" }}
                           />{" "}
-                          <span className={cx("title")}>(Utm) Nội dung:</span>
-                          {""}
-                          {traceTable.utm.content}
+                          <span className={cx("title")}>Facebook:</span>{" "}
+                          {traceTable.facebook}
+                        </MyTypography>
+
+                        <MyTypography color="text.secondary">
+                          <Image className={cx("zalo_icon")} src={zaloIcon} />
+                          <span className={cx("title")}>Zalo:</span>{" "}
+                          {traceTable.zalo}
+                        </MyTypography>
+
+                        <MyTypography color="text.secondary">
+                          <Public sx={{ fontSize: "18px", color: "#1877F2" }} />
+                          <span className={cx("title")}> Website:</span>{" "}
+                          {traceTable.website}
+                        </MyTypography>
+
+                        <Box sx={{ ml: 1 }}>
+                          <MyTypography color="text.secondary">
+                            <TrackChanges
+                              sx={{ fontSize: "18px", color: "#1877F2" }}
+                            />{" "}
+                            <span className={cx("title")}>(Utm) Nguồn:</span>{" "}
+                            {traceTable.utm.source}
+                          </MyTypography>
+                          <MyTypography color="text.secondary">
+                            <TrackChanges
+                              sx={{ fontSize: "18px", color: "#1877F2" }}
+                            />{" "}
+                            <span className={cx("title")}>
+                              (Utm) Chiến dịch:
+                            </span>{" "}
+                            {traceTable.utm.campaign}
+                          </MyTypography>
+                          <MyTypography color="text.secondary">
+                            <TrackChanges
+                              sx={{ fontSize: "18px", color: "#1877F2" }}
+                            />{" "}
+                            <span className={cx("title")}>(Utm) Kênh:</span>{" "}
+                            {traceTable.utm.medium}
+                          </MyTypography>
+                          <MyTypography color="text.secondary">
+                            <TrackChanges
+                              sx={{ fontSize: "18px", color: "#1877F2" }}
+                            />{" "}
+                            <span className={cx("title")}>(Utm) Từ khóa:</span>{" "}
+                            {traceTable.utm.term}
+                          </MyTypography>
+                          <MyTypography color="text.secondary">
+                            <TrackChanges
+                              sx={{ fontSize: "18px", color: "#1877F2" }}
+                            />{" "}
+                            <span className={cx("title")}>(Utm) Nội dung:</span>
+                            {""}
+                            {traceTable.utm.content}
+                          </MyTypography>
+                        </Box>
+                        <MyTypography color="text.secondary">
+                          <ShoppingCart
+                            sx={{ fontSize: "18px", color: "#1877F2" }}
+                          />
+                          <span className={cx("title")}>Số lượng: </span>{" "}
+                          {traceTable.fields_san_pham}
+                        </MyTypography>
+
+                        <MyTypography color="text.secondary">
+                          <Category
+                            sx={{ fontSize: "18px", color: "#1877F2" }}
+                          />
+                          <span className={cx("title")}>Sản phẩm:</span>{" "}
+                          {traceTable.fields_so_luong}
                         </MyTypography>
                       </Box>
-                      <MyTypography color="text.secondary">
-                        <ShoppingCart
-                          sx={{ fontSize: "18px", color: "#1877F2" }}
-                        />
-                        <span className={cx("title")}>Số lượng: </span>{" "}
-                        {traceTable.fields_san_pham}
-                      </MyTypography>
-
-                      <MyTypography color="text.secondary">
-                        <Category sx={{ fontSize: "18px", color: "#1877F2" }} />
-                        <span className={cx("title")}>Sản phẩm:</span>{" "}
-                        {traceTable.fields_so_luong}
-                      </MyTypography>
-                    </Box>
-                  </AccordionDetails>
-                </Accordion>
-              ))}
+                    </AccordionDetails>
+                  </Accordion>
+                ))
+              ) : (
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    width: "100%",
+                    position: "fixed",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    zIndex: 1000,
+                  }}
+                >
+                  <CircularProgress sx={{ color: "black" }} />
+                </Box>
+              )}
 
               {/* Drawer for Filters */}
               <Drawer

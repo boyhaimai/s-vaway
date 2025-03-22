@@ -9,6 +9,7 @@ import {
   Button,
   Card,
   CardContent,
+  CircularProgress,
   Grid,
   IconButton,
   Pagination,
@@ -26,6 +27,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
 import { useRef } from "react";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { Helmet } from "react-helmet";
 
 import styles from "./DashBoard.module.scss";
 import campaign from "~/assets/images/trophy.png";
@@ -74,7 +76,7 @@ function DashBoard() {
     fetchAPI();
   }, []);
 
-  //call api add note
+  //call api product
   useEffect(() => {
     const fetchAPI = async () => {
       const resultProduct = await getProductService.getProduct();
@@ -82,6 +84,7 @@ function DashBoard() {
     };
     fetchAPI();
   }, []);
+  console.log(products, "product");
 
   //call api profile
   useEffect(() => {
@@ -216,20 +219,8 @@ function DashBoard() {
     setValueTabProduct(newValue);
   };
 
-  //handle share Product discount
-  const handleShareProduct = (link) => {
-    if (!link && link.trim() === "") return alert("Link is empty");
-    if (navigator.share) {
-      navigator.share({
-        title: "Share Link",
-        text: "link product",
-        url: link,
-      });
-    }
-  };
-
-  //handle share
-  const handleShare = async (link) => {
+  //handle share products
+  const handleShare = async (link, pro) => {
     if (!link && link.trim() === "") return alert("Link is empty");
     if (navigator.share) {
       try {
@@ -242,9 +233,17 @@ function DashBoard() {
         console.error("Error sharing the link:", error);
       }
     } else {
-      alert("Your browser does not support sharing links.");
+      try {
+        await navigator.clipboard.writeText(link);
+        alert("Link đã được copy vào clipboard");
+      } catch (err) {
+        console.error("Error copying the link:", err);
+        alert("Failed to copy the link. Please try manually.");
+      }
     }
   };
+
+
   // phân trang
   const totalPage = Math.ceil(products.length / itemPerPage);
   const startIndex = (currentPage - 1) * itemPerPage;
@@ -263,7 +262,7 @@ function DashBoard() {
   });
 
   return (
-    <div className={cx("wrapper")}>
+    <div className={cx("wrapper")}>    
       <div className={cx("header")}>
         <div className={cx("title_stats")}>
           <Typography variant="h5" className={cx("title")}>
@@ -452,95 +451,110 @@ function DashBoard() {
                 {/* Tất cả sản phẩm */}
                 <div className={cx("list_product")}>
                   <Grid container spacing={1}>
-                    {currentItems.map((product, index) => (
-                      <Grid item xs={6} key={index}>
-                        <Card
-                          sx={{
-                            height: "100%",
-                            display: "flex",
-                            flexDirection: "column",
-                          }}
-                        >
-                          <Image
-                            className={cx("img_product")}
-                            src={product.src}
-                            alt="product"
-                          />
-
-                          <CardContent
+                    {products.length > 0 ? (
+                      currentItems.map((product, index) => (
+                        <Grid item xs={6} key={index}>
+                          <Card
                             sx={{
-                              flex: 1,
+                              height: "100%",
                               display: "flex",
                               flexDirection: "column",
                             }}
                           >
-                            <Typography
-                              variant="h6"
-                              component="h2"
-                              sx={{
-                                fontWeight: "bold",
-                                fontSize: "1rem",
-                                mb: 1,
-                              }}
-                            >
-                              {product.name}
-                            </Typography>
+                            <Image
+                              className={cx("img_product")}
+                              src={product.src}
+                              alt="product"
+                            />
 
-                            <Typography
-                              variant="body1"
+                            <CardContent
                               sx={{
-                                mt: "auto",
-                                fontWeight: "bold",
-                                fontSize: "1.2rem",
-                                color: "#FF4500",
-                              }}
-                            >
-                              {product.price.toLocaleString("vi-VN")}
-                            </Typography>
-
-                            <Box
-                              sx={{
-                                alignItems: "center",
-                                mt: 1,
+                                flex: 1,
                                 display: "flex",
-                                justifyContent: "space-between",
-                                width: "100%",
+                                flexDirection: "column",
                               }}
                             >
-                              <Box>
-                                <Typography
-                                  variant="body2"
-                                  sx={{ marginBottom: "5px" }}
-                                >
-                                  Còn:{product.quantity} | Biến thể:
-                                  {product.variant}
-                                </Typography>
-                                <>
+                              <Typography
+                                variant="h6"
+                                component="h2"
+                                sx={{
+                                  fontWeight: "bold",
+                                  fontSize: "1rem",
+                                  mb: 1,
+                                }}
+                              >
+                                {product.name}
+                              </Typography>
+
+                              <Typography
+                                variant="body1"
+                                sx={{
+                                  mt: "auto",
+                                  fontWeight: "bold",
+                                  fontSize: "1.2rem",
+                                  color: "#FF4500",
+                                }}
+                              >
+                                {product.price.toLocaleString("vi-VN")}
+                              </Typography>
+
+                              <Box
+                                sx={{
+                                  alignItems: "center",
+                                  mt: 1,
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  width: "100%",
+                                }}
+                              >
+                                <Box>
                                   <Typography
                                     variant="body2"
-                                    sx={{ color: "#FF4500", display: "block" }}
+                                    sx={{ marginBottom: "5px" }}
                                   >
-                                    Tỷ lệ hoa hồng: {product.discount}%
+                                    Còn:{product.quantity} | Biến thể:
+                                    {product.variant}
                                   </Typography>
-                                </>
-                              </Box>
+                                  <>
+                                    <Typography
+                                      variant="body2"
+                                      sx={{
+                                        color: "#FF4500",
+                                        display: "block",
+                                      }}
+                                    >
+                                      Tỷ lệ hoa hồng: {product.discount}%
+                                    </Typography>
+                                  </>
+                                </Box>
 
-                              {/* Nút share */}
-                              <MyButton
-                                variant="contained"
-                                size="small"
-                                color="warning"
-                                onClick={() =>
-                                  handleShare(product.external_link)
-                                }
-                              >
-                                <Share />
-                              </MyButton>
-                            </Box>
-                          </CardContent>
-                        </Card>
-                      </Grid>
-                    ))}
+                                {/* Nút share */}
+                                <MyButton
+                                  variant="contained"
+                                  size="small"
+                                  color="warning"
+                                  onClick={() =>
+                                    handleShare(product.external_link)
+                                  }
+                                >
+                                  <Share />
+                                </MyButton>
+                              </Box>
+                            </CardContent>
+                          </Card>
+                        </Grid>
+                      ))
+                    ) : (
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center",
+                          width: "100%",
+                        }}
+                      >
+                        <CircularProgress sx={{ color: "black" }} />
+                      </Box>
+                    )}
                   </Grid>
                 </div>
               </TabPanel>
@@ -653,7 +667,7 @@ function DashBoard() {
                                           variant="contained"
                                           color="primary"
                                           onClick={() =>
-                                            handleShareProduct(
+                                            handleShare(
                                               detaiDiscountProducts.url
                                             )
                                           }

@@ -13,13 +13,9 @@ import {
   Tab,
   Pagination,
   styled,
+  CircularProgress,
 } from "@mui/material";
-import {
-  CheckCircle,
-  CheckRounded,
-  Clear,
-  CopyAll,
-} from "@mui/icons-material";
+import { CheckCircle, CheckRounded, Clear, CopyAll } from "@mui/icons-material";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
@@ -215,294 +211,314 @@ const Campaign = () => {
 
       {/* Danh sách chiến dịch */}
       <Grid container spacing={2}>
-        {currentItems.map((campaign) => (
-          <Grid item xs={12} key={campaign.id}>
-            <MyCard
-              variant="outlined"
-              sx={{
-                borderRadius: 3,
-                p: 0,
-              }}
-            >
-              {/* Header */}
-              {/* ảnh */}
-              <Box onClick={() => handleExpand(campaign.id)}>
-                <Image
-                  src={campaign.home_logo}
-                  alt={campaign.name}
-                  className={cx("campaign_image")}
-                />
-                <Box>
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      fontWeight: 600,
-                      fontSize: 16,
-                      mr: "5px",
-                      ml: 1,
-                      mt: 3,
-                      mb: 3,
-                    }}
-                  >
-                    {campaign.name}
-                  </Typography>
-                </Box>
-              </Box>
-
-              {/* Phần chi tiết ,nột dung chiến dịch*/}
-              <Collapse
-                in={expanded === campaign.id}
-                timeout="auto"
-                unmountOnExit
+        {renderCampaign.length > 0 ? (
+          currentItems.map((campaign) => (
+            <Grid item xs={12} key={campaign.id}>
+              <MyCard
+                variant="outlined"
+                sx={{
+                  borderRadius: 3,
+                  p: 0,
+                }}
               >
-                <Divider />
-                <CardContent>
-                  {/* tab chính */}
-                  <Tabs
-                    value={tabValue}
-                    onChange={handleTabChange}
-                    indicatorColor="primary"
-                    textColor="primary"
-                    aria-label="campaign-tabs"
-                    variant="scrollable"
-                    scrollButtons="auto"
-                    sx={{
-                      maxWidth: "100%", // Giới hạn chiều rộng của Tabs
-                      overflowX: "auto", // Cho phép cuộn ngang
-                      WebkitOverflowScrolling: "touch", // Cho phép cuộn mượt mà trên thiết bị di động
-                    }}
-                  >
-                    <Tab
-                      label="Link giới thiệu"
-                      sx={{ width: "50%", padding: "6px 12px" }}
-                    />
-                    <Tab
-                      label="Thông số"
-                      sx={{ width: "50%", padding: "6px 12px" }}
-                    />
-                  </Tabs>
+                {/* Header */}
+                {/* ảnh */}
+                <Box onClick={() => handleExpand(campaign.id)}>
+                  <Image
+                    src={campaign.home_logo}
+                    alt={campaign.name}
+                    className={cx("campaign_image")}
+                  />
+                  <Box>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        fontWeight: 600,
+                        fontSize: 16,
+                        mr: "5px",
+                        ml: 1,
+                        mt: 3,
+                        mb: 3,
+                      }}
+                    >
+                      {campaign.name}
+                    </Typography>
+                  </Box>
+                </Box>
 
-                  {/* Tab Nội dung */}
-                  {tabValue === 0 && (
-                    <Box>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          marginBottom: 2,
-                          marginTop: 2,
-                        }}
-                      >
-                        <TextField
-                          sx={{ width: "90%" }}
-                          value={campaign.home_url}
-                          InputProps={{
-                            readOnly: true,
+                {/* Phần chi tiết ,nột dung chiến dịch*/}
+                <Collapse
+                  in={expanded === campaign.id}
+                  timeout="auto"
+                  unmountOnExit
+                >
+                  <Divider />
+                  <CardContent>
+                    {/* tab chính */}
+                    <Tabs
+                      value={tabValue}
+                      onChange={handleTabChange}
+                      indicatorColor="primary"
+                      textColor="primary"
+                      aria-label="campaign-tabs"
+                      variant="scrollable"
+                      scrollButtons="auto"
+                      sx={{
+                        maxWidth: "100%", // Giới hạn chiều rộng của Tabs
+                        overflowX: "auto", // Cho phép cuộn ngang
+                        WebkitOverflowScrolling: "touch", // Cho phép cuộn mượt mà trên thiết bị di động
+                      }}
+                    >
+                      <Tab
+                        label="Link giới thiệu"
+                        sx={{ width: "50%", padding: "6px 12px" }}
+                      />
+                      <Tab
+                        label="Thông số"
+                        sx={{ width: "50%", padding: "6px 12px" }}
+                      />
+                    </Tabs>
+
+                    {/* Tab Nội dung */}
+                    {tabValue === 0 && (
+                      <Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            marginBottom: 2,
+                            marginTop: 2,
                           }}
-                          size="small"
-                          onClick={() => handleCopyLink(campaign.home_url)}
-                        />
+                        >
+                          <TextField
+                            sx={{ width: "90%" }}
+                            value={campaign.home_url}
+                            InputProps={{
+                              readOnly: true,
+                            }}
+                            size="small"
+                            onClick={() => handleCopyLink(campaign.home_url)}
+                          />
+                          <Box>
+                            {openSnackbar ? (
+                              <MyButton
+                                variant="contained"
+                                color="success"
+                                size="small"
+                                sx={{
+                                  marginLeft: 1,
+                                }}
+                                className={cx("btn_copy")}
+                              >
+                                <CheckRounded />
+                              </MyButton>
+                            ) : (
+                              <MyButton
+                                variant="contained"
+                                color="primary"
+                                size="small"
+                                sx={{
+                                  marginLeft: 1,
+                                }}
+                                onClick={() =>
+                                  handleCopyLink(campaign.home_url)
+                                }
+                                className={cx("btn_copy")}
+                              >
+                                <CopyAll />
+                              </MyButton>
+                            )}
+                          </Box>
+                        </Box>
+
+                        {/* QR Code */}
+                        <Box
+                          sx={{
+                            marginBottom: 2,
+                            textAlign: "center",
+                          }}
+                        >
+                          <Typography
+                            variant="body1"
+                            align="left"
+                            size={150}
+                            sx={{ marginBottom: 1, fontWeight: "bold" }}
+                          >
+                            Mã QR: Copy mã bên trên và chia sẻ
+                          </Typography>
+                          <QRCodeCanvas value={campaign.home_url} />
+                        </Box>
+                        <Box
+                          sx={{
+                            marginBottom: 2,
+                            textAlign: "center",
+                          }}
+                        >
+                          <Typography
+                            variant="body1"
+                            align="left"
+                            size={150}
+                            sx={{ marginBottom: 1, mt: 1, fontWeight: "bold" }}
+                          >
+                            Giới thiệu:
+                            <Typography ml={1} mt={1} component={"p"}>
+                              {campaign.description
+                                ? campaign.description
+                                : "Không có giới thiệu"}
+                            </Typography>
+                          </Typography>
+                        </Box>
                         <Box>
-                          {openSnackbar ? (
-                            <MyButton
-                              variant="contained"
-                              color="success"
-                              size="small"
+                          <Typography variant="body1" sx={{ marginTop: 2 }}>
+                            <Card
+                              variant="outlined"
                               sx={{
-                                marginLeft: 1,
+                                borderRadius: 2,
+                                padding: 1,
+                                width: "100%",
+                                mb: 2,
+                                paddingBottom: 0,
+                                mt: 1,
                               }}
-                              className={cx("btn_copy")}
                             >
-                              <CheckRounded />
-                            </MyButton>
-                          ) : (
-                            <MyButton
-                              variant="contained"
-                              color="primary"
-                              size="small"
-                              sx={{
-                                marginLeft: 1,
-                              }}
-                              onClick={() => handleCopyLink(campaign.home_url)}
-                              className={cx("btn_copy")}
-                            >
-                              <CopyAll />
-                            </MyButton>
-                          )}
+                              <Box sx={{ mb: 2 }}>
+                                <Typography variant="h5" fontWeight="bold">
+                                  Tài liệu
+                                </Typography>
+                              </Box>
+                            </Card>
+                            <DocumentCampaign idCampaign={campaign.id} />
+                          </Typography>
                         </Box>
                       </Box>
-
-                      {/* QR Code */}
-                      <Box
-                        sx={{
-                          marginBottom: 2,
-                          textAlign: "center",
-                        }}
-                      >
-                        <Typography
-                          variant="body1"
-                          align="left"
-                          size={150}
-                          sx={{ marginBottom: 1, fontWeight: "bold" }}
-                        >
-                          Mã QR: Copy mã bên trên và chia sẻ
-                        </Typography>
-                        <QRCodeCanvas value={campaign.home_url} />
-                      </Box>
-                      <Box
-                        sx={{
-                          marginBottom: 2,
-                          textAlign: "center",
-                        }}
-                      >
-                        <Typography
-                          variant="body1"
-                          align="left"
-                          size={150}
-                          sx={{ marginBottom: 1, mt: 1, fontWeight: "bold" }}
-                        >
-                          Giới thiệu:
-                          <Typography ml={1} mt={1} component={"p"}>
-                            {campaign.description
-                              ? campaign.description
-                              : "Không có giới thiệu"}
-                          </Typography>
-                        </Typography>
-                      </Box>
-                      <Box>
-                        <Typography variant="body1" sx={{ marginTop: 2 }}>
-                          <Card
-                            variant="outlined"
-                            sx={{
-                              borderRadius: 2,
-                              padding: 1,
-                              width: "100%",
-                              mb: 2,
-                              paddingBottom: 0,
-                              mt: 1,
-                            }}
-                          >
-                            <Box sx={{ mb: 2 }}>
-                              <Typography variant="h5" fontWeight="bold">
-                                Tài liệu
-                              </Typography>
-                            </Box>
-                          </Card>
-                          <DocumentCampaign idCampaign={campaign.id} />
-                        </Typography>
-                      </Box>
-                    </Box>
-                  )}
-                  {tabValue === 1 && (
-                    <Box sx={{ flexGrow: 1, padding: 3 }}>
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} sm={6} md={3}>
-                          <Card
-                            sx={{
-                              minWidth: 200,
-                              backgroundImage: "var(--b_liner_2)",
-                              color: "black",
-                              mb: 1,
-                            }}
-                          >
-                            <CardContent sx={{ textAlign: "center" }}>
-                              <Typography
-                                className={cx("thongso")}
-                                variant="h6"
-                                gutterBottom
-                              >
-                                Truy cập hôm nay
-                              </Typography>
-                              <Typography
-                                className={cx("thongso")}
-                                variant="h4"
-                              >
-                                {" "}
-                                {campaign.access.today}/
-                                {campaign.customer.today}
-                              </Typography>
-                              <Typography
-                                className={cx("thongso")}
-                                variant="body2"
-                              >
-                                Lượt truy cập / Khách hàng
-                              </Typography>
-                            </CardContent>
-                          </Card>
-                          <Card
-                            sx={{
-                              minWidth: 200,
-                              backgroundImage: "var(--b_liner_2)",
-                              color: "black",
-                              mb: 1,
-                            }}
-                          >
-                            <CardContent sx={{ textAlign: "center" }}>
-                              <Typography
-                                className={cx("thongso")}
-                                variant="h6"
-                                gutterBottom
-                              >
-                                Truy cập tháng này
-                              </Typography>
-                              <Typography
-                                className={cx("thongso")}
-                                variant="h4"
-                              >
-                                {" "}
-                                {campaign.access.today}/
-                                {campaign.customer.month}
-                              </Typography>
-                              <Typography
-                                className={cx("thongso")}
-                                variant="body2"
-                              >
-                                Lượt truy cập / Khách hàng
-                              </Typography>
-                            </CardContent>
-                          </Card>
-                          <Card
-                            sx={{
-                              minWidth: 200,
-                              backgroundImage: "var(--b_liner_2)",
-                              color: "black",
-                              mb: 1,
-                            }}
-                          >
-                            <CardContent sx={{ textAlign: "center" }}>
-                              <Typography
-                                className={cx("thongso")}
-                                variant="h6"
-                                gutterBottom
-                              >
-                                Tổng truy cập
-                              </Typography>
-                              <Typography
-                                className={cx("thongso")}
-                                variant="h4"
-                              >
-                                {" "}
-                                {campaign.access.total}/
-                                {campaign.customer.total}
-                              </Typography>
-                              <Typography
-                                className={cx("thongso")}
-                                variant="body2"
-                              >
-                                Lượt truy cập / Khách hàng
-                              </Typography>
-                            </CardContent>
-                          </Card>
+                    )}
+                    {tabValue === 1 && (
+                      <Box sx={{ flexGrow: 1, padding: 3 }}>
+                        <Grid container spacing={3}>
+                          <Grid item xs={12} sm={6} md={3}>
+                            <Card
+                              sx={{
+                                minWidth: 200,
+                                backgroundImage: "var(--b_liner_2)",
+                                color: "black",
+                                mb: 1,
+                              }}
+                            >
+                              <CardContent sx={{ textAlign: "center" }}>
+                                <Typography
+                                  className={cx("thongso")}
+                                  variant="h6"
+                                  gutterBottom
+                                >
+                                  Truy cập hôm nay
+                                </Typography>
+                                <Typography
+                                  className={cx("thongso")}
+                                  variant="h4"
+                                >
+                                  {" "}
+                                  {campaign.access.today}/
+                                  {campaign.customer.today}
+                                </Typography>
+                                <Typography
+                                  className={cx("thongso")}
+                                  variant="body2"
+                                >
+                                  Lượt truy cập / Khách hàng
+                                </Typography>
+                              </CardContent>
+                            </Card>
+                            <Card
+                              sx={{
+                                minWidth: 200,
+                                backgroundImage: "var(--b_liner_2)",
+                                color: "black",
+                                mb: 1,
+                              }}
+                            >
+                              <CardContent sx={{ textAlign: "center" }}>
+                                <Typography
+                                  className={cx("thongso")}
+                                  variant="h6"
+                                  gutterBottom
+                                >
+                                  Truy cập tháng này
+                                </Typography>
+                                <Typography
+                                  className={cx("thongso")}
+                                  variant="h4"
+                                >
+                                  {" "}
+                                  {campaign.access.today}/
+                                  {campaign.customer.month}
+                                </Typography>
+                                <Typography
+                                  className={cx("thongso")}
+                                  variant="body2"
+                                >
+                                  Lượt truy cập / Khách hàng
+                                </Typography>
+                              </CardContent>
+                            </Card>
+                            <Card
+                              sx={{
+                                minWidth: 200,
+                                backgroundImage: "var(--b_liner_2)",
+                                color: "black",
+                                mb: 1,
+                              }}
+                            >
+                              <CardContent sx={{ textAlign: "center" }}>
+                                <Typography
+                                  className={cx("thongso")}
+                                  variant="h6"
+                                  gutterBottom
+                                >
+                                  Tổng truy cập
+                                </Typography>
+                                <Typography
+                                  className={cx("thongso")}
+                                  variant="h4"
+                                >
+                                  {" "}
+                                  {campaign.access.total}/
+                                  {campaign.customer.total}
+                                </Typography>
+                                <Typography
+                                  className={cx("thongso")}
+                                  variant="body2"
+                                >
+                                  Lượt truy cập / Khách hàng
+                                </Typography>
+                              </CardContent>
+                            </Card>
+                          </Grid>
                         </Grid>
-                      </Grid>
-                    </Box>
-                  )}
-                  {/* Hết tab Nội dung  */}
-                </CardContent>
-              </Collapse>
-            </MyCard>
-          </Grid>
-        ))}
+                      </Box>
+                    )}
+                    {/* Hết tab Nội dung  */}
+                  </CardContent>
+                </Collapse>
+              </MyCard>
+            </Grid>
+          ))
+        ) : (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              width: "100%",
+              position: "fixed",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 1000,              
+             
+            }}
+          >
+            <CircularProgress sx={{ color: "black" }} />
+          </Box>
+        )}
         {/* phân trang */}
         <Box
           sx={{

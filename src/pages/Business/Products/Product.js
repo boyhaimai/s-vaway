@@ -14,6 +14,7 @@ import {
   Pagination,
   Alert,
   Snackbar,
+  CircularProgress,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { Clear, Share } from "@mui/icons-material";
@@ -90,7 +91,13 @@ const ProductCards = () => {
         console.error("Error sharing the link:", error);
       }
     } else {
-      alert("Your browser does not support sharing links.");
+      try {
+        await navigator.clipboard.writeText(link);
+        alert("Link đã được copy vào clipboard");
+      } catch (err) {
+        console.error("Error copying the link:", err);
+        alert("Failed to copy the link. Please try manually.");
+      }
     }
   };
   // handle close notification
@@ -98,7 +105,6 @@ const ProductCards = () => {
     if (reason === "clickaway") {
       return;
     }
-
     setCopy(false);
   };
 
@@ -192,55 +198,79 @@ const ProductCards = () => {
 
       <Box sx={{ padding: 1 }}>
         <Grid container spacing={1}>
-          {currentItems.map((product) => (
-            <Grid item xs={6} sm={6} md={6} key={product._id}>
-              <Card sx={{ height: "100%" }}>
-                {/* Hình ảnh sản phẩm */}
-                <Image
-                  src={product.src}
-                  alt={product.name}
-                  className={cx("img_product")}
-                />
-                <CardContent>
-                  {/* Tên sản phẩm */}
-                  <Typography variant="h6" fontWeight={"bold"}>
-                    {product.name}
-                  </Typography>
-                  {/* Giá sản phẩm */}
-                  <Box sx={{ display: "flex", justifyContent: "space-between" , width: "100%",mt: 1}}>
-                    <Box>
-                      <Typography
-                        variant="body1"
-                        color="red"
-                        fontWeight="bold"
-                        fontSize={14}
-                      >
-                        {product.price.toLocaleString()} đ
-                      </Typography>
-                      {/* Hoa hồng và số lượng */}
-                      <Typography variant="body2" color="textSecondary">
-                        Hoa hồng: {product.discount}
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        Số lượng: {product.quantity}
-                      </Typography>
+          {products.length > 0 ? (
+            currentItems.map((product) => (
+              <Grid item xs={6} sm={6} md={6} key={product._id}>
+                <Card sx={{ height: "100%" }}>
+                  {/* Hình ảnh sản phẩm */}
+                  <Image
+                    src={product.src}
+                    alt={product.name}
+                    className={cx("img_product")}
+                  />
+                  <CardContent>
+                    {/* Tên sản phẩm */}
+                    <Typography variant="h6" fontWeight={"bold"}>
+                      {product.name}
+                    </Typography>
+                    {/* Giá sản phẩm */}
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        width: "100%",
+                        mt: 1,
+                      }}
+                    >
+                      <Box>
+                        <Typography
+                          variant="body1"
+                          color="red"
+                          fontWeight="bold"
+                          fontSize={14}
+                        >
+                          {product.price.toLocaleString()} đ
+                        </Typography>
+                        {/* Hoa hồng và số lượng */}
+                        <Typography variant="body2" color="textSecondary">
+                          Hoa hồng: {product.discount}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary">
+                          Số lượng: {product.quantity}
+                        </Typography>
+                      </Box>
+                      {/* Hành động */}
+                      <Box>
+                        <MyButton
+                          variant="contained"
+                          size="small"
+                          color="success"
+                          onClick={() => handleShare(product.external_link)}
+                        >
+                          <Share />
+                        </MyButton>
+                      </Box>
                     </Box>
-                    {/* Hành động */}
-                    <Box>
-                      <MyButton
-                        variant="contained"
-                        size="small"
-                        color="success"
-                        onClick={() => handleShare(product.external_link)}
-                      >
-                        <Share />
-                      </MyButton>
-                    </Box>
-                  </Box>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))
+          ) : (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                width: "100%",
+                position: "fixed",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                zIndex: 1000,
+              }}
+            >
+              <CircularProgress sx={{ color: "black" }} />
+            </Box>
+          )}
         </Grid>
         <Box
           sx={{

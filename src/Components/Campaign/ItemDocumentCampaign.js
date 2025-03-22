@@ -9,6 +9,7 @@ import {
   Card,
   CardContent,
   styled,
+  Drawer,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { CheckRounded, Close, CopyAll } from "@mui/icons-material";
@@ -33,6 +34,7 @@ function ItemDocumentCampaign(idCampaign) {
   const [detailContent, setDetailContent] = useState([]);
   const [indexDetailContent, setIndexDetailContent] = useState([]);
   const [copySuccess, setCopySuccess] = useState(false);
+  const [open, setOpen] = useState(false);
   const contentRef = useRef();
 
   useEffect(() => {
@@ -95,72 +97,86 @@ function ItemDocumentCampaign(idCampaign) {
     minWidth: "auto",
     width: "auto",
   });
+  const toggleDrawer = (newOpen) => () => {
+    setOpen(newOpen);
+  };
+
+  const DrawerList = (
+    <Box
+      sx={{
+        width: "100%",
+      }}
+      role="presentation"
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
+    >
+      {/* content details */}
+      {typeof detailContent === "string" && detailContent.trim() !== "" && (
+        <Card sx={{ mt: 2, mb: 2 }}>
+          <CardContent>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                background: "var(--ui_color_least)",
+                p: 2,
+                mb: 1,
+                borderRadius: 2,
+              }}
+            >
+              <Typography variant="h5" fontWeight="bold">
+                {indexDetailContent.name}
+              </Typography>
+              <Box sx={{ display: "flex" }}>
+                <Box>
+                  {copySuccess === true ? (
+                    <MyButton
+                      variant="contained"
+                      color="success"
+                      className={cx("btn_copy_doc")}
+                    >
+                      <CheckRounded size="large" />
+                    </MyButton>
+                  ) : (
+                    <MyButton
+                      variant="contained"
+                      color="primary"
+                      className={cx("btn_copy_doc")}
+                      onClick={handleCopyDocumentClick}
+                    >
+                      <CopyAll size="large" />
+                    </MyButton>
+                  )}
+                </Box>
+                <MyButton
+                  variant="contained"
+                  color="error"
+                  sx={{ marginLeft: "10px", borderRadius: "50%" }}
+                  onClick={() => toggleDrawer(false)()}
+                >
+                  <Close variant="contained" size="large" />
+                </MyButton>
+              </Box>
+            </Box>
+            <Box sx={{ p: 1 }}>
+              <Typography
+                component={"div"}
+                variant="body1"
+                sx={{ fontFamily: "roboto, sans-serif" }}
+                dangerouslySetInnerHTML={{ __html: detailContent }}
+                ref={contentRef}
+              />
+            </Box>
+          </CardContent>
+        </Card>
+      )}
+    </Box>
+  );
 
   return (
     <>
       {titleDocs.length > 0 && (
         <Box>
-          {/* content details */}
-          {typeof detailContent === "string" && detailContent.trim() !== "" && (
-            <Card sx={{ mt: 2, mb: 2 }}>
-              <CardContent>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    background: "var(--ui_color_least)",
-                    p: 2,
-                    mb: 1,
-                    borderRadius: 2,
-                  }}
-                >
-                  <Typography variant="h5" fontWeight="bold">
-                    {indexDetailContent.name}
-                  </Typography>
-                  <Box sx={{ display: "flex" }}>
-                    <Box>
-                      {copySuccess === true ? (
-                        <MyButton
-                          variant="contained"
-                          color="success"
-                          className={cx("btn_copy_doc")}
-                        >
-                          <CheckRounded size="large" />
-                        </MyButton>
-                      ) : (
-                        <MyButton
-                          variant="contained"
-                          color="primary"
-                          className={cx("btn_copy_doc")}
-                          onClick={handleCopyDocumentClick}
-                        >
-                          <CopyAll size="large" />
-                        </MyButton>
-                      )}
-                    </Box>
-                    <MyButton
-                      variant="contained"
-                      color="error"
-                      sx={{ marginLeft: "10px", borderRadius: "50%" }}
-                      onClick={() => setDetailContent("")}
-                    >
-                      <Close variant="contained" size="large" />
-                    </MyButton>
-                  </Box>
-                </Box>
-                <Box sx={{ p: 1 }}>
-                  <Typography
-                    component={"div"}
-                    variant="body1"
-                    sx={{ fontFamily: "roboto, sans-serif" }}
-                    dangerouslySetInnerHTML={{ __html: detailContent }}
-                    ref={contentRef}
-                  />
-                </Box>
-              </CardContent>
-            </Card>
-          )}
-
           <Card>
             <CardContent>
               {/* btn title */}
@@ -210,7 +226,10 @@ function ItemDocumentCampaign(idCampaign) {
                     >
                       <Typography
                         variant="body1"
-                        onClick={() => set_IdContentDocs(contentDoc._id)}
+                        onClick={() => {
+                          toggleDrawer(true)();
+                          set_IdContentDocs(contentDoc._id);
+                        }}
                       >
                         {contentDoc.name}
                       </Typography>
@@ -223,6 +242,10 @@ function ItemDocumentCampaign(idCampaign) {
           </Card>
         </Box>
       )}
+      {/* drawer detail content*/}
+      <Drawer open={open} anchor="bottom" onClose={toggleDrawer(false)}>
+        {DrawerList}
+      </Drawer>
     </>
   );
 }
