@@ -12,6 +12,9 @@ const Theme = createTheme({
       main: "#ff4081", // Màu phụ
     },
   },
+  typography: {
+    fontFamily: '"Poppins", sans-serif', // Áp dụng font Poppins
+  },
   components: {
     MuiPagination: {
       styleOverrides: {

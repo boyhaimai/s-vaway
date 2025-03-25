@@ -131,7 +131,6 @@ function Header() {
                   <div className={cx("calendars")} tabIndex="-1" {...attrs}>
                     <PopperWrapper>
                       <div className={cx("wrapper_notifi")}>
-                        <div className={cx("title_notifi")}>Lịch trình</div>
                         <div className={cx("content_cal")}>
                           <Box sx={{ width: "100%", typography: "body1" }}>
                             <TabContext value={valueMenu}>
@@ -173,7 +172,7 @@ function Header() {
                                     },
                                   }}
                                 >
-                                  <Tab label="Tất cả" value="1" />
+                                  <Tab label="Nhiệm vụ" value="1" />
                                   <Tab label="Sinh nhật" value="2" />
                                   <Tab label="Công việc" value="3" />
                                   <Tab label="Dịch vụ" value="4" />

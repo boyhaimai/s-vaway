@@ -17,6 +17,10 @@ import {
   InputBase,
   Paper,
   CircularProgress,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import {
   AttachMoney,
@@ -32,6 +36,7 @@ import {
   Email,
   EventAvailable,
   Facebook,
+  FileDownload,
   History,
   Label,
   LocationOn,
@@ -57,10 +62,11 @@ import CustomerToday from "~/Components/TraceTable/CustomerToday";
 import CustomerBuyed from "~/Components/TraceTable/CustomerBuyed";
 import MyCustomer from "~/Components/TraceTable/MyCustomer";
 import useDebounce from "~/hook/usedebounce";
+import { useSearchParams } from "react-router-dom";
 import * as getTraceTableService from "~/service/getTraceTableService";
 import * as getSearchTraceTableService from "~/service/getSearchTraceTableService";
 import * as getTraceTableHaveIdService from "~/service/getTraceTableHaveIdService";
-import { useSearchParams } from "react-router-dom";
+import * as getQuantityTraceTableService from "~/service/getQuantityTraceTableService";
 
 const cx = classNames.bind(styles);
 
@@ -77,6 +83,7 @@ const Leads = () => {
   const [searchParam] = useSearchParams();
   const leadId = searchParam.get("lead_id");
   const [notifyCopySuccess, setNotifyCopySuccess] = useState(false);
+  const [quantity, setQuantity] = useState("");
 
   useEffect(() => {
     const fetchAPI = async () => {
@@ -91,41 +98,84 @@ const Leads = () => {
             await getTraceTableService.getTraceTableService();
           result = resultTraceTable.data;
         }
-        setTraceTables(result);
+        setTraceTables(result); // Chỉ cập nhật state của Leads
       } catch (err) {
-        console.log("Error:", err);
+        console.error("Error fetching Leads data:", err);
       }
     };
     fetchAPI();
-  }, [leadId]);
+  }, [leadId]); // Dependency array chỉ chạy khi leadId thay đổi
 
   useEffect(() => {
-    if (leadId || !debounceValue) return;
+    if (!debounceValue || leadId) return; // Không gọi API nếu debounceValue rỗng hoặc có leadId
     const fetchAPI = async () => {
-      const resultSearchTraceTable =
-        await getSearchTraceTableService.getSearchTraceTableService(
-          debounceValue
-        );
-      setTraceTables(resultSearchTraceTable.data);
+      try {
+        const resultSearchTraceTable =
+          await getSearchTraceTableService.getSearchTraceTableService(
+            debounceValue
+          );
+        setTraceTables(resultSearchTraceTable.data); // Chỉ cập nhật state của Leads
+      } catch (err) {
+        console.error("Error searching Leads data:", err);
+      }
     };
     fetchAPI();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debounceValue]);
-
+  }, [debounceValue, leadId]); // Dependency array chỉ chạy khi debounceValue hoặc leadId thay đổi
   const handleChangeSearch = (e) => {
     const value = e.target.value;
     if (!value.startsWith(" ")) {
       setTexrSearchAllTraceTable(value);
+
+      if (value === "") {
+        const fetchAPI = async () => {
+          try {
+            const resultTraceTable =
+              await getTraceTableService.getTraceTableService();
+            setTraceTables(resultTraceTable.data);
+          } catch (err) {
+            console.error("Error fetching Leads data:", err);
+          }
+        };
+        fetchAPI();
+      }
     }
   };
+
   const handleClearInputSeach = () => {
     setTexrSearchAllTraceTable("");
     inputSearchRef.current.focus();
+
+    const fetchAPI = async () => {
+      try {
+        const resultTraceTable =
+          await getTraceTableService.getTraceTableService();
+        setTraceTables(resultTraceTable.data);
+      } catch (err) {
+        console.error("Error fetching Leads data:", err);
+      }
+    };
+    fetchAPI();
   };
 
   const handleChangeTab = (event, newValue) => {
     setValueTab(newValue);
   };
+
+  // handle select quantity
+  const handleQuantityChange = (event) => {
+    setQuantity(event.target.value);
+  };
+
+  useEffect(() => {
+    const fetchAPI = async () => {
+      const resultQuantity =
+        await getQuantityTraceTableService.getQuantityTraceTableService(
+          quantity
+        );
+      setTraceTables(resultQuantity.data);
+    };
+    fetchAPI();
+  }, [quantity]);
 
   const totalPage = Math.ceil(traceTables.length / itemPerPage);
   const startIndex = (currentPage - 1) * itemPerPage;
@@ -147,6 +197,12 @@ const Leads = () => {
   const MyTypography = styled(Typography)({
     fontSize: "12px",
     marginTop: "10px",
+  });
+
+  const MyButton = styled(Button)({
+    padding: "6px",
+    minWidth: "auto",
+    width: "auto",
   });
 
   return (
@@ -203,6 +259,94 @@ const Leads = () => {
             </TabList>
           </Box>
           <TabPanel value="1">
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              mb={2}
+              width="100%"
+              maxWidth="400px"
+              gap={1}
+              sx={{
+                backgroundColor: "white",
+                padding: "15px 12px",
+                borderRadius: "8px",
+                boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+              }}
+            >
+              {/* Nút Copy */}
+              <MyButton
+                variant="contained"
+                color="primary"
+                sx={{
+                  minWidth: "40px",
+                  padding: "6px",
+                  borderRadius: "6px",
+                  "&:hover": {
+                    backgroundColor: "#1565c0",
+                  },
+                }}
+              >
+                <CopyAll fontSize="small" />
+              </MyButton>
+
+              {/* Nút Download */}
+              <MyButton
+                variant="contained"
+                color="primary"
+                sx={{
+                  minWidth: "40px",
+                  padding: "6px",
+                  borderRadius: "6px",
+                  "&:hover": {
+                    backgroundColor: "#1565c0",
+                  },
+                }}
+              >
+                <FileDownload />
+              </MyButton>
+
+              {/* Dropdown số lượng hiển thị */}
+              <Box flexGrow={1} minWidth="120px" ml={1}>
+                <FormControl fullWidth size="small">
+                  <InputLabel
+                    id="demo-simple-select-label"
+                    sx={{
+                      fontWeight: "600",
+                      color: "text.primary",
+                    }}
+                  >
+                    Số lượng hiển thị
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={quantity}
+                    label="Số lượng hiển thị"
+                    onChange={handleQuantityChange}
+                    sx={{
+                      backgroundColor: "white",
+                      borderRadius: "6px",
+                      "& .MuiSelect-select": {
+                        padding: "8px 12px",
+                      },
+                    }}
+                  >
+                    {[20, 40, 60, 80, 100].map((num) => (
+                      <MenuItem
+                        key={num}
+                        value={num}
+                        sx={{
+                          fontSize: "14px",
+                        }}
+                      >
+                        {num}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Box>
+            </Box>
             <Box sx={{ minHeight: "auto" }}>
               {/* Header */}
               <Box
@@ -214,7 +358,13 @@ const Leads = () => {
                 <Typography variant="h6" fontWeight="bold" fontSize={"16px"}>
                   Danh sách tất cả khách hàng
                 </Typography>
-                <IconButton onClick={() => setDrawerOpen(true)} color="primary">
+                <IconButton
+                  onClick={() => {
+                    setDrawerOpen(true);
+                    setTimeout(() => inputSearchRef.current.focus(), 0); // Đảm bảo Drawer mở trước khi focus
+                  }}
+                  color="primary"
+                >
                   <Search />
                 </IconButton>
               </Box>
@@ -478,6 +628,12 @@ const Leads = () => {
                     </AccordionDetails>
                   </Accordion>
                 ))
+              ) : texrSearchAllTraceTable ? (
+                <Box sx={{ textAlign: "center", mt: 2 }}>
+                  <Typography variant="h6" color="text.secondary">
+                    Không tìm thấy kết quả
+                  </Typography>
+                </Box>
               ) : (
                 <Box
                   sx={{

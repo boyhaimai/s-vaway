@@ -17,15 +17,20 @@ import {
   Stack,
   Tab,
   Typography,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  styled,
 } from "@mui/material";
 import { useState } from "react";
-import DiscountIcon from "@mui/icons-material/LocalOffer";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import GroupIcon from "@mui/icons-material/Group";
 import {
   CheckCircle,
   Clear,
   CopyAll,
+  FileDownload,
   Inventory,
   Key,
   Phone,
@@ -42,10 +47,11 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useRef, useEffect } from "react";
 
 import styles from "./Order.module.scss";
-import * as getOrderAllService from "~/service/getOrderAllService";
-import * as getSearchOrderAllService from "~/service/getSearchOrderAllService";
 import Image from "~/Components/Images/Images";
 import useDebounce from "~/hook/usedebounce";
+import * as getOrderAllService from "~/service/getOrderAllService";
+import * as getSearchOrderAllService from "~/service/getSearchOrderAllService";
+import * as getQuantityOrderAllService from "~/service/getQuantityOrderAllService";
 
 const cx = classNames.bind(styles);
 
@@ -60,6 +66,7 @@ function Order() {
   const inputSearchRef = useRef();
   const debounceValue = useDebounce(textSearchAllOrder, 800);
   const [notifyCopySuccess, setNotifyCopySuccess] = useState(false);
+  const [quantity, setQuantity] = useState("");
 
   useEffect(() => {
     const fetchAPI = async () => {
@@ -102,6 +109,21 @@ function Order() {
     }
   };
 
+  // Handle Quantity Order
+
+  const handleQuantityChange = (event) => {
+    setQuantity(event.target.value);
+  };
+
+  useEffect(() => {
+    const fetchAPI = async () => {
+      const resultQuantity =
+        await getQuantityOrderAllService.getQuantityOrderAllService(quantity);
+      setOrderAlls(resultQuantity.data);
+    };
+    fetchAPI();
+  }, [quantity]);
+
   const totalPage = Math.ceil(OrderAlls.length / itemPerPage);
   const startIndex = (currentPage - 1) * itemPerPage;
   const endIndex = startIndex + itemPerPage;
@@ -110,6 +132,12 @@ function Order() {
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
   };
+
+  const MyButton = styled(Button)({
+    padding: "6px",
+    minWidth: "auto",
+    width: "auto",
+  });
 
   return (
     <Box>
@@ -133,7 +161,7 @@ function Order() {
         }}
       >
         <Box sx={{ mb: 2 }}>
-          <Typography variant="h5" fontWeight="bold">
+          <Typography variant="h5" fontWeight="bold" fontSize={"20px"}>
             Đơn hàng
           </Typography>
         </Box>
@@ -145,6 +173,12 @@ function Order() {
               onChange={handleChange}
               aria-label="lab API tabs example"
               variant="scrollable"
+              sx={{
+                "& .MuiTab-root": {
+                  fontSize: "12.5px", // Tăng kích thước font của các tab
+                  fontWeight: "bold",
+                },
+              }}
             >
               <Tab label="Tất cả" value="1" />
               <Tab label="Chờ xử lý" value="2" />
@@ -157,6 +191,46 @@ function Order() {
           </Box>
 
           <TabPanel value="1">
+            {/* Dropdown số lượng hiển thị */}
+            <Box flexGrow={1} minWidth="120px" ml={1}>
+              <FormControl fullWidth size="small">
+                <InputLabel
+                  id="demo-simple-select-label"
+                  sx={{
+                    fontWeight: "600",
+                    color: "text.primary",
+                  }}
+                >
+                  Số lượng hiển thị
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={quantity}
+                  label="Số lượng hiển thị"
+                  onChange={handleQuantityChange}
+                  sx={{
+                    backgroundColor: "white",
+                    borderRadius: "6px",
+                    "& .MuiSelect-select": {
+                      padding: "8px 12px",
+                    },
+                  }}
+                >
+                  {[20, 40, 60, 80, 100].map((num) => (
+                    <MenuItem
+                      key={num}
+                      value={num}
+                      sx={{
+                        fontSize: "14px",
+                      }}
+                    >
+                      {num}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
             <Box sx={{ minHeight: "auto" }}>
               <Box
                 display="flex"
@@ -168,7 +242,10 @@ function Order() {
                   Danh sách tất cả đơn hàng
                 </Typography>
                 <IconButton
-                  onClick={() => setDrawerOpenOrder(true)}
+                  onClick={() => {
+                    setDrawerOpenOrder(true);
+                    setTimeout(() => inputSearchRef.current.focus(), 0);
+                  }}
                   color="primary"
                 >
                   <Search />
@@ -193,7 +270,7 @@ function Order() {
                         <Typography
                           variant="h6"
                           fontWeight="bold"
-                          fontSize={"14px"}
+                          fontSize={"12px"}
                         >
                           {order.products[0].name}
                         </Typography>
@@ -211,7 +288,7 @@ function Order() {
                         >
                           <Typography
                             variant="body1"
-                            fontSize={"12px"}
+                            fontSize={"10px"}
                             onClick={() =>
                               handleCopyOrderCode(order.products[0]._id)
                             }
@@ -308,16 +385,13 @@ function Order() {
                           mb={1}
                         >
                           <Phone sx={{ color: "var(--theme_main)" }} />
-                          <Typography
-                            variant="body1"
-                            fontWeight={"bold"}
-                            onClick={() => handleCopyOrderCode(order.phone)}
-                          >
+                          <Typography variant="body1">
                             SĐT: {order.phone}{" "}
                             <CopyAll
                               fontSize="small"
                               sx={{ ml: "5px" }}
                               color="primary"
+                              onClick={() => handleCopyOrderCode(order.phone)}
                             />
                           </Typography>
                         </Stack>
@@ -344,31 +418,6 @@ function Order() {
                           </Typography>
                         </Stack>
 
-                        <Stack
-                          direction="row"
-                          spacing={1}
-                          alignItems="center"
-                          mb={1}
-                        >
-                          <DiscountIcon
-                            color="action"
-                            sx={{ color: "var(--c_red)" }}
-                          />
-                          <Typography variant="body1">
-                            Giảm giá:{" "}
-                            <Typography
-                              component={"span"}
-                              color={
-                                order.products[0].discount ? "success" : "error"
-                              }
-                            >
-                              {order.products[0].discount === 0
-                                ? "Không giảm giá"
-                                : order.products[0].discount}
-                              %
-                            </Typography>
-                          </Typography>
-                        </Stack>
                         <Stack
                           direction="row"
                           spacing={1}

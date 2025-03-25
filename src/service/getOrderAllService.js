@@ -4,6 +4,7 @@ export const getOrderAllService = async () => {
   try {
     const res = await request.get(`orders`, {
       params: {
+        status: "all",
         limit: 20,
         dev: 1,
       },

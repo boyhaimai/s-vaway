@@ -15,9 +15,13 @@ import {
   Alert,
   Snackbar,
   CircularProgress,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { Clear, Share } from "@mui/icons-material";
+import { Clear, CopyAll, FileDownload, Share } from "@mui/icons-material";
 import classNames from "classnames/bind";
 import { useEffect } from "react";
 import { useRef } from "react";
@@ -27,6 +31,7 @@ import Image from "~/Components/Images/Images";
 import useDebounce from "~/hook/usedebounce";
 import * as getProductService from "~/service/getProductService";
 import * as getSearchProductService from "~/service/getSearchProductService";
+import * as getQuantityProduct from "~/service/getQuantityProductService";
 
 const cx = classNames.bind(styles);
 
@@ -39,6 +44,7 @@ const ProductCards = () => {
   const debounceValue = useDebounce(inputSeachProduct, 800);
   const inputSearchRef = useRef();
   const [copy, setCopy] = useState(false);
+  const [quantity, setQuantity] = useState("");
 
   useEffect(() => {
     const fetchAPI = async () => {
@@ -108,6 +114,23 @@ const ProductCards = () => {
     setCopy(false);
   };
 
+  // handle select quantity
+  const handleQuantityChange = (event) => {
+    setQuantity(event.target.value);
+  };
+
+  useEffect(() => {
+    const fetchAPI = async () => {
+      const resultQuantity = await getQuantityProduct.getQuantityProduct(
+        quantity
+      );
+      setProducts(resultQuantity.data);
+    };
+    fetchAPI();
+  }, [quantity]);
+
+  console.log(quantity);
+
   //handle pagination
   const totalPage = Math.ceil(products.length / itemPerPage);
   const startIndex = (currentPage - 1) * itemPerPage;
@@ -155,6 +178,72 @@ const ProductCards = () => {
 
         {/* Card chứa các nút form tìm kiếm, sao chép, tải xuống và số lượng hiển thị */}
         <Card variant="outlined" sx={{ borderRadius: 2, padding: 2, mb: 2 }}>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            mb={2}
+            width="100%"
+            maxWidth="400px"
+            gap={1}
+            sx={{
+              backgroundColor: "white",
+              padding: "15px 12px",
+              borderRadius: "8px",
+              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+            }}
+          >
+            {/* Nút Copy */}
+            <MyButton variant="contained" color="primary">
+              <CopyAll fontSize="small" />
+            </MyButton>
+
+            {/* Nút Download */}
+            <MyButton variant="contained" color="primary">
+              <FileDownload />
+            </MyButton>
+
+            {/* Dropdown số lượng hiển thị */}
+            <Box flexGrow={1} minWidth="120px" ml={1}>
+              <FormControl fullWidth size="small">
+                <InputLabel
+                  id="demo-simple-select-label"
+                  sx={{
+                    fontWeight: "600",
+                    color: "text.primary",
+                  }}
+                >
+                  Số lượng hiển thị
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={quantity}
+                  label="Số lượng hiển thị"
+                  onChange={handleQuantityChange}
+                  sx={{
+                    backgroundColor: "white",
+                    borderRadius: "6px",
+                    "& .MuiSelect-select": {
+                      padding: "8px 12px",
+                    },
+                  }}
+                >
+                  {[20, 40, 60, 80, 100].map((num) => (
+                    <MenuItem
+                      key={num}
+                      value={num}
+                      sx={{
+                        fontSize: "14px",
+                      }}
+                    >
+                      {num}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+          </Box>
           <Paper
             component="form"
             sx={{

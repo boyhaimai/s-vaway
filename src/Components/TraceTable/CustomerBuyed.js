@@ -14,6 +14,10 @@ import {
   InputBase,
   Paper,
   Pagination,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import {
   AttachMoney,
@@ -29,6 +33,7 @@ import {
   Email,
   EventAvailable,
   Facebook,
+  FileDownload,
   History,
   Label,
   LocationOn,
@@ -47,10 +52,11 @@ import SearchIcon from "@mui/icons-material/Search";
 import styles from "~/pages/TraceTable/TraceTable.module.scss";
 import zaloIcon from "~/assets/images/zalo.svg";
 import Image from "~/Components/Images/Images";
-import * as getCustomerBuyedService from "~/service/getCustomerBuyed";
-import * as getSearchCustomerBuyed from "~/service/getSearchCustomerBuyed";
 import { useRef } from "react";
 import useDebounce from "~/hook/usedebounce";
+import * as getCustomerBuyedService from "~/service/getCustomerBuyed";
+import * as getSearchCustomerBuyed from "~/service/getSearchCustomerBuyed";
+import * as getQuantityCustomerBuyed from "~/service/getQuantityCustomerBuyed";
 
 const cx = classNames.bind(styles);
 
@@ -62,6 +68,7 @@ function CustomerBuyed() {
   const debounceValue = useDebounce(textSearchCustomerBuyed, 800);
   const [currentPage, setCurrentPage] = useState(1);
   const [notifyCopySuccess, setNotifyCopySuccess] = useState(false);
+  const [quantity, setQuantity] = useState("");
 
   useEffect(() => {
     const fetchAPI = async () => {
@@ -85,13 +92,51 @@ function CustomerBuyed() {
     const value = e.target.value;
     if (!value.startsWith(" ")) {
       setTextSearchCustomerBuyed(value);
+
+      if (value === "") {
+        const fetchAPI = async () => {
+          try {
+            const resultCustomerBuyed =
+              await getCustomerBuyedService.getCustomerBuyed();
+            setCustomerBuyed(resultCustomerBuyed.data);
+          } catch (error) {
+            console.error("Error fetching CustomerBuyed data:", error);
+          }
+        };
+        fetchAPI();
+      }
     }
   };
 
   const handleClearInputSeach = () => {
     setTextSearchCustomerBuyed("");
     inputSearchRef.current.focus();
+
+    const fetchAPI = async () => {
+      try {
+        const resultCustomerBuyed =
+          await getCustomerBuyedService.getCustomerBuyed();
+        setCustomerBuyed(resultCustomerBuyed.data);
+      } catch (error) {
+        console.error("Error fetching CustomerBuyed data:", error);
+      }
+    };
+    fetchAPI();
   };
+
+  //handle change quantity
+  const handleQuantityChange = (event) => {
+    setQuantity(event.target.value);
+  };
+
+  useEffect(() => {
+    const fetchAPI = async () => {
+      const resultQuantity =
+        await getQuantityCustomerBuyed.getQuantityCustomerBuyed(quantity);
+      setCustomerBuyed(resultQuantity.data);
+    };
+    fetchAPI();
+  }, [quantity]);
 
   const itemPerPage = 10;
 
@@ -117,6 +162,12 @@ function CustomerBuyed() {
     marginTop: "10px",
   });
 
+  const MyButton = styled(Button)({
+    padding: "6px",
+    minWidth: "auto",
+    width: "auto",
+  });
+
   return (
     <Box sx={{ minHeight: "auto" }}>
       {/* Thông báo Copy Thành Công */}
@@ -135,17 +186,111 @@ function CustomerBuyed() {
         justifyContent="space-between"
         alignItems="center"
         mb={2}
+        width="100%"
+        maxWidth="400px"
+        gap={1}
+        sx={{
+          backgroundColor: "white",
+          padding: "15px 12px",
+          borderRadius: "8px",
+          boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+        }}
+      >
+        {/* Nút Copy */}
+        <MyButton
+          variant="contained"
+          color="primary"
+          sx={{
+            minWidth: "40px",
+            padding: "6px",
+            borderRadius: "6px",
+            "&:hover": {
+              backgroundColor: "#1565c0",
+            },
+          }}
+        >
+          <CopyAll fontSize="small" />
+        </MyButton>
+
+        {/* Nút Download */}
+        <MyButton
+          variant="contained"
+          color="primary"
+          sx={{
+            minWidth: "40px",
+            padding: "6px",
+            borderRadius: "6px",
+            "&:hover": {
+              backgroundColor: "#1565c0",
+            },
+          }}
+        >
+          <FileDownload />
+        </MyButton>
+
+        {/* Dropdown số lượng hiển thị */}
+        <Box flexGrow={1} minWidth="120px" ml={1}>
+          <FormControl fullWidth size="small">
+            <InputLabel
+              id="demo-simple-select-label"
+              sx={{
+                fontWeight: "600",
+                color: "text.primary",
+              }}
+            >
+              Số lượng hiển thị
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={quantity}
+              label="Số lượng hiển thị"
+              onChange={handleQuantityChange}
+              sx={{
+                backgroundColor: "white",
+                borderRadius: "6px",
+                "& .MuiSelect-select": {
+                  padding: "8px 12px",
+                },
+              }}
+            >
+              {[20, 40, 60, 80, 100].map((num) => (
+                <MenuItem
+                  key={num}
+                  value={num}
+                  sx={{
+                    fontSize: "14px",
+                  }}
+                >
+                  {num}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+      </Box>
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        mb={2}
       >
         <Typography variant="h6" fontWeight="bold" fontSize={"16px"}>
           Danh sách khách hàng đã mua
         </Typography>
-        <IconButton onClick={() => setDrawerOpen(true)} color="primary">
+        <IconButton
+          onClick={() => {
+            setDrawerOpen(true);
+            setTimeout(() => inputSearchRef.current.focus(), 0); // Đảm bảo Drawer mở trước khi focus
+          }}
+          color="primary"
+        >
           <Search />
         </IconButton>
       </Box>
 
       {/* Customer List */}
-      {customerBuyed ? (
+      {customerBuyed.length > 0 ? (
         currentItems.map((traceTable) => (
           <Accordion key={traceTable._id} sx={{ mb: 2 }}>
             <AccordionSummary
@@ -354,6 +499,12 @@ function CustomerBuyed() {
             </AccordionDetails>
           </Accordion>
         ))
+      ) : textSearchCustomerBuyed ? (
+        <Box sx={{ textAlign: "center", mt: 2 }}>
+          <Typography variant="h6" color="text.secondary">
+            Không tìm thấy kết quả
+          </Typography>
+        </Box>
       ) : (
         <Box sx={{ p: 2 }}>
           <Typography

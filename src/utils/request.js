@@ -3,7 +3,7 @@ import axios from "axios";
 const urlOriginal = `${window.location.origin}/api/v1/`;
 
 const request = axios.create({
-  //get url current http://localhost:3001/
+  //get url current 
   baseURL: urlOriginal,
   // baseURL: "https://demo.vazosales.xyz/api/v1/",
   headers: {

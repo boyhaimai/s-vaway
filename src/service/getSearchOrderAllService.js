@@ -4,6 +4,7 @@ export const getSearchOrderAllService = async (keyword) => {
   try {
     const res = await request.get(`orders`, {
       params: {
+        status: "all",
         keyword,
         limit: 20,
         dev: 1,

@@ -84,7 +84,6 @@ function DashBoard() {
     };
     fetchAPI();
   }, []);
-  console.log(products, "product");
 
   //call api profile
   useEffect(() => {
@@ -152,6 +151,12 @@ function DashBoard() {
     };
     fetchAPI();
   }, [idDiscountEvents]);
+
+  //tổng click
+  const handleSumClick = imageCampaign.reduce(
+    (acc, campaign) => acc + campaign.access.total,
+    0
+  );
 
   // tổng hoa hoa hồng
   const handleSumDiscount = discounts.reduce((sum, item) => {
@@ -243,7 +248,6 @@ function DashBoard() {
     }
   };
 
-
   // phân trang
   const totalPage = Math.ceil(products.length / itemPerPage);
   const startIndex = (currentPage - 1) * itemPerPage;
@@ -262,7 +266,7 @@ function DashBoard() {
   });
 
   return (
-    <div className={cx("wrapper")}>    
+    <div className={cx("wrapper")}>
       <div className={cx("header")}>
         <div className={cx("title_stats")}>
           <Typography variant="h5" className={cx("title")}>
@@ -276,9 +280,10 @@ function DashBoard() {
           Chi tiết <ChevronRight fontSize="large" />
         </NavLink>
         <div className={cx("total")}>
-          <span>
-            <p>{tuyenDuoi.length}</p>Tuyến dưới
+          <span key={campaign.id}>
+            <p>{handleSumClick}</p>Click
           </span>
+
           <span>
             <p>{orders.length}</p>Đơn hàng
           </span>
@@ -428,6 +433,7 @@ function DashBoard() {
                     "& .MuiTab-root": {
                       color: "black", // Màu tab bình thường
                       fontWeight: "bold",
+                      fontSize: "12px",
                     },
                     "& .Mui-selected": {
                       color: "red", // Màu tab khi active
@@ -585,7 +591,7 @@ function DashBoard() {
                               src={discountEvent.src}
                               alt={discountEvent.name}
                             />
-                            <Typography variant="h4" gutterBottom>
+                            <Typography variant="h4" gutterBottom fontSize={"16px"} fontWeight={"bold"}>
                               {discountEvent.name}
                             </Typography>
                             <Typography

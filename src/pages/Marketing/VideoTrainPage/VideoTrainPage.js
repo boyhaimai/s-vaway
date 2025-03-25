@@ -157,7 +157,7 @@ const VideoTrainPage = () => {
         }}
       >
         <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
-          <Typography variant="h5" fontWeight="bold">
+          <Typography variant="h5" fontWeight="bold" fontSize={"20px"}>
             Đào tạo
           </Typography>
         </Box>
@@ -165,7 +165,16 @@ const VideoTrainPage = () => {
 
       <TabContext value={tabIndex}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <TabList onChange={handleChange} aria-label="lab API tabs example">
+          <TabList
+            onChange={handleChange}
+            aria-label="lab API tabs example"
+            sx={{
+              "& .MuiTab-root": {
+                fontSize: "12.5px", // Tăng kích thước font của các tab
+                fontWeight: "bold",
+              },
+            }}
+          >
             <Tab label="Tất cả khóa học" value="1" sx={{ width: "50%" }} />
             <Tab label="Khóa học của tôi" value="2" sx={{ width: "50%" }} />
           </TabList>
@@ -187,7 +196,7 @@ const VideoTrainPage = () => {
                     <Typography
                       variant="h6"
                       fontWeight="bold"
-                      sx={{ fontSize: "20px", color: "#2e7d32" }} // Màu chữ xanh lá nổi bật
+                      sx={{ fontSize: "16px", color: "#2e7d32" }} // Màu chữ xanh lá nổi bật
                     >
                       {course.name}
                     </Typography>

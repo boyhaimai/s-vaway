@@ -13,6 +13,11 @@ import {
   Paper,
   Stack,
   Typography,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  styled,
 } from "@mui/material";
 import DiscountIcon from "@mui/icons-material/LocalOffer";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
@@ -21,10 +26,11 @@ import {
   CheckCircle,
   Clear,
   CopyAll,
-  Inventory,
   Key,
   Phone,
   Search,
+  Inventory,
+  FileDownload,
 } from "@mui/icons-material";
 import { useRef, useState } from "react";
 import { useEffect } from "react";
@@ -36,6 +42,7 @@ import styles from "~/pages/Business/Orders/Order.module.scss";
 import useDebounce from "~/hook/usedebounce";
 import * as getPaymentedService from "~/service/getPaymentedService";
 import * as getSearchOrderPaymentedService from "~/service/getSearchOrderPaymentedService";
+import * as getQuantityPaymentedService from "~/service/getQuantityPaymentedService";
 
 const cx = classNames.bind(styles);
 
@@ -49,6 +56,13 @@ function Paymented() {
   const inputSearchRef = useRef();
   const debounceValue = useDebounce(textSearchPaymented, 800);
   const [notifyCopySuccess, setNotifyCopySuccess] = useState(false);
+  const [quantity, setQuantity] = useState("");
+
+  const MyButton = styled(Button)({
+    padding: "6px",
+    minWidth: "auto",
+    width: "auto",
+  });
 
   useEffect(() => {
     const fetchAPI = async () => {
@@ -68,6 +82,15 @@ function Paymented() {
     };
     fetchAPI();
   }, [debounceValue]);
+
+  useEffect(() => {
+    const fetchAPI = async () => {
+      const resultQuantity =
+        await getQuantityPaymentedService.getQuantityPaymentedService(quantity);
+      setPaymented(resultQuantity.data);
+    };
+    fetchAPI();
+  }, [quantity]);
 
   const handleChangeSearch = (e) => {
     const value = e.target.value;
@@ -96,6 +119,10 @@ function Paymented() {
     }
   };
 
+  const handleQuantityChange = (event) => {
+    setQuantity(event.target.value);
+  };
+
   return (
     <Box sx={{ minHeight: "100vh" }}>
       {notifyCopySuccess && (
@@ -112,11 +139,105 @@ function Paymented() {
         justifyContent="space-between"
         alignItems="center"
         mb={2}
+        width="100%"
+        maxWidth="400px"
+        gap={1}
+        sx={{
+          backgroundColor: "white",
+          padding: "15px 12px",
+          borderRadius: "8px",
+          boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+        }}
+      >
+        {/* Nút Copy */}
+        <MyButton
+          variant="contained"
+          color="primary"
+          sx={{
+            minWidth: "40px",
+            padding: "6px",
+            borderRadius: "6px",
+            "&:hover": {
+              backgroundColor: "#1565c0",
+            },
+          }}
+        >
+          <CopyAll fontSize="small" />
+        </MyButton>
+
+        {/* Nút Download */}
+        <MyButton
+          variant="contained"
+          color="primary"
+          sx={{
+            minWidth: "40px",
+            padding: "6px",
+            borderRadius: "6px",
+            "&:hover": {
+              backgroundColor: "#1565c0",
+            },
+          }}
+        >
+          <FileDownload />
+        </MyButton>
+
+        {/* Dropdown số lượng hiển thị */}
+        <Box flexGrow={1} minWidth="120px" ml={1}>
+          <FormControl fullWidth size="small">
+            <InputLabel
+              id="demo-simple-select-label"
+              sx={{
+                fontWeight: "600",
+                color: "text.primary",
+              }}
+            >
+              Số lượng hiển thị
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={quantity}
+              label="Số lượng hiển thị"
+              onChange={handleQuantityChange}
+              sx={{
+                backgroundColor: "white",
+                borderRadius: "6px",
+                "& .MuiSelect-select": {
+                  padding: "8px 12px",
+                },
+              }}
+            >
+              {[20, 40, 60, 80, 100].map((num) => (
+                <MenuItem
+                  key={num}
+                  value={num}
+                  sx={{
+                    fontSize: "14px",
+                  }}
+                >
+                  {num}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+      </Box>
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        mb={2}
       >
         <Typography variant="h6" fontWeight="bold" fontSize={"16px"}>
           Danh sách đơn hàng đã thanh toán
         </Typography>
-        <IconButton onClick={() => setDrawerOpenOrder(true)} color="primary">
+        <IconButton
+          onClick={() => {
+            setDrawerOpenOrder(true);
+            setTimeout(() => inputSearchRef.current.focus(), 0);
+          }}
+          color="primary"
+        >
           <Search />
         </IconButton>
       </Box>
@@ -131,7 +252,7 @@ function Paymented() {
             sx={{ background: "var(--b_liner_2)", pl: 1, pr: 1 }}
           >
             <Box display="flex" flexDirection="column" sx={{ width: "100%" }}>
-              <Typography variant="h6" fontWeight="bold" fontSize={"14px"}>
+              <Typography variant="h6" fontWeight="bold" fontSize={"12px"}>
                 {order.products[0].name}
               </Typography>
 
@@ -146,7 +267,7 @@ function Paymented() {
                   justifyContent: "space-between",
                 }}
               >
-                <Typography variant="body1" fontSize={"12px"}>
+                <Typography variant="body1" fontSize={"10px"}>
                   Mã đơn:{" "}
                   <Typography
                     component={"span"}
@@ -237,16 +358,13 @@ function Paymented() {
                 mb={1}
               >
                 <Phone sx={{ color: "var(--theme_main)" }} />
-                <Typography
-                  variant="body1"
-                  fontWeight={"bold"}
-                  onClick={() => handleCopyOrderCode(order.phone)}
-                >
+                <Typography variant="body1">
                   SĐT: {order.phone}{" "}
                   <CopyAll
                     fontSize="small"
                     sx={{ ml: "5px" }}
                     color="primary"
+                    onClick={() => handleCopyOrderCode(order.phone)}
                   />
                 </Typography>
               </Stack>
@@ -264,21 +382,6 @@ function Paymented() {
                 </Typography>
               </Stack>
 
-              <Stack direction="row" spacing={1} alignItems="center" mb={1}>
-                <DiscountIcon color="action" sx={{ color: "var(--c_red)" }} />
-                <Typography variant="body1">
-                  Giảm giá:{" "}
-                  <Typography
-                    component={"span"}
-                    color={order.products[0].discount ? "success" : "error"}
-                  >
-                    {order.products[0].discount === 0
-                      ? "Không giảm giá"
-                      : order.products[0].discount}
-                    %
-                  </Typography>
-                </Typography>
-              </Stack>
               <Stack direction="row" spacing={1} alignItems="center" mb={1}>
                 <PersonAddIcon sx={{ color: "var(--theme_main)" }} />
                 <Typography variant="body1">
