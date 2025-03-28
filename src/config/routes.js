@@ -1,7 +1,7 @@
 const routes = {
   //  tổng quan
-  dashboard: "/",
-  // dashboard: "/ctv",
+  // dashboard: "/",
+  dashboard: "/ctv",
   detail: "/ctv/detail",
   // Chiến dịch
   campaign: "/ctv/leads/campaign",
