@@ -46,20 +46,34 @@ function DocumentPage() {
     fetchAPI();
   }, []);
 
-  useEffect(() => {
-    const fetchAPI = async () => {
-      const resultIndexDoc = await getIndexDoc.getIndexDoc(_idTitleDocs);
-      setIndexDocs(resultIndexDoc.data);
-    };
-    fetchAPI();
-  }, [_idTitleDocs]);
+  const handleSetTitleDocId = (id) => {
+    set_IdTitleDocs(id);
+  };
 
   useEffect(() => {
-    const fetchAPI = async () => {
-      const resultContentDoc = await getContentDoc.getContentDoc(_IdIndexDocs);
-      setContentDocs(resultContentDoc.data);
-    };
-    fetchAPI();
+    if (_idTitleDocs) {
+      const fetchAPI = async () => {
+        const resultIndexDoc = await getIndexDoc.getIndexDoc(_idTitleDocs);
+        setIndexDocs(resultIndexDoc.data);
+      };
+      fetchAPI();
+    }
+  }, [_idTitleDocs]);
+
+  const handleSetIndexDocId = (id) => {
+    set_IdIndexDocs(id);
+  };
+
+  useEffect(() => {
+    if (_IdIndexDocs) {
+      const fetchAPI = async () => {
+        const resultContentDoc = await getContentDoc.getContentDoc(
+          _IdIndexDocs
+        );
+        setContentDocs(resultContentDoc.data);
+      };
+      fetchAPI();
+    }
   }, [_IdIndexDocs]);
 
   useEffect(() => {
@@ -169,10 +183,6 @@ function DocumentPage() {
     </Box>
   );
 
-  console.log(titleDocs._id, "titleDoc");
-  console.log(indexDocs._id, "indexDocs");
-  console.log(contentDocs._id, "contentDocs");
-
   console.log(titleDocs, "titleDoc");
   console.log(indexDocs, "indexDocs");
   console.log(contentDocs, "contentDocs");
@@ -214,7 +224,7 @@ function DocumentPage() {
               <div key={index}>
                 <Button
                   variant="contained"
-                  onClick={() => set_IdTitleDocs(titleDoc._id)}
+                  onClick={() => handleSetTitleDocId(titleDoc._id)}
                   className={cx("title_docx")}
                 >
                   {titleDoc.name}
@@ -229,7 +239,7 @@ function DocumentPage() {
                         aria-controls="panel1-content"
                         id="panel1-header"
                         sx={{ background: "#f9f9f9" }}
-                        onClick={() => set_IdIndexDocs(indexDoc._id)}
+                        onClick={() => handleSetIndexDocId(indexDoc._id)}
                       >
                         {indexDoc.name}
                       </AccordionSummary>

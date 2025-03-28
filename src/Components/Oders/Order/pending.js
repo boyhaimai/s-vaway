@@ -284,12 +284,12 @@ function Pending() {
                     >
                       {order.products[0]._id}
                     </Typography>
-                    <CopyAll
+                    {/* <CopyAll
                       fontSize="small"
                       sx={{ ml: "5px" }}
                       color="primary"
                       onClick={() => handleCopyOrderCode(order.products[0]._id)}
-                    />
+                    /> */}
                   </Typography>
                   <Box mt={2}>
                     <Chip

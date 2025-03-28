@@ -27,7 +27,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
 import { useRef } from "react";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Helmet } from "react-helmet";
 
 import styles from "./DashBoard.module.scss";
 import campaign from "~/assets/images/trophy.png";
@@ -368,6 +367,21 @@ function DashBoard() {
             <Carousel.Item>
               <Box
                 component={"a"}
+                href={imageCampaign[0]?.home_url}
+                target="_blank"
+              >
+                <Box className={cx("box_slider")}>
+                  <Image
+                    className={cx("img_slider")}
+                    src={imageCampaign[0]?.home_logo}
+                    alt="First slide"
+                  />
+                </Box>
+              </Box>
+            </Carousel.Item>
+            <Carousel.Item>
+              <Box
+                component={"a"}
                 href={imageCampaign[1]?.home_url}
                 target="_blank"
               >
@@ -383,28 +397,13 @@ function DashBoard() {
             <Carousel.Item>
               <Box
                 component={"a"}
-                href={imageCampaign[1]?.home_url}
+                href={imageCampaign[2]?.home_url}
                 target="_blank"
               >
                 <Box className={cx("box_slider")}>
                   <Image
                     className={cx("img_slider")}
-                    src={imageCampaign[3]?.home_logo}
-                    alt="First slide"
-                  />
-                </Box>
-              </Box>
-            </Carousel.Item>
-            <Carousel.Item>
-              <Box
-                component={"a"}
-                href={imageCampaign[1]?.home_url}
-                target="_blank"
-              >
-                <Box className={cx("box_slider")}>
-                  <Image
-                    className={cx("img_slider")}
-                    src={imageCampaign[5]?.home_logo}
+                    src={imageCampaign[2]?.home_logo}
                     alt="First slide"
                   />
                 </Box>
@@ -591,7 +590,12 @@ function DashBoard() {
                               src={discountEvent.src}
                               alt={discountEvent.name}
                             />
-                            <Typography variant="h4" gutterBottom fontSize={"16px"} fontWeight={"bold"}>
+                            <Typography
+                              variant="h4"
+                              gutterBottom
+                              fontSize={"16px"}
+                              fontWeight={"bold"}
+                            >
                               {discountEvent.name}
                             </Typography>
                             <Typography

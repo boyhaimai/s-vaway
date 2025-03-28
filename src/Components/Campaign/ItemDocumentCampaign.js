@@ -10,16 +10,17 @@ import {
   CardContent,
   styled,
   Drawer,
+  CircularProgress,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { CheckRounded, Close, CopyAll } from "@mui/icons-material";
+import { CheckCircle, CheckRounded, Close, CopyAll } from "@mui/icons-material";
 import classNames from "classnames/bind";
 
 import * as getTitleItemDocumentCampaign from "~/service/getTitleItemDocumentCampaign";
 import * as getIndexDoc from "~/service/getIndexDocument";
 import * as getContentDoc from "~/service/getContentDocument";
 import * as getDetailContent from "~/service/getDetailContentDocument";
-import styles from "./itemDocumentCampaign.module.scss";
+import styles from "~/pages/Marketing/DocumentPage/DocumentPage.module.scss";
 import { useRef } from "react";
 
 const cx = classNames.bind(styles);
@@ -28,7 +29,7 @@ function ItemDocumentCampaign(idCampaign) {
   const [titleDocs, setTitleDocs] = useState([]);
   const [_idTitleDocs, set_IdTitleDocs] = useState("");
   const [indexDocs, setIndexDocs] = useState([]);
-  const [_IdIndexDocs, set_IdIndexDocs] = useState("");
+  const [_idIndexDocs, set_IdIndexDocs] = useState("");
   const [contentDocs, setContentDocs] = useState([]);
   const [_IdContentDocs, set_IdContentDocs] = useState("");
   const [detailContent, setDetailContent] = useState([]);
@@ -48,24 +49,35 @@ function ItemDocumentCampaign(idCampaign) {
     fetchAPI();
   }, [idCampaign]);
 
+  const handleSetTitleDocId = (id) => {
+    set_IdTitleDocs(id);
+  };
+
   useEffect(() => {
-    if (titleDocs.length === 0) return;
-    const fetchAPI = async () => {
-      const resultIndexDoc = await getIndexDoc.getIndexDoc(_idTitleDocs);
-      setIndexDocs(resultIndexDoc.data);
-    };
-    fetchAPI();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (_idTitleDocs) {
+      const fetchAPI = async () => {
+        const resultIndexDoc = await getIndexDoc.getIndexDoc(_idTitleDocs);
+        setIndexDocs(resultIndexDoc.data);
+      };
+      fetchAPI();
+    }
   }, [_idTitleDocs]);
+
+  const handleSetIndexDocId = (id) => {
+    set_IdIndexDocs(id);
+  };
+
   useEffect(() => {
-    if (titleDocs.length === 0) return;
-    const fetchAPI = async () => {
-      const resultContentDoc = await getContentDoc.getContentDoc(_IdIndexDocs);
-      setContentDocs(resultContentDoc.data);
-    };
-    fetchAPI();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [_IdIndexDocs]);
+    if (_idIndexDocs) {
+      const fetchAPI = async () => {
+        const resultContentDoc = await getContentDoc.getContentDoc(
+          _idIndexDocs
+        );
+        setContentDocs(resultContentDoc.data);
+      };
+      fetchAPI();
+    }
+  }, [_idIndexDocs]);
 
   useEffect(() => {
     if (titleDocs.length === 0) return;
@@ -73,7 +85,7 @@ function ItemDocumentCampaign(idCampaign) {
     const fetchAPI = async () => {
       const resultDetaiContentDoc = await getDetailContent.getDetailcontent(
         _IdContentDocs,
-        _IdIndexDocs
+        _idIndexDocs
       );
       setDetailContent(resultDetaiContentDoc.data.content);
       setIndexDetailContent(resultDetaiContentDoc.data);
@@ -174,79 +186,99 @@ function ItemDocumentCampaign(idCampaign) {
   );
 
   return (
-    <>
-      {titleDocs.length > 0 && (
-        <Box>
-          <Card>
-            <CardContent>
-              {/* btn title */}
-              {titleDocs.map((titleDoc) => (
+    <Box>
+      {/* Thông báo Copy Thành Công */}
+      {copySuccess && (
+        <Box className={cx("box_copy")}>
+          <CheckCircle sx={{ color: "var(--c_green)", fontSize: "30px" }} />
+          <Typography component={"p"} fontSize="14px">
+            Copy thành công
+          </Typography>{" "}
+          <br />
+        </Box>
+      )}
+
+      <Card>
+        <CardContent>
+          {/* btn title */}
+          {titleDocs.length > 0 ? (
+            titleDocs.map((titleDoc, index) => (
+              <div key={index}>
                 <Button
-                  key={titleDoc._id}
                   variant="contained"
-                  onClick={() => set_IdTitleDocs(titleDoc._id)}
-                  sx={{
-                    width: "100%",
-                    padding: "12px",
-                    fontSize: "16px",
-                    fontWeight: "bold",
-                    backgroundColor: "#185a9d",
-                    color: "#fff",
-                    marginBottom: "20px",
-                    "&:hover": {
-                      backgroundColor: "#43cea2",
-                      transform: "scale(1.05)",
-                      transition: "all 0.3s ease",
-                    },
-                  }}
+                  onClick={() => handleSetTitleDocId(titleDoc._id)}
+                  className={cx("title_docx")}
                 >
                   {titleDoc.name}
                 </Button>
-              ))}
 
-              {/* content 1 */}
-              {indexDocs.map((indexDoc) => (
-                <Accordion key={indexDoc._id}>
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1-content"
-                    id="panel1-header"
-                    sx={{ background: "#f9f9f9" }}
-                    onClick={() => set_IdIndexDocs(indexDoc._id)}
-                  >
-                    {indexDoc.name}
-                  </AccordionSummary>
-                  {contentDocs.map((contentDoc) => (
-                    <AccordionDetails
-                      key={contentDoc._id}
-                      sx={{
-                        flexDirection: "column",
-                        lineHeight: "2",
-                      }}
-                    >
-                      <Typography
-                        variant="body1"
-                        onClick={() => {
-                          toggleDrawer(true)();
-                          set_IdContentDocs(contentDoc._id);
-                        }}
+                {indexDocs
+                  .filter((indexDoc) => indexDoc.parent_id === titleDoc._id)
+                  .map((indexDoc) => (
+                    <Accordion key={indexDoc._id}>
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1-content"
+                        id="panel1-header"
+                        sx={{ background: "#f9f9f9" }}
+                        onClick={() => handleSetIndexDocId(indexDoc._id)}
                       >
-                        {contentDoc.name}
-                      </Typography>
-                      <br />
-                    </AccordionDetails>
+                        {indexDoc.name}
+                      </AccordionSummary>
+
+                      {contentDocs
+                        .filter(
+                          (contentDoc) => contentDoc.parent_id === indexDoc._id
+                        )
+                        .map((contentDoc, index) => (
+                          <AccordionDetails
+                            sx={{
+                              flexDirection: "column",
+                              lineHeight: "2",
+                            }}
+                            key={index}
+                          >
+                            <Typography
+                              variant="body1"
+                              onClick={() => {
+                                set_IdContentDocs(contentDoc._id);
+                                toggleDrawer(true)();
+                              }}
+                            >
+                              {contentDoc.name}
+                            </Typography>
+                            <br />
+                          </AccordionDetails>
+                        ))}
+                    </Accordion>
                   ))}
-                </Accordion>
-              ))}
-            </CardContent>
-          </Card>
-        </Box>
-      )}
+              </div>
+            ))
+          ) : <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                width: "100%",
+                position: "fixed",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                zIndex: 1000,
+              }}
+            >
+              <CircularProgress sx={{ color: "black" }} />
+            </Box> ? (
+            "Không có dữ liệu"
+          ) : null}
+
+          {/* content 1 */}
+        </CardContent>
+      </Card>
       {/* drawer detail content*/}
       <Drawer open={open} anchor="bottom" onClose={toggleDrawer(false)}>
         {DrawerList}
       </Drawer>
-    </>
+    </Box>
   );
 }
 
