@@ -4,7 +4,7 @@ export const getBuyCourse = async (id) => {
   try {
     const res = await request.get(`daotao/buy_course`, {
       params: {
-        id,
+        course_id: id,
         dev: 1,
       },
     });

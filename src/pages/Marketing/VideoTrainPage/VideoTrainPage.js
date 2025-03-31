@@ -98,13 +98,17 @@ const VideoTrainPage = () => {
     setCurrentPage(page);
   };
 
-  const handleClickBuyCourse = (id) => {
+  const handleClickBuyCourse = (idCourse, lessonId) => {
     const fetchAPI = async () => {
-      const resultBuyCourse = await getBuyCourse.getBuyCourse(id);
+      const resultBuyCourse = await getBuyCourse.getBuyCourse(idCourse);
       setBuyCourses(resultBuyCourse);
       setNotifiBuyCourse(null);
     };
     fetchAPI();
+
+    if (buyCourses.success === true) {
+      navigate(`/ctv/elearning/${idCourse}/${lessonId}`);
+    }
   };
 
   useEffect(() => {
@@ -226,22 +230,24 @@ const VideoTrainPage = () => {
                     <Grid item xs={6}>
                       <Button
                         variant="contained"
-                        color={course.point > 0 ? "error" : "success"}
+                        color={course.is_need_buy === 1 ? "error" : "success"}
                         fullWidth
                         className={cx("btn_buy")}
                       >
-                        {course.point > 0 ? `${course.point} điểm` : "Miễn phí"}
+                        {course.is_need_buy === 1
+                          ? `${course.point} điểm`
+                          : "Miễn phí"}
                       </Button>
                     </Grid>
 
                     <Grid item xs={6}>
                       <Button
                         variant="contained"
-                        color={course.point === 0 ? "success" : "primary"}
+                        color={course.is_need_buy === 0 ? "success" : "primary"}
                         fullWidth
                         className={cx("btn_buy")}
                         onClick={() => {
-                          if (course.point === 0) {
+                          if (course.is_need_buy === 0) {
                             handleClickGetIdCourse(
                               course._id,
                               course.lesson_id
@@ -251,7 +257,7 @@ const VideoTrainPage = () => {
                           }
                         }}
                       >
-                        {course.point === 0 ? "Học ngay" : "Mua ngay"}
+                        {course.is_need_buy === 0 ? "Học ngay" : "Mua ngay"}
                       </Button>
                     </Grid>
                   </Grid>
@@ -281,7 +287,9 @@ const VideoTrainPage = () => {
                           />
                         </MyButton>
                         <MyButton
-                          onClick={() => handleClickBuyCourse(course._id)}
+                          onClick={() =>
+                            handleClickBuyCourse(course._id, course.lesson_id)
+                          }
                         >
                           <CheckCircle
                             color="success"
