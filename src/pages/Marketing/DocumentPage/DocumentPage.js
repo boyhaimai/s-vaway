@@ -166,11 +166,11 @@ function DocumentPage() {
                 </MyButton>
               </Box>
             </Box>
-            <Box sx={{ p: 1 }}>
+            <Box sx={{ p: 1, width: "100%" }}>
               <Typography
                 component={"div"}
                 variant="body1"
-                sx={{ fontFamily: "roboto, sans-serif" }}
+                sx={{ fontFamily: "roboto, sans-serif", width: "100%" }}
                 dangerouslySetInnerHTML={{ __html: detailContent }}
                 ref={contentRef}
               />

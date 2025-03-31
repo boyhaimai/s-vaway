@@ -506,14 +506,9 @@ function CustomerToday() {
           </Typography>
         </Box>
       ) : (
-        <Box>
-          <Typography
-            variant="h6"
-            fontWeight="bold"
-            fontSize={"16px"}
-            sx={{ textAlign: "center", mt: 2, color: "var(--c_white)" }}
-          >
-            Không có khách hàng hôm nay
+        <Box sx={{ textAlign: "center", mt: 2 }}>
+          <Typography variant="h6" color="black">
+            Không có khách hàng
           </Typography>
         </Box>
       )}

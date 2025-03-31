@@ -506,14 +506,9 @@ function CustomerBuyed() {
           </Typography>
         </Box>
       ) : (
-        <Box sx={{ p: 2 }}>
-          <Typography
-            variant="h6"
-            mb={2}
-            color="white"
-            sx={{ textAlign: "center" }}
-          >
-            Không có khách hàng đã mua
+        <Box sx={{ textAlign: "center", mt: 2 }}>
+          <Typography variant="h6" color="black">
+            Không có khách hàng 
           </Typography>
         </Box>
       )}

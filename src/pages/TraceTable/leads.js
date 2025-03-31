@@ -635,19 +635,10 @@ const Leads = () => {
                   </Typography>
                 </Box>
               ) : (
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    width: "100%",
-                    position: "fixed",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    zIndex: 1000,
-                  }}
-                >
-                  <CircularProgress sx={{ color: "black" }} />
+                <Box sx={{ textAlign: "center", mt: 2 }}>
+                  <Typography variant="h6" color="black">
+                    Không có khách hàng
+                  </Typography>
                 </Box>
               )}
 

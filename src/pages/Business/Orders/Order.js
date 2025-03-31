@@ -348,11 +348,11 @@ function Order() {
                             >
                               {order.products[0]._id}
                             </Typography>
-                            {/* <CopyAll
+                            <CopyAll
                               fontSize="small"
                               sx={{ ml: "5px" }}
                               color="primary"
-                            /> */}
+                            />
                           </Typography>
                           <Box mt={2}>
                             <Chip
@@ -540,19 +540,10 @@ function Order() {
                   </Accordion>
                 ))
               ) : (
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    width: "100%",
-                    position: "fixed",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    zIndex: 1000,
-                  }}
-                >
-                  <CircularProgress sx={{ color: "black" }} />
+                <Box sx={{ textAlign: "center", mt: 2 }}>
+                  <Typography variant="h6" color="black">
+                    Không có đơn hàng nào
+                  </Typography>
                 </Box>
               )}
               {/* Drawer for Filters */}

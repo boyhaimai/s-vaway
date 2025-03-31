@@ -276,7 +276,11 @@ function Pending() {
                     justifyContent: "space-between",
                   }}
                 >
-                  <Typography variant="body1" fontSize={"10px"}>
+                  <Typography
+                    variant="body1"
+                    fontSize={"10px"}
+                    onClick={() => handleCopyOrderCode(order.products[0]._id)}
+                  >
                     Mã đơn:{" "}
                     <Typography
                       component={"span"}
@@ -284,12 +288,11 @@ function Pending() {
                     >
                       {order.products[0]._id}
                     </Typography>
-                    {/* <CopyAll
+                    <CopyAll
                       fontSize="small"
                       sx={{ ml: "5px" }}
                       color="primary"
-                      onClick={() => handleCopyOrderCode(order.products[0]._id)}
-                    /> */}
+                    />
                   </Typography>
                   <Box mt={2}>
                     <Chip
@@ -448,19 +451,10 @@ function Pending() {
           </Accordion>
         ))
       ) : (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            width: "100%",
-            position: "fixed",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            zIndex: 1000,
-          }}
-        >
-          <CircularProgress sx={{ color: "black" }} />
+        <Box sx={{ textAlign: "center", mt: 2 }}>
+          <Typography variant="h6" color="black">
+            Không có đơn hàng nào
+          </Typography>
         </Box>
       )}
       {/* Drawer for Filters */}
