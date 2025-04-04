@@ -166,6 +166,14 @@
     display: flex;
     flex-wrap: wrap;
   }
+  .title_notifi {
+    color: rgb(22, 24, 35);
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 30px;
+    margin-top: 5px;
+    margin-left: 5px;
+  }
   .time_notifi {
     color: var(--c_text_phu);
     margin-right: 10px;
@@ -219,13 +227,21 @@
     font-weight: 400;
   }
 
-  .noti_none{
+  .noti_none {
     font-size: 14px;
     font-weight: 500;
     color: var(--c_text_phu);
     padding: 10px;
     text-align: center;
-    
+  }
+  .notifi_empty {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 50%;
   }
 
   //Key frames

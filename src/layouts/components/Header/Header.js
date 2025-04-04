@@ -105,6 +105,8 @@ function Header() {
     fetchAPI();
   }, []);
 
+  console.log("notifications", notifications);
+
   const unreadCount = notifications.filter((item) => item.read === 0).length;
   const unscheduleCount = schedules.filter((item) => item.notify).length;
 
@@ -118,8 +120,7 @@ function Header() {
         <div className={cx("content")}>
           <div className={cx("header_left")}>
             <a href="/ctv">
-            {/* <a href="/"> */}
-              {" "}
+              {/* <a href="/"> */}{" "}
               <Image src={logoVazoSale} alt="logo" className={cx("icon_img")} />
             </a>
           </div>
@@ -471,7 +472,7 @@ function Header() {
                       <div className={cx("wrapper_notifi")}>
                         <div className={cx("title_notifi")}>Thông báo</div>
                         <div className={cx("content_notifi")}>
-                          {notifications ? (
+                          {notifications.length > 0 ? (
                             notifications.map((notificationn, index) => (
                               <a key={index} href={notificationn.href}>
                                 <div className={cx("item_notifi")}>

@@ -186,7 +186,7 @@ function Profile() {
     try {
       const res = await fetch(urlImage);
       const blob = await res.blob();
-      
+
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
       link.download = "downloadQr.png";
@@ -336,6 +336,7 @@ function Profile() {
               <Box sx={{ mb: 1 }}>
                 <Typography>Họ và tên:(*)</Typography>
                 <TextField
+                  disabled
                   fullWidth
                   placeholder={profiles.name ? "" : "Nhập họ và tên"}
                   sx={{ mt: 2 }}
@@ -346,6 +347,7 @@ function Profile() {
               <Box sx={{ mb: 1 }}>
                 <Typography>Email:</Typography>
                 <TextField
+                  disabled
                   fullWidth
                   placeholder={profiles.name ? "" : "Nhập Email"}
                   sx={{ mt: 2 }}
@@ -374,6 +376,7 @@ function Profile() {
               <Box sx={{ mb: 1 }}>
                 <Typography>Sinh nhật:</Typography>
                 <TextField
+                  disabled
                   fullWidth
                   placeholder={profiles.birthdate ? " " : "Nhập sinh nhật"}
                   sx={{ mt: 2 }}
@@ -397,6 +400,7 @@ function Profile() {
                     id="demo-simple-select"
                     value={gender === "male" ? "male" : "female"}
                     onChange={(e) => setGender(e.target.value)}
+                    disabled
                   >
                     <MenuItem value="male">Nam</MenuItem>
                     <MenuItem value="female">Nữ</MenuItem>
@@ -407,6 +411,7 @@ function Profile() {
               <Box fullWidth sx={{ mb: 2 }}>
                 <Typography sx={{ mb: 1 }}>Tỉnh, thành phố:</Typography>
                 <Autocomplete
+                  disabled
                   disablePortal
                   options={provinces?.map((item) => item.name) || []}
                   fullWidth
@@ -416,13 +421,14 @@ function Profile() {
                     null
                   }
                   onChange={handleChangeProvice}
-                  renderInput={(params) => <TextField {...params} />}
+                  renderInput={(params) => <TextField disabled {...params} />}
                 />
               </Box>
 
               <Box fullWidth sx={{ mb: 2 }}>
                 <Typography sx={{ mb: 1 }}>Quận,huyện:</Typography>
                 <Autocomplete
+                disabled
                   disablePortal
                   options={district?.map((item) => item.name) || []}
                   fullWidth
@@ -432,12 +438,13 @@ function Profile() {
                       : profiles?.address_district?.name || null
                   }
                   onChange={handleChangeDistrict}
-                  renderInput={(params) => <TextField {...params} />}
+                  renderInput={(params) => <TextField disabled {...params} />}
                 />
               </Box>
               <Box sx={{ mb: 2 }}>
                 <Typography>Tài khoản ngân hàng:</Typography>
                 <TextField
+                  disabled
                   fullWidth
                   placeholder="0"
                   type="number"
@@ -468,13 +475,8 @@ function Profile() {
                 </Typography>
               </Typography>
             </Box>
-
-            <Box sx={{ textAlign: "right", width: "100%" }}>
-              <MyButton variant="contained" sx={{ marginBottom: 2 }}>
-                <Save fontSize="large" />
-              </MyButton>
-            </Box>
           </TabPanel>
+
           {/* tab_2 */}
           <TabPanel value="2">
             <Box sx={{ textAlign: "center", width: "100%" }}>
@@ -499,6 +501,7 @@ function Profile() {
             <Box sx={{ mb: 1 }}>
               <Typography>Email:(*)</Typography>
               <TextField
+                disabled
                 fullWidth
                 placeholder={suports?.email ? "" : "Email"}
                 sx={{ mt: 2 }}
@@ -509,6 +512,7 @@ function Profile() {
             <Box sx={{ mb: 1 }}>
               <Typography>Số điện thoại CSKH:(*)</Typography>
               <TextField
+                disabled
                 fullWidth
                 placeholder={suports?.phone ? "" : "Số điện thoại CSKH"}
                 sx={{ mt: 2 }}
@@ -519,6 +523,7 @@ function Profile() {
             <Box sx={{ mb: 1 }}>
               <Typography>Số Zalo:</Typography>
               <TextField
+                disabled
                 fullWidth
                 placeholder={suports?.zalo ? "" : "Zalo"}
                 sx={{ mt: 2 }}
@@ -529,6 +534,7 @@ function Profile() {
             <Box sx={{ mb: 1 }}>
               <Typography>Link Facebook:</Typography>
               <TextField
+                disabled
                 fullWidth
                 placeholder={suports?.facebook ? "" : "Link Facebook"}
                 sx={{ mt: 2 }}
@@ -539,6 +545,7 @@ function Profile() {
             <Box sx={{ mb: 1 }}>
               <Typography>Link Youtube:</Typography>
               <TextField
+                disabled
                 fullWidth
                 placeholder={suports?.youtube ? "" : "Link Youtube"}
                 sx={{ mt: 2 }}
@@ -549,6 +556,7 @@ function Profile() {
             <Box sx={{ mb: 1 }}>
               <Typography>Link Tiktok:</Typography>
               <TextField
+                disabled
                 fullWidth
                 placeholder={suports?.tiktok ? "" : "Link Tiktok"}
                 sx={{ mt: 2 }}
@@ -559,6 +567,7 @@ function Profile() {
             <Box sx={{ mb: 1 }}>
               <Typography>Link instagram:</Typography>
               <TextField
+                disabled
                 fullWidth
                 placeholder={suports?.instagram ? "" : "Link instagram"}
                 sx={{ mt: 2 }}
@@ -569,6 +578,7 @@ function Profile() {
             <Box sx={{ mb: 1 }}>
               <Typography>Địa chỉ:</Typography>
               <TextField
+                disabled
                 fullWidth
                 placeholder={suports?.address ? "" : "Địa chỉ"}
                 sx={{ mt: 2 }}
@@ -579,6 +589,7 @@ function Profile() {
             <Box sx={{ mb: 1 }}>
               <Typography>Video giới thiệu:</Typography>
               <TextField
+                disabled
                 fullWidth
                 placeholder={suports?.video ? "" : "Video giới thiệu"}
                 sx={{ mt: 2 }}
@@ -590,6 +601,7 @@ function Profile() {
             <Box sx={{ mb: 1 }}>
               <Typography>Giới thiệu(Tối đa 160 ký tự):</Typography>
               <TextField
+                disabled
                 multiline
                 rows={4}
                 fullWidth
@@ -602,6 +614,7 @@ function Profile() {
             <Box sx={{ mb: 1 }}>
               <Typography>Kêu gọi chat:</Typography>
               <TextField
+                disabled
                 fullWidth
                 placeholder={suports?.chat ? "Không có chat" : "Kêu gọi chat"}
                 sx={{ mt: 2 }}
@@ -632,7 +645,7 @@ function Profile() {
                     {/* title detail Image */}
                     <Box className={cx("wrapper_modal")}>
                       <Typography variant="h5" fontWeight="bold">
-                        Tạo ảnh
+                        Mã QR 
                       </Typography>
                       <MyButton
                         variant="contained"
